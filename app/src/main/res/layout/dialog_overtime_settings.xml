@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="24dp"
+    android:background="?attr/colorSurface">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:spacing="16dp">
+
+        <TextView
+            android:id="@+id/tv_dialog_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Overtime Calculation"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
+
+        <CheckBox
+            android:id="@+id/cb_calculate_entry"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Calculate early entry time" />
+
+        <CheckBox
+            android:id="@+id/cb_calculate_exit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Calculate late exit time" />
+
+        <TextView
+            android:id="@+id/tv_ignore_if_less_than"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ignore if overtime is less than:"
+            android:textSize="16sp"
+            android:layout_marginTop="24dp"
+            android:textStyle="bold" />
+
+        <AutoCompleteTextView
+            android:id="@+id/actv_minimum_overtime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/editTextBackground"
+            android:drawableEnd="@android:drawable/arrow_down_float"
+            android:hint="Select minutes"
+            android:inputType="number"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="end"
+            android:layout_marginTop="24dp">
+
+            <Button
+                android:id="@+id/btn_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cancel"/>
+
+            <Button
+                android:id="@+id/btn_save"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:text="Save"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>

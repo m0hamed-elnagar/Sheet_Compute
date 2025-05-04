@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="rb_after_and_before" type="id" />
+    <item name="btn_overtime_cancel" type="id" />
+    <item name="btn_overtime_save" type="id" />
+    <item name="rb_early_arrival" type="id" />
+    <item name="rb_after_exit_time" type="id" />
+    <item name="rb_no_overtime" type="id" />
+    <item name="rg_overtime_options" type="id" />
+    <item name="tv_official_holiday" type="id" />
+</resources>

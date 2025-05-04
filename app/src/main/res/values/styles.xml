@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="WeekDayCheckbox" parent="Widget.MaterialComponents.CompoundButton.CheckBox">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:buttonTint">@color/black</item>
+    </style>
+
+    <style name="ButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:minWidth">120dp</item>
+        <item name="android:textColor">@color/purple_500</item>
+        <item name="android:textSize">16sp</item>
+        <item name="backgroundTint">#020202</item>
+        <item name="cornerRadius">8dp</item>
+    </style>
+
+    <style name="FilterButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textSize">12sp</item>
+        <item name="strokeColor">@color/design_default_color_primary</item>
+        <item name="strokeWidth">1dp</item>
+    </style></resources>
