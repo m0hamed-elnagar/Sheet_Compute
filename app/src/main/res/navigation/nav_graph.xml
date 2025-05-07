@@ -7,5 +7,16 @@
     <fragment
         android:id="@+id/attendanceHistoryFragment"
         android:name="com.example.sheetcompute.ui.attendanceHistory.AttendanceHistoryFragment"
-        android:label="AttendanceHistoryFragment" />
+        android:label="AttendanceHistoryFragment" >
+        <action
+            android:id="@+id/action_attendanceHistoryFragment_to_fragmentEmployeeAttendance"
+            app:destination="@id/fragmentEmployeeAttendance" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentEmployeeAttendance"
+        android:name="com.example.sheetcompute.ui.EmployeeAttendance.EmployeeAttendanceFragment"
+        android:label="FragmentEmployeeAttendance"/>
+        <argument
+            android:name="employeeId"
+            app:argType="integer" />
 </navigation>

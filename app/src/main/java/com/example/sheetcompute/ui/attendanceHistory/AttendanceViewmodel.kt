@@ -28,8 +28,6 @@ class AttendanceViewModel : BaseViewModel() {
 
     // Search query
     private val _searchQuery = MutableStateFlow("")
-    val searchQuery: StateFlow<String> = _searchQuery.asStateFlow()
-
     // Date filters
     private val _selectedYear = MutableStateFlow<Int?>(Calendar.getInstance().get(Calendar.YEAR))
     private val _selectedMonth = MutableStateFlow<Int?>(null)
@@ -57,19 +55,20 @@ class AttendanceViewModel : BaseViewModel() {
         }
     }.cachedIn(viewModelScope)
 
-private fun getRecordsByMonth(year: Int?, month: Int?): Flow<PagingData<AttendanceRecordUI>> {
-    _isLoading.value = true
-    return try {
-        val filteredData = DummyAttendanceData.dummyRecords.filter { record ->
-            (year == null || record.year == year) &&
-                    (month == null || record.month == month + 1) // +1 because months are 1-12 in your data
+    private fun getRecordsByMonth(year: Int?, month: Int?): Flow<PagingData<AttendanceRecordUI>> {
+        _isLoading.value = true
+        return try {
+            val filteredData = DummyAttendanceData.dummyRecords.filter { record ->
+                (year == null || record.year == year) &&
+                        (month == null || record.month == month + 1) // +1 because months are 1-12 in your data
+            }
+            _isEmpty.value = filteredData.isEmpty()
+            flowOf(PagingData.from(filteredData))
+        } finally {
+            _isLoading.value = false
         }
-        _isEmpty.value = filteredData.isEmpty()
-        flowOf(PagingData.from(filteredData))
-    } finally {
-        _isLoading.value = false
     }
-}
+
     private fun getRecordsBySearch(query: String): Flow<PagingData<AttendanceRecordUI>> {
         _isLoading.value = true
         return try {
@@ -115,6 +114,7 @@ private fun getRecordsByMonth(year: Int?, month: Int?): Flow<PagingData<Attendan
                 _selectedYear.value = null
                 _selectedYear.value = currentYear
             }
+
             ViewState.SEARCH -> {
                 val currentQuery = _searchQuery.value
                 _searchQuery.value = ""

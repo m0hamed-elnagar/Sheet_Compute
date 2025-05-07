@@ -1,39 +1,32 @@
 package com.example.sheetcompute.ui.attendanceHistory
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.ImageButton
-import android.widget.LinearLayout
 import androidx.appcompat.widget.SearchView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.sheetcompute.R
 import com.example.sheetcompute.databinding.FragmentAttendanceHistoryBinding
+import com.example.sheetcompute.ui.utils.DateFilterHandler
+import com.example.sheetcompute.ui.utils.scrollToTop
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import java.util.Calendar
-import java.util.Locale
 
 class AttendanceHistoryFragment : Fragment() {
-
     private var _binding: FragmentAttendanceHistoryBinding? = null
     private val binding get() = _binding!!
     private val viewModel: AttendanceViewModel by viewModels()
     private lateinit var adapter: AttendanceRecyclerView
     private var searchJob: Job? = null
-    private var yearSelectionJob: Job? = null
-    private var monthSelectionJob: Job? = null
+    private lateinit var dateFilterHandler: DateFilterHandler
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,128 +39,98 @@ class AttendanceHistoryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         setupRecyclerView()
         setupSearch()
-        setupDateFilters()
+        setupDateFilterHandler()
         setupToggleButtons()
         observeData()
     }
 
     private fun setupRecyclerView() {
-        adapter = AttendanceRecyclerView(viewLifecycleOwner.lifecycleScope) { recordId ->
-            val bundle = bundleOf("recordId" to recordId)
-            // Navigate or handle click
+        adapter = AttendanceRecyclerView(viewLifecycleOwner.lifecycleScope) { employeeId ->
+            val bundle = bundleOf("employeeId" to employeeId)
+            findNavController().navigate(
+                R.id.action_attendanceHistoryFragment_to_fragmentEmployeeAttendance,
+                bundle
+            )
         }
-
-        binding.rvHistory.layoutManager = LinearLayoutManager(requireContext())
-        binding.rvHistory.setHasFixedSize(true)
-        binding.rvHistory.adapter = adapter
+        binding.rvHistory.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            setHasFixedSize(true)
+            adapter = this@AttendanceHistoryFragment.adapter
+        }
     }
 
     private fun setupSearch() {
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?) = false
-
-        override fun onQueryTextChange(newText: String?): Boolean {
-            val query = newText.orEmpty()
-            searchJob?.cancel()
-            searchJob = viewLifecycleOwner.lifecycleScope.launch {
-                delay(300)
-                viewModel.setSearchQuery(query)
+            override fun onQueryTextChange(newText: String?): Boolean {
+                val query = newText.orEmpty()
+                searchJob?.cancel()
+                searchJob = viewLifecycleOwner.lifecycleScope.launch {
+                    delay(300)
+                    viewModel.setSearchQuery(query)
+                }
+                return true
             }
-            return true
-        }
-    })
-}
+        })
+    }
 
-    private fun setupDateFilters() {
-        // Setup year spinner
-        val currentYear = Calendar.getInstance().get(Calendar.YEAR)
-        val years = (currentYear - 10..currentYear).reversed().map { it.toString() }
-        ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, years).also { adapter ->
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            binding.spinnerYear.adapter = adapter
-        }
-
-        // Setup month spinner
-        val months = listOf("All Months") + (0..11).map {
-            Calendar.getInstance().apply { set(Calendar.MONTH, it) }.getDisplayName(
-                Calendar.MONTH, Calendar.LONG, Locale.getDefault()
-            ) ?: ""
-        }
-        ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, months).also { adapter ->
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            binding.spinnerMonth.adapter = adapter
-            binding.spinnerMonth.setSelection(Calendar.getInstance().get(Calendar.MONTH) + 1)
-        }
-
-    // Set default to current month
-    val currentMonth = Calendar.getInstance().get(Calendar.MONTH)
-    binding.spinnerMonth.setSelection(currentMonth + 1)
-
-    // Year selection listener
-    binding.spinnerYear.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-        override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-            yearSelectionJob?.cancel()
-            yearSelectionJob = viewLifecycleOwner.lifecycleScope.launch {
-                val year = parent.getItemAtPosition(position).toString().toIntOrNull()
+    private fun setupDateFilterHandler() {
+        dateFilterHandler = DateFilterHandler(
+            yearSpinner = binding.spinnerYear,
+            monthSpinner = binding.spinnerMonth,
+            coroutineScope = viewLifecycleOwner.lifecycleScope,
+            onYearSelected = { year ->
                 viewModel.setSelectedYear(year)
-            }
-        }
-        override fun onNothingSelected(parent: AdapterView<*>) {}
-    }
-
-    // Month selection listener
-    binding.spinnerMonth.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-        override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-            monthSelectionJob?.cancel()
-            monthSelectionJob = viewLifecycleOwner.lifecycleScope.launch {
-                val month = if (position == 0) null else position - 1
+            },
+            onMonthSelected = { month ->
                 viewModel.setSelectedMonth(month)
-            }
-        }
-        override fun onNothingSelected(parent: AdapterView<*>) {}
+            })
+
     }
-}
 
     private fun setupToggleButtons() {
-        binding.bySearch.isSelected = true
+        binding.filterBottomNav.selectedItemId = R.id.nav_search
         binding.filterBottomNav.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.nav_search -> {
-                    showSearchView()
                     viewModel.switchToSearchView()
+                    showSearchView()
                     true
                 }
+
                 R.id.nav_filter -> {
-                    showDateFilters()
                     viewModel.switchToMonthView()
+                    showDateFilters()
                     true
                 }
+
                 else -> false
             }
         }
-
     }
 
-   private fun showDateFilters() {
-    binding.dateSelectors.visibility = View.VISIBLE
-    binding.searchRow.visibility = View.GONE
-    binding.searchView.setQuery("", false)
-    binding.searchView.clearFocus()
-}
+    private fun showDateFilters() {
+        binding.dateSelectors.visibility = View.VISIBLE
+        binding.searchRow.visibility = View.GONE
+        binding.searchView.setQuery("", false)
+        binding.searchView.clearFocus()
+    }
 
-private fun showSearchView() {
-    binding.searchRow.visibility = View.VISIBLE
-    binding.dateSelectors.visibility = View.GONE
-    binding.searchView.requestFocus()
-}
+    private fun showSearchView() {
+        binding.searchRow.visibility = View.VISIBLE
+        binding.dateSelectors.visibility = View.GONE
+        binding.searchView.requestFocus()
+    }
 
     private fun observeData() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.attendanceRecords.collectLatest { pagingData ->
                 adapter.submitData(pagingData)
+                binding.rvHistory.postDelayed({
+                    binding.rvHistory.scrollToTop()
+                }, 100)
             }
         }
 
@@ -187,8 +150,7 @@ private fun showSearchView() {
     override fun onDestroyView() {
         super.onDestroyView()
         searchJob?.cancel()
-        yearSelectionJob?.cancel()
-        monthSelectionJob?.cancel()
+        dateFilterHandler.cleanup()
         _binding = null
     }
 }

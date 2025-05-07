@@ -6,6 +6,7 @@ import java.time.LocalTime
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import java.util.Date
 
 
 @Entity(tableName = "employees")
@@ -55,4 +56,12 @@ data class AttendanceRecordUI(
     val tardyCount: Int = 0,
     val workingDays: Int = 0
 
+)
+
+data class AttendanceItem(
+    val Id: Int,
+    val employeeId: String,
+    val logInTime: Date?,
+    val lateDuration: String?,
+    val status: String
 )

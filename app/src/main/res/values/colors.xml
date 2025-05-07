@@ -7,10 +7,38 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-        <color name="colorPrimary">#240f21</color>
-        <color name="colorPrimaryVariant">#0b8d9e</color>
-        <color name="colorSecondary">#68c7d4</color>
-        <color name="colorOnPrimary">#FFFFFF</color> <!-- white text on dark background -->
-        <color name="colorOnSecondary">#000000</color> <!-- black text on light bg -->
+<!--    <color name="colorPrimary">#240f21</color>-->
+    <color name="colorPrimaryVariant">#0b8d9e</color>
+<!--    <color name="colorSecondary">#68c7d4</color>-->
+    <color name="colorOnPrimary">#FFFFFF</color> <!-- white text on dark background -->
+    <color name="colorOnSecondary">#000000</color> <!-- black text on light bg -->
+
+    <color name="late_red">#FF5252</color>
+    <color name="status_present">#E8F5E9</color>
+    <color name="status_absent">#FFEBEE</color>
+    <color name="status_late">#FFF3E0</color>
+        <!-- Primary Colors -->
+    <color name="colorPrimary">@color/colorPrimaryVariant</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimaryLight">#C5CAE9</color>
+
+    <!-- Secondary Colors -->
+    <color name="colorSecondary">#FF5722</color>
+    <color name="colorSecondaryDark">#E64A19</color>
+
+    <!-- Background/Surface -->
+    <color name="background">#FAFAFA</color>
+    <color name="surface">#FFFFFF</color>
+
+    <!-- Text Colors -->
+    <color name="textPrimary">#212121</color>
+    <color name="textSecondary">#757575</color>
+    <color name="textDisabled">#BDBDBD</color>
+
+    <!-- Status Colors -->
+    <color name="statusPresent">#4CAF50</color>
+    <color name="statusAbsent">#F44336</color>
+    <color name="statusLate">#FFC107</color>
+    <color name="statusOnLeave">#2196F3</color>
 
 </resources>
