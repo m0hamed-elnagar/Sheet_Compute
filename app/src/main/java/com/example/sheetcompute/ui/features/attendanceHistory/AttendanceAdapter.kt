@@ -1,4 +1,4 @@
-package com.example.sheetcompute.ui.attendanceHistory
+package com.example.sheetcompute.ui.features.attendanceHistory
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,15 +6,15 @@ import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.example.sheetcompute.R
 import com.example.sheetcompute.data.roomDB.entities.AttendanceRecordUI
 import com.example.sheetcompute.databinding.AttendanceItemBinding
-import com.example.sheetcompute.ui.utils.DateUtils.getMonthName
-import kotlinx.coroutines.launch
+import com.example.sheetcompute.ui.subFeatures.utils.DateUtils.getMonthName
 
-class AttendanceRecyclerView(
+class AttendanceAdapter(
     private val lifecycleScope: LifecycleCoroutineScope,
     private val onSelected: (Int) -> Unit
-) : PagingDataAdapter<AttendanceRecordUI, AttendanceRecyclerView.ViewHolder>(AttendanceDiffCallback()) {
+) : PagingDataAdapter<AttendanceRecordUI, AttendanceAdapter.ViewHolder>(AttendanceDiffCallback()) {
    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = AttendanceItemBinding.inflate(
             LayoutInflater.from(parent.context),
@@ -33,12 +33,12 @@ class AttendanceRecyclerView(
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(basics: AttendanceRecordUI) {
             with(binding) {
-                textNotificationPosition.text  = absoluteAdapterPosition.toString()
                 txtId.text = basics.id.toString()
                 txtName.text = basics.name
                 txttardyCount.text = basics.tardyCount.toString()
                 txtabsentsCount.text = basics.absentCount.toString()
-                txtMonth.text = getMonthName(basics.month)
+                txtMonth.text =
+                    txtMonth.context.getString(R.string.date, getMonthName(basics.month), basics.year.toString())
                 txtWorkingDaysCount.text = basics.workingDays.toString()
 
                     root.setOnClickListener {

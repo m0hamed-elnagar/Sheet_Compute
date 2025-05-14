@@ -3,4 +3,5 @@
     <string name="importing_sheet">Importing sheet</string>
     <string name="action_calendar">Calender fab\n</string>
     <string name="action_settings">setting action\n</string>
+    <string name="date">%1$s - %2$s</string>
 </resources>

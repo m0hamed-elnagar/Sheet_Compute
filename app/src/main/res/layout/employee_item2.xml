@@ -93,6 +93,7 @@
                 android:text="Present"
                 app:chipBackgroundColor="@color/status_present"
                 app:chipCornerRadius="16dp"
+                android:textColor="@color/black"
                 app:chipStrokeColor="@android:color/transparent"/>
         </LinearLayout>
 

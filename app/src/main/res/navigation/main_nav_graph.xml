@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_nav_graph"
+    app:startDestination="@id/pagerContainerFragment">
+
+
+
+    <fragment
+        android:id="@+id/pagerContainerFragment"
+        android:name="com.example.sheetcompute.ui.features.attendanceHistory.pager.AttendanceHistoryPagerContainer"
+        android:label="Attendance Pager" >
+        <action
+            android:id="@+id/action_pagerContainerFragment_to_employeeAttendanceFragment"
+            app:destination="@id/employeeAttendanceFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.example.sheetcompute.ui.features.attendanceHistory.searchHistory.SearchHistoryFragment"
+        android:label="SearchFragment" >
+        <action
+            android:id="@+id/action_searchFragment_to_employeeAttendanceFragment"
+            app:destination="@id/employeeAttendanceFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/filterFragment"
+        android:name="com.example.sheetcompute.ui.features.attendanceHistory.dateFilterHistory.DateFilterFragment"
+        android:label="FilterFragment" >
+        <action
+            android:id="@+id/action_filterFragment_to_employeeAttendanceFragment"
+            app:destination="@id/employeeAttendanceFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/employeeAttendanceFragment"
+        android:name="com.example.sheetcompute.ui.features.employeeAttendance.EmployeeAttendanceFragment"
+        android:label="EmployeeAttendanceFragment">
+        <argument
+            android:name="employeeId"
+            app:argType="integer"
+            android:defaultValue="0" />
+    </fragment>
+<!--    <fragment-->
+<!--        android:id="@+id/settingsFragment"-->
+<!--        android:name="com.example.sheetcompute.ui.SettingsFragment"-->
+<!--        android:label="SettingsFragment" />-->
+
+<!--    <fragment-->
+<!--        android:id="@+id/holidaysCalendarFragment"-->
+<!--        android:name="com.example.sheetcompute.ui.HolidaysCalendarFragment"-->
+<!--        android:label="HolidaysCalendarFragment" />-->
+</navigation>

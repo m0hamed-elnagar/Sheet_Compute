@@ -8,15 +8,19 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 <!--    <color name="colorPrimary">#240f21</color>-->
-    <color name="colorPrimaryVariant">#0b8d9e</color>
+    <color name="colorPrimaryVariant">#0a466e</color>
 <!--    <color name="colorSecondary">#68c7d4</color>-->
     <color name="colorOnPrimary">#FFFFFF</color> <!-- white text on dark background -->
     <color name="colorOnSecondary">#000000</color> <!-- black text on light bg -->
 
-    <color name="late_red">#FF5252</color>
+    <color name="green_500">#4CAF50</color>
+    <color name="red_500">#F44336</color>
+    <color name="amber_500">#FFC107</color>
+
+    <color name="late_red">#C3C0C0</color>
     <color name="status_present">#E8F5E9</color>
-    <color name="status_absent">#FFEBEE</color>
-    <color name="status_late">#FFF3E0</color>
+    <color name="status_absent">#FF5252</color>
+    <color name="status_late">#C3C0C0</color>
         <!-- Primary Colors -->
     <color name="colorPrimary">@color/colorPrimaryVariant</color>
     <color name="colorPrimaryDark">#303F9F</color>

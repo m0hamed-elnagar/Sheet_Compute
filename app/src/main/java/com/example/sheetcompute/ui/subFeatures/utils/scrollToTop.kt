@@ -1,4 +1,4 @@
-package com.example.sheetcompute.ui.utils
+package com.example.sheetcompute.ui.subFeatures.utils
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView

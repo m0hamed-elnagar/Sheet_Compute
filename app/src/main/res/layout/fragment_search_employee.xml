@@ -16,31 +16,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- Date Selectors -->
-        <LinearLayout
-            android:id="@+id/dateSelectors"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="8dp"
-            android:visibility="gone">
-
-            <Spinner
-                android:id="@+id/spinnerYear"
-                android:layout_width="0dp"
-                android:layout_height="48dp"
-                android:layout_marginEnd="8dp"
-                android:layout_weight="1"
-                android:spinnerMode="dropdown" />
-
-            <Spinner
-                android:id="@+id/spinnerMonth"
-                android:layout_width="0dp"
-                android:layout_height="48dp"
-                android:layout_weight="1"
-                android:spinnerMode="dropdown" />
-        </LinearLayout>
 
         <!-- Search View -->
         <LinearLayout
@@ -68,8 +43,7 @@
         android:layout_margin="8dp"
         android:scrollbars="vertical"
         app:layout_constraintTop_toBottomOf="@id/filterContainer"
-        app:layout_constraintBottom_toTopOf="@id/filterBottomNav"
-        app:layout_constraintStart_toStartOf="parent"
+app:layout_constraintBottom_toBottomOf="parent"        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         tools:itemCount="9"
         tools:listitem="@layout/attendance_item" />
@@ -85,24 +59,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/filterBottomNav"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="?android:attr/windowBackground"
-        app:itemIconTint="@color/black"
-        app:itemTextColor="@color/black"
-        app:labelVisibilityMode="labeled"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/bottom_nav_menu" />
-
     <!-- FAB Buttons on the right -->
     <ImageButton
         android:id="@+id/importSheet"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_margin="16dp"
         android:background="@android:color/transparent"
         android:contentDescription="@string/importing_sheet"
@@ -114,8 +75,8 @@
 
     <ImageButton
         android:id="@+id/exportReport"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_margin="16dp"
         android:background="@android:color/transparent"
         android:contentDescription="Export Report"
@@ -126,15 +87,14 @@
 
     <ImageButton
         android:id="@+id/ToWhatsApp"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_margin="16dp"
         android:background="@android:color/transparent"
         android:contentDescription="Export to WhatsApp"
         android:scaleType="centerCrop"
         android:src="@drawable/whatsapp"
-        app:layout_constraintBottom_toTopOf="@id/filterBottomNav"
-        app:layout_constraintEnd_toEndOf="parent" />
+app:layout_constraintBottom_toBottomOf="parent"        app:layout_constraintEnd_toEndOf="parent" />
 
     <!-- Progress Bar in center -->
     <ProgressBar

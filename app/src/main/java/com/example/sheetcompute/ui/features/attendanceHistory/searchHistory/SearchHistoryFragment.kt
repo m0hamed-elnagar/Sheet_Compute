@@ -1,6 +1,8 @@
-package com.example.sheetcompute.ui.attendanceHistory
+package com.example.sheetcompute.ui.features.attendanceHistory.searchHistory
+
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,31 +11,31 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.sheetcompute.R
-import com.example.sheetcompute.databinding.FragmentAttendanceHistoryBinding
-import com.example.sheetcompute.ui.utils.DateFilterHandler
-import com.example.sheetcompute.ui.utils.scrollToTop
+import com.example.sheetcompute.databinding.FragmentSearchEmployeeBinding
+import com.example.sheetcompute.ui.features.attendanceHistory.AttendanceAdapter
+import com.example.sheetcompute.ui.subFeatures.utils.scrollToTop
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-class AttendanceHistoryFragment : Fragment() {
-    private var _binding: FragmentAttendanceHistoryBinding? = null
+class SearchHistoryFragment : Fragment() {
+    private var _binding: FragmentSearchEmployeeBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: AttendanceViewModel by viewModels()
-    private lateinit var adapter: AttendanceRecyclerView
+    private val viewModel: SearchViewModel by viewModels()
+    private lateinit var adapter: AttendanceAdapter
     private var searchJob: Job? = null
-    private lateinit var dateFilterHandler: DateFilterHandler
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentAttendanceHistoryBinding.inflate(inflater, container, false)
+        _binding = FragmentSearchEmployeeBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -41,23 +43,25 @@ class AttendanceHistoryFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
         setupSearch()
-        setupDateFilterHandler()
-        setupToggleButtons()
         observeData()
     }
 
     private fun setupRecyclerView() {
-        adapter = AttendanceRecyclerView(viewLifecycleOwner.lifecycleScope) { employeeId ->
+        adapter = AttendanceAdapter(viewLifecycleOwner.lifecycleScope) { employeeId ->
             val bundle = bundleOf("employeeId" to employeeId)
-            findNavController().navigate(
-                R.id.action_attendanceHistoryFragment_to_fragmentEmployeeAttendance,
+            val navController = NavHostFragment.findNavController(this)
+            val currentDestination = findNavController().currentDestination
+            Log.d("SearchFragment", "setupRecyclerView: $currentDestination")
+            navController.navigate(
+
+  R.id.action_pagerContainerFragment_to_employeeAttendanceFragment,
                 bundle
             )
         }
         binding.rvHistory.apply {
             layoutManager = LinearLayoutManager(requireContext())
             setHasFixedSize(true)
-            adapter = this@AttendanceHistoryFragment.adapter
+            adapter = this@SearchHistoryFragment.adapter
         }
     }
 
@@ -74,54 +78,6 @@ class AttendanceHistoryFragment : Fragment() {
                 return true
             }
         })
-    }
-
-    private fun setupDateFilterHandler() {
-        dateFilterHandler = DateFilterHandler(
-            yearSpinner = binding.spinnerYear,
-            monthSpinner = binding.spinnerMonth,
-            coroutineScope = viewLifecycleOwner.lifecycleScope,
-            onYearSelected = { year ->
-                viewModel.setSelectedYear(year)
-            },
-            onMonthSelected = { month ->
-                viewModel.setSelectedMonth(month)
-            })
-
-    }
-
-    private fun setupToggleButtons() {
-        binding.filterBottomNav.selectedItemId = R.id.nav_search
-        binding.filterBottomNav.setOnItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.nav_search -> {
-                    viewModel.switchToSearchView()
-                    showSearchView()
-                    true
-                }
-
-                R.id.nav_filter -> {
-                    viewModel.switchToMonthView()
-                    showDateFilters()
-                    true
-                }
-
-                else -> false
-            }
-        }
-    }
-
-    private fun showDateFilters() {
-        binding.dateSelectors.visibility = View.VISIBLE
-        binding.searchRow.visibility = View.GONE
-        binding.searchView.setQuery("", false)
-        binding.searchView.clearFocus()
-    }
-
-    private fun showSearchView() {
-        binding.searchRow.visibility = View.VISIBLE
-        binding.dateSelectors.visibility = View.GONE
-        binding.searchView.requestFocus()
     }
 
     private fun observeData() {
@@ -141,7 +97,7 @@ class AttendanceHistoryFragment : Fragment() {
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.isLoading.collect { isLoading ->
+            viewModel.loading.observe(viewLifecycleOwner) { isLoading ->
                 binding.pbHistory.visibility = if (isLoading) View.VISIBLE else View.GONE
             }
         }
@@ -150,7 +106,6 @@ class AttendanceHistoryFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         searchJob?.cancel()
-        dateFilterHandler.cleanup()
         _binding = null
     }
 }

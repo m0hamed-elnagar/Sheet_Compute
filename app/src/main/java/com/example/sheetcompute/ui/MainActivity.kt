@@ -7,6 +7,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.example.sheetcompute.R
 import com.example.sheetcompute.databinding.ActivityMainBinding
+import com.example.sheetcompute.ui.features.attendanceHistory.pager.AttendanceHistoryPagerContainer
 
 class MainActivity : AppCompatActivity() {
 
@@ -24,12 +25,12 @@ class MainActivity : AppCompatActivity() {
         setupNavController()
     }
 
+
     private fun setupNavController() {
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
     }
-
     override fun onDestroy() {
         super.onDestroy()
         _binding = null

@@ -57,6 +57,7 @@
 
             <!-- Summary Stats -->
             <LinearLayout
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -71,6 +72,7 @@
                     app:cardElevation="4dp">
 
                     <LinearLayout
+                        android:id="@+id/presentCard"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="vertical"
@@ -102,6 +104,7 @@
                     app:cardElevation="4dp">
 
                     <LinearLayout
+                        android:id="@+id/absentCard"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center"
@@ -133,6 +136,7 @@
                     app:cardElevation="4dp">
 
                     <LinearLayout
+                        android:id="@+id/tardiesCard"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="vertical"
@@ -146,7 +150,7 @@
                             android:textSize="12sp"/>
 
                         <TextView
-                            android:id="@+id/txtLateDays"
+                            android:id="@+id/txtTardies"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0"
@@ -164,6 +168,7 @@
                     app:cardElevation="4dp">
 
                     <LinearLayout
+                        android:id="@+id/extraDaysCard"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="vertical"
@@ -177,7 +182,7 @@
                             android:textSize="12sp"/>
 
                         <TextView
-                            android:id="@+id/txtOvertimeHours"
+                            android:id="@+id/txtExtraDays"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0"
@@ -252,7 +257,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/byRange"
         tools:itemCount="15"
-        tools:listitem="@layout/attendance_item" />
+        tools:listitem="@layout/employee_item2" />
 
     <!-- Empty History Text -->
     <TextView

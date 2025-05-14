@@ -1,18 +1,15 @@
-package com.example.sheetcompute.ui.utils
+package com.example.sheetcompute.ui.subFeatures.utils
 
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.lifecycle.LifecycleCoroutineScope
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.Calendar
 import java.util.Locale
-import kotlin.text.get
-import kotlin.toString
 
 
 class DateFilterHandler(
@@ -77,7 +74,7 @@ class DateFilterHandler(
             override fun onNothingSelected(parent: AdapterView<*>) {}
         }
     }
-
+// optional if u wanna put default date
     fun setSelections(year: Int?, month: Int?) {
         year?.let {
             val position = (yearSpinner.adapter as? ArrayAdapter<*>)?.let { adapter ->

@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    id("kotlin-kapt")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -25,6 +25,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("debug")
         }
     }
     compileOptions {
@@ -36,35 +37,37 @@ android {
     }
     buildFeatures {
         viewBinding = true
-        buildConfig = true    }
+        buildConfig = true
+    }
 }
 
 dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
-
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.cardview)
     implementation(libs.androidx.recyclerview)
     implementation(libs.material)
     implementation(libs.androidx.appcompat)
-
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
-    implementation(libs.androidx.navigation.fragment)
-    kapt(libs.androidx.room.compiler)
+    ksp(libs.androidx.room.compiler)
+    ksp(libs.hilt.compiler)
+    implementation(libs.hilt.android)
+    implementation(libs.androidx.room.paging)
+    implementation(libs.androidx.paging.runtime)
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.kotlinx.coroutines.android)
+    implementation("com.kizitonwose.calendar:view:2.3.0")
+
+        // AndroidX Navigation
+        implementation (libs.androidx.navigation.fragment.ktx)
+        implementation (libs.androidx.navigation.ui.ktx)
+
+        // ViewPager2
+        implementation (libs.androidx.viewpager2)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-
-    //pagintion
-    implementation (libs.androidx.room.paging)
-    implementation(libs.androidx.paging.runtime)
-    //coroutines
-    implementation (libs.kotlinx.coroutines.core)
-    implementation (libs.kotlinx.coroutines.android)
-
-    implementation("com.kizitonwose.calendar:view:2.3.0")
-
 }

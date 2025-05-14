@@ -16,6 +16,7 @@ data class EmployeeEntity(
     val position: String = "",
     val department: String = "",
 )
+
 @Entity(
     tableName = "attendance_Record",
     indices = [
@@ -33,6 +34,7 @@ data class AttendanceRecord(
     val status: AttendanceStatus = AttendanceStatus.PRESENT,
     val lateMinutes: Int = 0
 )
+
 @Entity("EmployeeStats")
 data class EmployeeStats(
     @PrimaryKey val employeeId: String,
@@ -44,13 +46,15 @@ data class EmployeeStats(
     val lastUpdated: LocalDate
 
 )
+
 enum class AttendanceStatus {
-    PRESENT, ABSENT, LATE
+    PRESENT, ABSENT, LATE,EXTRA_DAY
 }
+
 data class AttendanceRecordUI(
     val id: Int,
     val name: String,
-    val month: Int =1,
+    val month: Int = 1,
     val year: Int = 2025,
     val absentCount: Int = 0,
     val tardyCount: Int = 0,
@@ -58,10 +62,11 @@ data class AttendanceRecordUI(
 
 )
 
-data class AttendanceItem(
+data class EmployeeAttendanceRecord(
     val Id: Int,
     val employeeId: String,
-    val logInTime: Date?,
-    val lateDuration: String?,
-    val status: String
+    val loginTime: Int, // store as minutes ( 570) to "HH:mm" format (e.g. "09:30")
+    val date: LocalDate,
+    val lateDuration: Long=0L,
+    val status: AttendanceStatus
 )
