@@ -2,8 +2,8 @@ package com.example.sheetcompute.ui.features.attendanceHistory.dateFilterHistory
 
 
 import androidx.paging.PagingData
-import com.example.sheetcompute.data.roomDB.entities.AttendanceRecordUI
-import com.example.sheetcompute.data.roomDB.entities.DummyAttendanceData
+import com.example.sheetcompute.data.local.entities.AttendanceRecordUI
+import com.example.sheetcompute.data.local.entities.DummyAttendanceData
 import com.example.sheetcompute.ui.subFeatures.base.BaseViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -34,12 +34,15 @@ class DateFilterViewModel : BaseViewModel() {
     private fun getRecordsByMonth(year: Int?, month: Int?): Flow<PagingData<AttendanceRecordUI>> {
         val filteredData = DummyAttendanceData.dummyRecords.filter { record ->
             (year == null || record.year == year) &&
-                    (month == null || record.month == month + 1) // +1 because months are 1-12 in your data
+                    (month == 0 || record.month == month ) // +1 because months are 1-12 in your data
         }
         _isEmpty.value = filteredData.isEmpty()
         return flowOf(PagingData.from(filteredData))
     }
-
+fun setSelectedYearAndMonth(year: Int?, month: Int?) {
+        _selectedYear.value = year
+        _selectedMonth.value = month
+    }
     fun setSelectedYear(year: Int?) {
         _selectedYear.value = year
     }

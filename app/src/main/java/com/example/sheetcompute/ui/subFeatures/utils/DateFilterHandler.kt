@@ -1,5 +1,6 @@
 package com.example.sheetcompute.ui.subFeatures.utils
 
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -10,7 +11,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.Calendar
 import java.util.Locale
-
 
 class DateFilterHandler(
     private val yearSpinner: Spinner,
@@ -30,7 +30,11 @@ class DateFilterHandler(
         // Setup year spinner
         val currentYear = Calendar.getInstance().get(Calendar.YEAR)
         val years = (currentYear - 10..currentYear).reversed().map { it.toString() }
-        ArrayAdapter(yearSpinner.context, android.R.layout.simple_spinner_item, years).also { adapter ->
+        ArrayAdapter(
+            yearSpinner.context,
+            android.R.layout.simple_spinner_item,
+            years
+        ).also { adapter ->
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             yearSpinner.adapter = adapter
         }
@@ -41,7 +45,11 @@ class DateFilterHandler(
                 Calendar.MONTH, Calendar.LONG, Locale.getDefault()
             ) ?: ""
         }
-        ArrayAdapter(monthSpinner.context, android.R.layout.simple_spinner_item, months).also { adapter ->
+        ArrayAdapter(
+            monthSpinner.context,
+            android.R.layout.simple_spinner_item,
+            months
+        ).also { adapter ->
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             monthSpinner.adapter = adapter
         }
@@ -50,36 +58,49 @@ class DateFilterHandler(
 
         // Year selection listener
         yearSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+            override fun onItemSelected(
+                parent: AdapterView<*>,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
                 yearSelectionJob?.cancel()
                 yearSelectionJob = coroutineScope.launch {
                     delay(300) // Debounce
                     val year = parent.getItemAtPosition(position).toString().toIntOrNull()
+                    Log.d("DateFilterHandler", "Year selected: $year")
                     onYearSelected(year)
                 }
             }
+
             override fun onNothingSelected(parent: AdapterView<*>) {}
         }
 
-        // Month selection listener
         monthSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+            override fun onItemSelected(
+                parent: AdapterView<*>,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
                 monthSelectionJob?.cancel()
                 monthSelectionJob = coroutineScope.launch {
                     delay(300) // Debounce
-                    val month = if (position == 0) null else position - 1
-                    onMonthSelected(month)
+//                    val month = if (position == 0) null else position - 1
+                    Log.d("DateFilterHandler", "Month selected: $position")
+                    onMonthSelected(position)
                 }
             }
+
             override fun onNothingSelected(parent: AdapterView<*>) {}
         }
     }
-// optional if u wanna put default date
+
     fun setSelections(year: Int?, month: Int?) {
         year?.let {
             val position = (yearSpinner.adapter as? ArrayAdapter<*>)?.let { adapter ->
-                (0 until adapter.count).indexOfFirst { position ->
-                    adapter.getItem(position) == it.toString()
+                (0 until adapter.count).indexOfFirst { pos ->
+                    adapter.getItem(pos) == it.toString()
                 }
             }
             if (position != null && position >= 0) {

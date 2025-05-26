@@ -16,7 +16,6 @@ pagingRuntime = "3.3.6"
 recyclerview = "1.4.0"
 appcompat = "1.7.0"
 roomKtx = "2.7.1"
-navigationFragment = "2.8.9"
 ksp = "1.9.0-1.0.13"
 viewpager2 = "1.1.0"
 

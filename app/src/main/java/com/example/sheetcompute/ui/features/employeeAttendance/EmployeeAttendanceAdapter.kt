@@ -9,8 +9,8 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sheetcompute.R
-import com.example.sheetcompute.data.roomDB.entities.AttendanceStatus
-import com.example.sheetcompute.data.roomDB.entities.EmployeeAttendanceRecord
+import com.example.sheetcompute.data.local.entities.AttendanceStatus
+import com.example.sheetcompute.data.local.entities.EmployeeAttendanceRecord
 import com.example.sheetcompute.databinding.EmployeeItem2Binding
 import com.example.sheetcompute.ui.subFeatures.utils.DateUtils
 import java.time.format.DateTimeFormatter

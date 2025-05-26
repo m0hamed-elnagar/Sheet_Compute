@@ -1,4 +1,4 @@
-package com.example.sheetcompute.data.roomDB.entities
+package com.example.sheetcompute.data.local.entities
 
 import java.time.LocalDate
 
@@ -68,5 +68,13 @@ object DummyAttendanceData2 {
 
         EmployeeAttendanceRecord(58, "4", 540, LocalDate.of(2025, 5, 1), 0L, AttendanceStatus.PRESENT),   // 09:00
         EmployeeAttendanceRecord(59, "4", 600, LocalDate.of(2025, 5, 2), 60L, AttendanceStatus.LATE),     // 10:00// )}
-        EmployeeAttendanceRecord(60, "4", 570, LocalDate.of(2025, 5, 9), 30L, AttendanceStatus.EXTRA_DAY), // 09:30, Friday
+        EmployeeAttendanceRecord(60, "4", 570, LocalDate.of(2025, 4, 9), 30L, AttendanceStatus.EXTRA_DAY), // 09:30, Friday
+        EmployeeAttendanceRecord(61, "4", 540, LocalDate.of(2025, 4, 10), 0L, AttendanceStatus.PRESENT),  // 09:00
+        EmployeeAttendanceRecord(62, "4", 600, LocalDate.of(2025, 1, 11), 60L, AttendanceStatus.LATE),     // 10:00
+        EmployeeAttendanceRecord(63, "4", 570, LocalDate.of(2025, 1, 12), 30L, AttendanceStatus.PRESENT), // 09:30
+        EmployeeAttendanceRecord(64, "4", 540, LocalDate.of(2025, 1, 13), 0L, AttendanceStatus.PRESENT),   // 09:00
+        EmployeeAttendanceRecord(65, "4", 600, LocalDate.of(2025, 2, 14), 60L, AttendanceStatus.LATE),     // 10:00
+        EmployeeAttendanceRecord(66, "4", 570, LocalDate.of(2025, 2, 15), 30L, AttendanceStatus.PRESENT), // 09:30
+
+
     )}

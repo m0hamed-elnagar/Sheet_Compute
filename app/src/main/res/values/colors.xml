@@ -44,5 +44,6 @@
     <color name="statusAbsent">#F44336</color>
     <color name="statusLate">#FFC107</color>
     <color name="statusOnLeave">#2196F3</color>
+    <color name="ripple_overlay">#33000000</color> <!-- Light gray ripple overlay -->
 
 </resources>

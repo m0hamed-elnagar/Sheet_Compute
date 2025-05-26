@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="6dp"
+    app:strokeWidth="1dp"
+    app:strokeColor="@android:color/darker_gray"
+    android:backgroundTint="@android:color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Holiday Name -->
+        <TextView
+            android:id="@+id/tvHolidayName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Eid al-Fitr"
+            android:textSize="18sp"
+            android:textColor="@android:color/black"
+            android:textStyle="bold" />
+
+        <!-- Holiday Date -->
+        <TextView
+            android:id="@+id/tvHolidayDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="Wednesday, April 10, 2024 – , Sunday April 14, 2024"
+            android:textColor="#757575"
+            android:textSize="14sp" />
+
+        <!-- Holiday Note -->
+        <TextView
+            android:id="@+id/tvHolidayNote"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="Public holiday observed across the country."
+            android:textColor="#616161"
+            android:textSize="14sp" />
+
+        <!-- Delete Button -->
+        <Button
+            android:id="@+id/btnDeleteHoliday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_gravity="end"
+            android:text="Delete"
+            android:backgroundTint="@color/design_default_color_error"
+            android:textColor="@android:color/white"
+            android:drawableStart="@android:drawable/ic_menu_delete"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp" />
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

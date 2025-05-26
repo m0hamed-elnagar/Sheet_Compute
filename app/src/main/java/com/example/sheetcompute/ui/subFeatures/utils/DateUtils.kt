@@ -31,9 +31,13 @@ object DateUtils {
         val minutes = parts.getOrNull(1)?.toIntOrNull() ?: 0
         return hours * 60 + minutes
     }
-    private fun formatDate(timestamp: Long?): String {
+    internal fun formatDate(timestamp: Long?): String {
         if (timestamp == null) return "Not selected"
         val sdf = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault())
         return sdf.format(Date(timestamp))
+    }
+    fun formatDateRange(startDate: Long, endDate: Long): String {
+        val dateFormat = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault())
+        return "${dateFormat.format(Date(startDate))} - ${dateFormat.format(Date(endDate))}"
     }
 }

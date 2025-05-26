@@ -10,7 +10,7 @@
         <item name="colorOnSecondary">@color/colorOnSecondary</item>
 
         <!-- Backgrounds -->
-        <item name="android:colorBackground">@color/material_dynamic_neutral40</item>
+        <item name="android:colorBackground">@color/material_dynamic_neutral_variant10</item>
 <!--        status bar color-->
         <item name="colorSurface">@color/colorPrimary</item>
         <item name="colorOnBackground">#e0f7fa</item>

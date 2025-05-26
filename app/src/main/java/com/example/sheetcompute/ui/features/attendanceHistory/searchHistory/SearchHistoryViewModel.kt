@@ -1,8 +1,8 @@
 package com.example.sheetcompute.ui.features.attendanceHistory.searchHistory
 
 import androidx.paging.PagingData
-import com.example.sheetcompute.data.roomDB.entities.AttendanceRecordUI
-import com.example.sheetcompute.data.roomDB.entities.DummyAttendanceData
+import com.example.sheetcompute.data.local.entities.AttendanceRecordUI
+import com.example.sheetcompute.data.local.entities.DummyAttendanceData
 import com.example.sheetcompute.ui.subFeatures.base.BaseViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -10,7 +10,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOf
 
 class SearchViewModel : BaseViewModel() {
     // Search query

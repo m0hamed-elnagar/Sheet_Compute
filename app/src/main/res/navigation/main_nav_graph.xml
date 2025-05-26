@@ -40,7 +40,11 @@
             app:argType="integer"
             android:defaultValue="0" />
     </fragment>
-<!--    <fragment-->
+    <fragment
+        android:id="@+id/holidaysCalendarFragment"
+        android:name="com.example.sheetcompute.ui.features.holidaysCalendar.HolidaysCalendarFragment"
+        android:label="HolidaysCalendarFragment" />
+    <!--    <fragment-->
 <!--        android:id="@+id/settingsFragment"-->
 <!--        android:name="com.example.sheetcompute.ui.SettingsFragment"-->
 <!--        android:label="SettingsFragment" />-->

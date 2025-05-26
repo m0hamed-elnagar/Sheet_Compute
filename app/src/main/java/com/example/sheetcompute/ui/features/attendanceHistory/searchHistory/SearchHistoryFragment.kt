@@ -52,11 +52,8 @@ class SearchHistoryFragment : Fragment() {
             val navController = NavHostFragment.findNavController(this)
             val currentDestination = findNavController().currentDestination
             Log.d("SearchFragment", "setupRecyclerView: $currentDestination")
-            navController.navigate(
+            navController.navigate(R.id.employeeAttendanceFragment, bundle)
 
-  R.id.action_pagerContainerFragment_to_employeeAttendanceFragment,
-                bundle
-            )
         }
         binding.rvHistory.apply {
             layoutManager = LinearLayoutManager(requireContext())

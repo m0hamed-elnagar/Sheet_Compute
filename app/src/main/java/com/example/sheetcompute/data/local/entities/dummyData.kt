@@ -1,4 +1,4 @@
-package com.example.sheetcompute.data.roomDB.entities
+package com.example.sheetcompute.data.local.entities
 
 object DummyAttendanceData {
     val dummyRecords = listOf(

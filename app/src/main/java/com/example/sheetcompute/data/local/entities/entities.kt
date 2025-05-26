@@ -1,4 +1,4 @@
-package com.example.sheetcompute.data.roomDB.entities
+package com.example.sheetcompute.data.local.entities
 
 import java.time.LocalDate
 import java.time.LocalTime
@@ -6,7 +6,6 @@ import java.time.LocalTime
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import java.util.Date
 
 
 @Entity(tableName = "employees")
@@ -69,4 +68,12 @@ data class EmployeeAttendanceRecord(
     val date: LocalDate,
     val lateDuration: Long=0L,
     val status: AttendanceStatus
+)
+data class Holiday(
+    val id: Int = 0,
+    val startDate: LocalDate,
+    val endDate: LocalDate,
+    val name: String,
+    val note: String = "",
+    val createdAt: Long = System.currentTimeMillis(),
 )

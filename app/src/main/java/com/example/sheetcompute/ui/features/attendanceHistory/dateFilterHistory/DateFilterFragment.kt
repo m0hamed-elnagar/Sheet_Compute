@@ -1,8 +1,8 @@
 package com.example.sheetcompute.ui.features.attendanceHistory.dateFilterHistory
 
 
-
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +16,9 @@ import com.example.sheetcompute.R
 import com.example.sheetcompute.databinding.FragmentDateFilterBinding
 import com.example.sheetcompute.ui.features.attendanceHistory.AttendanceAdapter
 import com.example.sheetcompute.ui.subFeatures.utils.DateFilterHandler
+import com.example.sheetcompute.ui.subFeatures.utils.DatePickerUtils
+import com.example.sheetcompute.ui.subFeatures.utils.DateUtils
+import com.example.sheetcompute.ui.subFeatures.utils.DateUtils.formatDateRange
 import kotlinx.coroutines.launch
 
 class DateFilterFragment : Fragment() {
@@ -39,9 +42,7 @@ class DateFilterFragment : Fragment() {
         setupRecyclerView()
         setupDateFilterHandler()
         observeData()
-        binding.btnDateRange.setOnClickListener {
 
-        }
     }
 
     private fun setupRecyclerView() {
@@ -49,8 +50,7 @@ class DateFilterFragment : Fragment() {
             val bundle = Bundle().apply {
                 putInt("employeeId", employeeId)
             }
-            val navController = NavHostFragment.findNavController(this)
-            navController.navigate(
+            findNavController().navigate(
                 R.id.action_pagerContainerFragment_to_employeeAttendanceFragment,
                 bundle
             )
@@ -76,7 +76,10 @@ class DateFilterFragment : Fragment() {
         )
     }
 
+
+
     private fun observeData() {
+
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.attendanceRecords.collect { pagingData ->
                 adapter.submitData(pagingData)

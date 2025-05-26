@@ -39,19 +39,7 @@
                 android:layout_weight="1"
                 android:spinnerMode="dropdown" />
 
-            <ImageButton
-                android:id="@+id/btnDateRange"
-                android:layout_width="40dp"
-                android:layout_height="match_parent"
-                android:background="@android:color/transparent"
-                android:contentDescription="range picker"
-                android:padding="8dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/calendar"
-                app:tint="@color/white" />
-        </LinearLayout>
-
-
+          </LinearLayout>
     </FrameLayout>
 
     <!-- RecyclerView -->

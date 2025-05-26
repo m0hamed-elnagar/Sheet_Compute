@@ -12,9 +12,9 @@
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:elevation="6dp"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -26,33 +26,33 @@
                 android:id="@+id/txtEmployeeName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:gravity="center"
                 android:text="Employee Name"
                 android:textSize="18sp"
-                android:textStyle="bold"
-                android:gravity="center"
-                android:layout_marginBottom="8dp"/>
+                android:textStyle="bold" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="8dp">
+                android:layout_marginBottom="8dp"
+                android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/txtEmployeeId"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="ID: 123"
-                    android:gravity="center"/>
+                    android:gravity="center"
+                    android:text="ID: 123" />
 
                 <TextView
                     android:id="@+id/txtEmployeePosition"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Position"
-                    android:gravity="center"/>
+                    android:gravity="center"
+                    android:text="Position" />
             </LinearLayout>
 
             <!-- Summary Stats -->
@@ -60,30 +60,33 @@
 
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="8dp">
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
 
-                <androidx.cardview.widget.CardView
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/presentCard"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:layout_margin="4dp"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:cardBackgroundColor="@drawable/card_background_selector"
                     app:cardCornerRadius="8dp"
                     app:cardElevation="4dp">
 
                     <LinearLayout
-                        android:id="@+id/presentCard"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="vertical"
                         android:gravity="center"
+                        android:orientation="vertical"
                         android:padding="8dp">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Presnts"
-                            android:textSize="12sp"/>
+                            android:textSize="12sp" />
 
                         <TextView
                             android:id="@+id/txtDaysWorked"
@@ -91,20 +94,23 @@
                             android:layout_height="wrap_content"
                             android:text="0"
                             android:textSize="18sp"
-                            android:textStyle="bold"/>
+                            android:textStyle="bold" />
                     </LinearLayout>
-                </androidx.cardview.widget.CardView>
+                </com.google.android.material.card.MaterialCardView>
 
-                <androidx.cardview.widget.CardView
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/absentCard"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:layout_margin="4dp"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:cardBackgroundColor="@drawable/card_background_selector"
                     app:cardCornerRadius="8dp"
                     app:cardElevation="4dp">
 
                     <LinearLayout
-                        android:id="@+id/absentCard"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center"
@@ -125,29 +131,34 @@
                             android:textSize="18sp"
                             android:textStyle="bold" />
                     </LinearLayout>
-                </androidx.cardview.widget.CardView>
+                </com.google.android.material.card.MaterialCardView>
 
-                <androidx.cardview.widget.CardView
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/tardiesCard"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:layout_margin="4dp"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:cardBackgroundColor="@drawable/card_background_selector"
                     app:cardCornerRadius="8dp"
                     app:cardElevation="4dp">
 
                     <LinearLayout
-                        android:id="@+id/tardiesCard"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="vertical"
+                        android:clickable="false"
+                        android:focusable="false"
                         android:gravity="center"
+                        android:orientation="vertical"
                         android:padding="8dp">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Tardies"
-                            android:textSize="12sp"/>
+                            android:textSize="12sp" />
 
                         <TextView
                             android:id="@+id/txtTardies"
@@ -155,31 +166,34 @@
                             android:layout_height="wrap_content"
                             android:text="0"
                             android:textSize="18sp"
-                            android:textStyle="bold"/>
+                            android:textStyle="bold" />
                     </LinearLayout>
-                </androidx.cardview.widget.CardView>
+                </com.google.android.material.card.MaterialCardView>
 
-                <androidx.cardview.widget.CardView
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/extraDaysCard"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:layout_margin="4dp"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:cardBackgroundColor="@drawable/card_background_selector"
                     app:cardCornerRadius="8dp"
                     app:cardElevation="4dp">
 
                     <LinearLayout
-                        android:id="@+id/extraDaysCard"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="vertical"
                         android:gravity="center"
+                        android:orientation="vertical"
                         android:padding="8dp">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="extra days "
-                            android:textSize="12sp"/>
+                            android:textSize="12sp" />
 
                         <TextView
                             android:id="@+id/txtExtraDays"
@@ -187,62 +201,101 @@
                             android:layout_height="wrap_content"
                             android:text="0"
                             android:textSize="18sp"
-                            android:textStyle="bold"/>
+                            android:textStyle="bold" />
                     </LinearLayout>
-                </androidx.cardview.widget.CardView>
+                </com.google.android.material.card.MaterialCardView>
             </LinearLayout>
         </LinearLayout>
-    </androidx.cardview.widget.CardView>
-
-    <!-- Date Range Filter -->
+    </androidx.cardview.widget.CardView>    <!-- Date Range Filter -->
     <androidx.cardview.widget.CardView
         android:id="@+id/byRange"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_margin="8dp"
         android:elevation="6dp"
-        app:layout_constraintTop_toBottomOf="@id/employeeSummaryCard"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/employeeSummaryCard">
 
         <LinearLayout
-            android:id="@+id/dateSelectors"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:padding="8dp"
->
+            android:padding="8dp">
 
-            <Spinner
-                android:id="@+id/spinnerYear"
+            <!-- Swappable area for date range OR spinners -->
+            <FrameLayout
+                android:id="@+id/dateSwitcher"
                 android:layout_width="0dp"
-                android:layout_height="48dp"
-                android:layout_marginEnd="8dp"
-                android:layout_weight="1"
-                android:spinnerMode="dropdown"
-                />
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
 
-            <Spinner
-                android:id="@+id/spinnerMonth"
-                android:layout_width="0dp"
-                android:layout_height="48dp"
-                android:layout_weight="1"
-                android:spinnerMode="dropdown" />
+                <LinearLayout
+                    android:id="@+id/dateRangeDisplay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/txtDateRange"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Date Range: "
+                        android:textAppearance="?attr/textAppearanceBody1"
+                        android:textSize="14sp" />
+
+                    <ImageButton
+                        android:id="@+id/btnClearRange"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:contentDescription="Clear Range"
+                        android:src="@android:drawable/ic_menu_close_clear_cancel" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/dateSelectors"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="8dp"
+                    android:visibility="visible">
+
+                    <Spinner
+                        android:id="@+id/spinnerYear"
+                        android:layout_width="0dp"
+                        android:layout_height="48dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_weight="1"
+                        android:spinnerMode="dropdown" />
+
+                    <Spinner
+                        android:id="@+id/spinnerMonth"
+                        android:layout_width="0dp"
+                        android:layout_height="48dp"
+                        android:layout_weight="1"
+                        android:spinnerMode="dropdown" />
+
+
+                </LinearLayout>
+            </FrameLayout>
+
+            <!-- Calendar icon (always shown) -->
             <ImageButton
-                android:id="@+id/importSheet"
+                android:id="@+id/btnDateRange"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:background="@android:color/transparent"
                 android:contentDescription="calendar icon"
                 android:padding="6dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/calendar"
-             />
-
+                android:scaleType="centerCrop"
+                android:src="@drawable/calendar_month_24dp_"
+                app:tint="@color/white" />
         </LinearLayout>
-
-
     </androidx.cardview.widget.CardView>
 
     <!-- RecyclerView for Daily Logs -->
@@ -265,30 +318,30 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="No attendance records found"
-        android:visibility="gone"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintTop_toTopOf="@id/rv_employee_logs"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@id/rv_employee_logs"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/rv_employee_logs"
         tools:visibility="visible" />
 
     <!-- Progress Bar -->
     <ProgressBar
-    android:id="@+id/pb_history"
-    style="?android:attr/progressBarStyle"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:visibility="gone"
-    app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"/>
+        android:id="@+id/pb_history"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
         android:id="@+id/exportReport"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_margin="16dp"
         android:background="@android:color/transparent"
         android:contentDescription="Export Report"
@@ -299,8 +352,8 @@
 
     <ImageButton
         android:id="@+id/ToWhatsApp"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_margin="16dp"
         android:background="@android:color/transparent"
         android:contentDescription="Export to WhatsApp"
@@ -308,5 +361,4 @@
         android:src="@drawable/whatsapp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>
