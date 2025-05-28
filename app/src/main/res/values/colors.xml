@@ -45,5 +45,13 @@
     <color name="statusLate">#FFC107</color>
     <color name="statusOnLeave">#2196F3</color>
     <color name="ripple_overlay">#33000000</color> <!-- Light gray ripple overlay -->
-
+    <color name="weekend_text">#2196F3</color>
+    <color name="weekend_background">#E3F2FD</color>
+    <color name="holiday_text">#FFFFFF</color>
+    <color name="holiday_background">#F44336</color>
+    <color name="working_day_text">#FF000000</color>  <!-- Black -->
+    <color name="working_day_bg">#00FFFFFF</color>    <!-- Transparent -->
+    <color name="weekend_bg">#FFE3F2FD</color>        <!-- Light blue -->
+    <color name="holiday_bg">#FFF44336</color>         <!-- Red -->
+    <color name="today_bg">#FF4CAF50</color>          <!-- Green -->
 </resources>

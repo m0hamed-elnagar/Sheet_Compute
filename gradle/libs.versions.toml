@@ -8,7 +8,7 @@ junit = "4.13.2"
 espressoCore = "3.6.1"
 kotlinxCoroutinesAndroid = "1.9.0"
 kotlinxCoroutinesCore = "1.9.0"
-lifecycleRuntimeKtx = "2.8.7"
+lifecycleRuntimeKtx = "2.9.0"
 cardview = "1.0.0"
 material = "1.12.0"
 navigationFragmentKtx = "2.9.0"
@@ -16,7 +16,7 @@ pagingRuntime = "3.3.6"
 recyclerview = "1.4.0"
 appcompat = "1.7.0"
 roomKtx = "2.7.1"
-ksp = "1.9.0-1.0.13"
+ksp = "2.0.21-1.0.27"
 viewpager2 = "1.1.0"
 
 [libraries]
@@ -47,3 +47,4 @@ material = { module = "com.google.android.material:material", version.ref = "mat
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+hilt = { id = "com.google.dagger.hilt.android", version.ref = "hiltAndroid" }

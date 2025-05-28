@@ -18,6 +18,7 @@ import com.example.sheetcompute.R
 import com.example.sheetcompute.databinding.FragmentSearchEmployeeBinding
 import com.example.sheetcompute.ui.features.attendanceHistory.AttendanceAdapter
 import com.example.sheetcompute.ui.subFeatures.utils.scrollToTop
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest

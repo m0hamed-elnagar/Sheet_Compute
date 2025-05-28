@@ -3,6 +3,8 @@ package com.example.sheetcompute.ui.subFeatures.utils
 
 import java.text.DateFormatSymbols
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.Date
 import java.util.Locale
 
@@ -35,6 +37,10 @@ object DateUtils {
         if (timestamp == null) return "Not selected"
         val sdf = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault())
         return sdf.format(Date(timestamp))
+    }
+    fun formatDateRange(startDate: LocalDate, endDate: LocalDate, locale: Locale = Locale.getDefault()): String {
+        val formatter = DateTimeFormatter.ofPattern("MMM dd, yyyy", locale)
+        return "${startDate.format(formatter)} - ${endDate.format(formatter)}"
     }
     fun formatDateRange(startDate: Long, endDate: Long): String {
         val dateFormat = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault())

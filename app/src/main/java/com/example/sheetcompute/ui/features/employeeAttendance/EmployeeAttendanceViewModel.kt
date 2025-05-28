@@ -10,6 +10,7 @@ import com.example.sheetcompute.data.local.entities.EmployeeAttendanceRecord
 import com.example.sheetcompute.ui.subFeatures.base.BaseViewModel
 import kotlinx.coroutines.flow.*
 import androidx.lifecycle.asLiveData
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.time.Instant
 import java.time.LocalDate
@@ -70,10 +71,8 @@ class EmployeeAttendanceViewModel : BaseViewModel() {
         _dateRange.value = create26to25Range(month, year)
     }
 
-    fun setCustomRange(startDate: Long, endDate: Long) {
-        _dateRange.value =
-            Instant.ofEpochMilli(startDate).atZone(ZoneId.systemDefault()).toLocalDate()..
-                    Instant.ofEpochMilli(endDate).atZone(ZoneId.systemDefault()).toLocalDate()
+    fun setCustomRange(startDate: LocalDate, endDate: LocalDate) {
+        _dateRange.value = startDate..endDate
     }
 
     private fun create26to25Range(month: Int, year: Int): ClosedRange<LocalDate>? {

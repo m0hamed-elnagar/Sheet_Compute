@@ -1,7 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    id("com.google.devtools.ksp")
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.hilt)
 }
 
 android {
@@ -60,12 +61,12 @@ dependencies {
     implementation(libs.kotlinx.coroutines.android)
     implementation("com.kizitonwose.calendar:view:2.3.0")
 
-        // AndroidX Navigation
-        implementation (libs.androidx.navigation.fragment.ktx)
-        implementation (libs.androidx.navigation.ui.ktx)
+    // AndroidX Navigation
+    implementation(libs.androidx.navigation.fragment.ktx)
+    implementation(libs.androidx.navigation.ui.ktx)
 
-        // ViewPager2
-        implementation (libs.androidx.viewpager2)
+    // ViewPager2
+    implementation(libs.androidx.viewpager2)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

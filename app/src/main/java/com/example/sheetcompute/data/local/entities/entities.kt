@@ -60,20 +60,24 @@ data class AttendanceRecordUI(
     val workingDays: Int = 0
 
 )
-
+@Entity(tableName = "employee_attendance_record",
+    indices = [Index(value = ["employeeId", "date"], unique = true)]
+)
 data class EmployeeAttendanceRecord(
-    val Id: Int,
+   @PrimaryKey(autoGenerate = true)     val Id: Int,
     val employeeId: String,
     val loginTime: Int, // store as minutes ( 570) to "HH:mm" format (e.g. "09:30")
     val date: LocalDate,
     val lateDuration: Long=0L,
     val status: AttendanceStatus
 )
+
+@Entity(tableName = "holidays")
 data class Holiday(
-    val id: Int = 0,
+    @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val startDate: LocalDate,
     val endDate: LocalDate,
     val name: String,
     val note: String = "",
-    val createdAt: Long = System.currentTimeMillis(),
+    val createdAt: Long = System.currentTimeMillis()
 )
