@@ -1,18 +1,18 @@
-package com.example.sheetcompute.data.local
+package com.example.sheetcompute.domain
 
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
-import com.example.sheetcompute.domain.DomainIntegration
-import java.time.DayOfWeek
 import com.example.sheetcompute.data.local.entities.*
+import java.time.DayOfWeek
+import javax.inject.Inject
 object PreferencesGateway {
-
     val pref: SharedPreferences by lazy {
         DomainIntegration
             .getApplication()
             .getSharedPreferences(SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE)
     }
+
 
     init {
         // Set default value on first run

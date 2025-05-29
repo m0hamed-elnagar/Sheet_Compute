@@ -1,6 +1,7 @@
 package com.example.sheetcompute.ui.features.holidaysCalendar
 
-import android.graphics.Color
+import android.R.attr.label
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -17,32 +18,38 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.applandeo.materialcalendarview.CalendarDay
+import com.applandeo.materialcalendarview.CalendarView
+import com.applandeo.materialcalendarview.EventDay
+import com.applandeo.materialcalendarview.listeners.OnCalendarPageChangeListener
+import com.applandeo.materialcalendarview.listeners.OnDayClickListener
 import com.example.sheetcompute.R
 import com.example.sheetcompute.data.local.entities.Holiday
 import com.example.sheetcompute.databinding.FragmentHolidaysCalendarBinding
+import com.example.sheetcompute.ui.subFeatures.calendar.*
+import com.example.sheetcompute.ui.subFeatures.calendar.CalendarLogic
 import com.example.sheetcompute.ui.subFeatures.utils.DatePickerUtils
 import com.example.sheetcompute.ui.subFeatures.utils.DatePickerUtils.showSingleDayPickerDialog
 import com.example.sheetcompute.ui.subFeatures.utils.WeekendSelectionDialogFragment
-import com.kizitonwose.calendar.core.CalendarDay
-import com.kizitonwose.calendar.view.CalendarView
-import com.kizitonwose.calendar.view.MonthDayBinder
-import com.kizitonwose.calendar.view.ViewContainer
-import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.YearMonth
+import java.time.ZoneId
+import java.util.*
+import kotlin.text.get
 
 class HolidaysCalendarFragment : Fragment() {
     private var _binding: FragmentHolidaysCalendarBinding? = null
     private val binding get() = _binding!!
     private val viewModel: CalendarViewModel by viewModels()
     private lateinit var holidayAdapter: HolidayAdapter
-    private lateinit var calendarView: CalendarView
+    private lateinit var calendarView: com.applandeo.materialcalendarview.CalendarView
+    private lateinit var calendarLogic: CalendarLogic
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentHolidaysCalendarBinding.inflate(inflater, container, false)
@@ -52,33 +59,30 @@ class HolidaysCalendarFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        calendarLogic = CalendarLogic(requireContext(), viewModel)
+
+        calendarView = binding.calendarView
+        calendarLogic.setupCalendar(calendarView)
+        calendarLogic.setupPageChangeListeners(calendarView)
+
         setupRecyclerView()
         setupObservers()
         setupButtons()
-//        setupCalendar()
     }
 
-  private fun setupRecyclerView() {
-    holidayAdapter = HolidayAdapter(
-        onDeleteClick = { holiday ->
-            showDeleteHolidayDialog(holiday)
-        },
-        onEditClick = { holiday ->
-            showEditHolidayDialog(holiday)
+    private fun setupRecyclerView() {
+        holidayAdapter = HolidayAdapter(
+            onDeleteClick = { holiday -> showDeleteHolidayDialog(holiday) },
+            onEditClick = { holiday -> showEditHolidayDialog(holiday) }
+        )
+
+        binding.holidaysRecyclerView.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = holidayAdapter
+            addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         }
-    )
-
-    binding.holidaysRecyclerView.apply {
-        layoutManager = LinearLayoutManager(requireContext())
-        adapter = holidayAdapter
-        addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
     }
-}
 
-    private fun showEditHolidayDialog(holiday: Holiday) {
-//        HolidayDetailsDialogFragment.newInstance(holiday)
-//            .show(childFragmentManager, "EditHolidayDialog")
-    }
     private fun setupObservers() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -89,15 +93,39 @@ class HolidaysCalendarFragment : Fragment() {
                         } else {
                             weekendDays.joinToString(", ") { it.name }
                         }
+                        updateCalendarEvents(calendarView)
                     }
                 }
 
                 launch {
                     viewModel.holidays.collect { holidays ->
                         holidayAdapter.submitList(holidays)
+                        updateCalendarEvents(calendarView)
                     }
                 }
             }
+        }
+    }
+
+    private fun showDayEventsDialog(date: Date) {
+        val calendar = Calendar.getInstance().apply { time = date }
+        val localDate = LocalDate.of(
+            calendar.get(Calendar.YEAR),
+            calendar.get(Calendar.MONTH) + 1,
+            calendar.get(Calendar.DAY_OF_MONTH)
+        )
+
+        val holidays = viewModel.holidays.value.filter {
+            !localDate.isBefore(it.startDate) && !localDate.isAfter(it.endDate)
+        }
+
+        if (holidays.isNotEmpty()) {
+            val holidayNames = holidays.joinToString("\n") { it.name }
+            AlertDialog.Builder(requireContext())
+                .setTitle(getString(R.string.holidays_on_date, localDate.toString()))
+                .setMessage(holidayNames)
+                .setPositiveButton(R.string.ok, null)
+                .show()
         }
     }
 
@@ -117,189 +145,104 @@ class HolidaysCalendarFragment : Fragment() {
     }
 
     private fun showHolidayTypeMenu(anchorView: View) {
-        val popup = PopupMenu(requireContext(), anchorView)
-        popup.menuInflater.inflate(R.menu.holiday_type_menu, popup.menu)
+        PopupMenu(requireContext(), anchorView).apply {
+            menuInflater.inflate(R.menu.holiday_type_menu, menu)
+            setOnMenuItemClickListener { item ->
+                when (item.itemId) {
+                    R.id.menu_single_day -> {
+                        showSingleDayPickerDialog(childFragmentManager) { date ->
+                            showHolidayDetailsDialog(date, date)
+                        }
+                        true
+                    }
 
-        popup.setOnMenuItemClickListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.menu_single_day -> {
-                    showSingleDayPickerDialog(requireActivity().supportFragmentManager) { date ->
-                        showHolidayDetailsDialog(date, date)
+                    R.id.menu_range -> {
+                        DatePickerUtils.showRangePickerDialog(childFragmentManager) { startDate, endDate ->
+                            showHolidayDetailsDialog(startDate, endDate)
+                        }
+                        true
                     }
-                    true
+
+                    else -> false
                 }
-                R.id.menu_range -> {
-                    DatePickerUtils.showRangePickerDialog(
-                        requireActivity().supportFragmentManager
-                    ) { startDate, endDate ->
-                        showHolidayDetailsDialog(startDate, endDate)
-                    }
-                    true
-                }
-                else -> false
             }
+            show()
         }
-        popup.show()
     }
 
-        private fun showHolidayDetailsDialog(startDate: LocalDate, endDate: LocalDate) {
+    private fun showHolidayDetailsDialog(startDate: LocalDate, endDate: LocalDate) {
         val dialogView = layoutInflater.inflate(R.layout.dialog_holiday_details, null)
         val nameEditText = dialogView.findViewById<EditText>(R.id.etHolidayName)
         val noteEditText = dialogView.findViewById<EditText>(R.id.etHolidayNote)
 
         AlertDialog.Builder(requireContext())
-            .setTitle("Add Holiday")
+            .setTitle(getString(R.string.add_holiday))
             .setView(dialogView)
-            .setPositiveButton("Save") { dialog, _ ->
-                val name = nameEditText.text.toString()
-                val note = noteEditText.text.toString()
-                val holiday = Holiday(
-                    startDate = startDate,
-                    endDate = endDate,
-                    name = name,
-                    note = note
+            .setPositiveButton(getString(R.string.save)) { _, _ ->
+                viewModel.addHoliday(
+                    Holiday(
+                        startDate = startDate,
+                        endDate = endDate,
+                        name = nameEditText.text.toString(),
+                        note = noteEditText.text.toString()
+                    )
                 )
-                viewModel.addHoliday(holiday)
-                dialog.dismiss()
+                updateCalendarEvents(calendarView)
             }
-            .setNegativeButton("Cancel") { dialog, _ ->
-                dialog.dismiss()
-            }
+            .setNegativeButton(getString(R.string.cancel), null)
             .show()
     }
+
+    fun updateCalendarEvents(calendarView: CalendarView) {
+        val decoratedDays = calendarLogic.calendarDecorator.decorateDays(calendarView.currentPageDate)
+        calendarView.setCalendarDays(decoratedDays)
+    }
+
+    private fun showEditHolidayDialog(holiday: Holiday) {
+        val dialogView = layoutInflater.inflate(R.layout.dialog_holiday_details, null)
+        val nameEditText = dialogView.findViewById<EditText>(R.id.etHolidayName)
+        val noteEditText = dialogView.findViewById<EditText>(R.id.etHolidayNote)
+
+        nameEditText.setText(holiday.name)
+        noteEditText.setText(holiday.note)
+
+        AlertDialog.Builder(requireContext())
+            .setTitle(getString(R.string.edit_holiday))
+            .setView(dialogView)
+            .setPositiveButton(getString(R.string.save)) { _, _ ->
+                viewModel.updateHoliday(
+                    holiday.copy(
+                        name = nameEditText.text.toString(),
+                        note = noteEditText.text.toString()
+                    )
+                )
+            }
+            .setNegativeButton(getString(R.string.cancel), null)
+            .show()
+    }
+
     private fun showDeleteHolidayDialog(holiday: Holiday) {
         AlertDialog.Builder(requireContext())
-            .setTitle("Confirm Deletion")
-            .setMessage("Are you sure you want to delete this holiday?")
-            .setPositiveButton("Delete") { dialog, _ ->
+            .setTitle(getString(R.string.confirm_delete))
+            .setMessage(getString(R.string.delete_holiday_confirmation))
+            .setPositiveButton(getString(R.string.delete)) { _, _ ->
                 viewModel.deleteHoliday(holiday)
-                dialog.dismiss()
             }
-            .setNegativeButton("Cancel") { dialog, _ ->
-                dialog.dismiss()
-            }
+            .setNegativeButton(getString(R.string.cancel), null)
             .show()
     }
 
-//    private fun setupCalendar() {
-//        val currentMonth = YearMonth.now()
-//        binding.calendarView.setup(
-//            startMonth = currentMonth.minusMonths(12),
-//            endMonth = currentMonth.plusMonths(12),
-//            firstDayOfWeek = DayOfWeek.SUNDAY
-//        )
-//
-//        // Set up day binder
-//        binding.calendarView.dayBinder = object : MonthDayBinder<DayViewContainer> {
-//            override fun create(view: View) = DayViewContainer(view)
-//
-//            override fun bind(container: DayViewContainer, data: CalendarDay) {
-//                container.bind(
-//                    day = data,
-//                    weekendDays = viewModel.weekendDays.value,
-//                    holidays = viewModel.holidays.value
-//                )
-//            }
-//        }
-//
-//        // Set month scroll listener
-//        binding.calendarView.monthScrollListener = { month ->
-//            viewModel.loadHolidaysForMonth(month.yearMonth)
-//        }
-//
-//        // Load initial data
-//        viewModel.loadHolidaysForMonth(currentMonth)
-//    }
-
-    inner class DayViewContainer(view: View) : ViewContainer(view) {
-        val textView: TextView = view.findViewById(R.id.calendarDayText)
-
-        fun bind(day: CalendarDay, weekendDays: Set<DayOfWeek>, holidays: List<Holiday>) {
-            textView.text = day.date.dayOfMonth.toString()
-
-            var textColor = ContextCompat.getColor(requireContext(), R.color.working_day_text)
-            var bgColor = ContextCompat.getColor(requireContext(), R.color.working_day_bg)
-
-            if (weekendDays.contains(day.date.dayOfWeek)) {
-                textColor = ContextCompat.getColor(requireContext(), R.color.weekend_text)
-                bgColor = ContextCompat.getColor(requireContext(), R.color.weekend_bg)
-            } else if (holidays.any { !day.date.isBefore(it.startDate) && !day.date.isAfter(it.endDate) }) {
-                textColor = ContextCompat.getColor(requireContext(), R.color.holiday_text)
-                bgColor = ContextCompat.getColor(requireContext(), R.color.holiday_bg)
-            }
-
-            // Apply styles
-            textView.setTextColor(textColor)
-            textView.setBackgroundColor(bgColor)
+    private fun LocalDate.toCalendar(): Calendar {
+        return Calendar.getInstance().apply {
+            set(Calendar.YEAR, year)
+            set(Calendar.MONTH, monthValue - 1)
+            set(Calendar.DAY_OF_MONTH, dayOfMonth)
         }
     }
-    fun YearMonth.atStartOfMonth(): LocalDate = this.atDay(1)
-    fun YearMonth.atEndOfMonth(): LocalDate = this.atEndOfMonth()
-    fun daysOfWeek(): List<DayOfWeek> = DayOfWeek.values().toList()
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
 }
-//    private fun setupCalendar() {
-//        binding.calendarView.dayBinder = object : DayBinder<DayViewContainer> {
-//            override fun create(view: View) = DayViewContainer(view)
-//            override fun bind(container: DayViewContainer, day: CalendarDay) {
-//                container.textView.text = day.date.dayOfMonth.toString()
-//
-//                // Reset appearance
-//                container.textView.setBackgroundColor(Color.TRANSPARENT)
-//                container.textView.setTextColor(Color.BLACK)
-//
-//                // Check if it's a weekend day
-//                if (weekendDays.contains(day.date.dayOfWeek)) {
-//                    container.textView.setTextColor(Color.BLUE)
-//                    container.textView.setBackgroundColor(Color.LTGRAY)
-//                }
-//
-//                // Check if it's a holiday
-//                holidays.firstOrNull { holiday ->
-//                    when (holiday) {
-//                        is SingleDayHoliday -> holiday.date.isEqual(day.date)
-//                        is RangeHoliday -> !day.date.isBefore(holiday.startDate) &&
-//                                           !day.date.isAfter(holiday.endDate)
-//                    }
-//                }?.let {
-//                    container.textView.setTextColor(Color.WHITE)
-//                    container.textView.setBackgroundColor(Color.RED)
-//                }
-//            }
-//        }
-//    }
 
-//    private fun setupButtons() {
-//        binding.btnAddSingleDay.setOnClickListener {
-//            showDatePicker { date ->
-//                showHolidayDetailsDialog(date, date)
-//            }
-//        }
-//
-//        binding.btnAddRange.setOnClickListener {
-//            showRangePicker()
-//        }
-//    }
-
-
-//    private fun setupHolidayList() {
-//        binding.holidaysRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-//        binding.holidaysRecyclerView.adapter = HolidayAdapter(holidays) { holiday ->
-//            holidays.remove(holiday)
-//            updateHolidayList()
-//            binding.calendarView.notifyCalendarChanged()
-//        }
-//    }
-
-//    private fun updateHolidayList() {
-//        (binding.holidaysRecyclerView.adapter as HolidayAdapter).submitList(holidays.toList())
-//    }
-//}
-//
-//class DayViewContainer(view: View) : ViewContainer(view) {
-//    val textView: TextView = view.findViewById(R.id.calendarDayText)
-//}
-//

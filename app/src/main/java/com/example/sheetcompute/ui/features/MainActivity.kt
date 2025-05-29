@@ -1,19 +1,13 @@
-package com.example.sheetcompute.ui
+package com.example.sheetcompute.ui.features
 
-import android.graphics.Color
-import android.graphics.Typeface
 import android.os.Bundle
-import android.view.Gravity
-import android.widget.TextView
-import android.widget.Toolbar
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.example.sheetcompute.R
 import com.example.sheetcompute.databinding.ActivityMainBinding
-import com.example.sheetcompute.ui.features.attendanceHistory.pager.AttendanceHistoryPagerContainer
-import com.google.android.material.card.MaterialCardView
+import dagger.hilt.android.AndroidEntryPoint
 
 class MainActivity : AppCompatActivity() {
 
