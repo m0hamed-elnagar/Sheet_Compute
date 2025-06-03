@@ -1,16 +1,14 @@
 package com.example.sheetcompute.ui.features.holidaysCalendar
 
-import android.R.attr.label
-import android.graphics.drawable.Drawable
+
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.PopupMenu
-import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -18,35 +16,26 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.applandeo.materialcalendarview.CalendarDay
-import com.applandeo.materialcalendarview.CalendarView
-import com.applandeo.materialcalendarview.EventDay
-import com.applandeo.materialcalendarview.listeners.OnCalendarPageChangeListener
-import com.applandeo.materialcalendarview.listeners.OnDayClickListener
 import com.example.sheetcompute.R
 import com.example.sheetcompute.data.local.entities.Holiday
 import com.example.sheetcompute.databinding.FragmentHolidaysCalendarBinding
-import com.example.sheetcompute.ui.subFeatures.calendar.*
-import com.example.sheetcompute.ui.subFeatures.calendar.CalendarLogic
+import com.example.sheetcompute.ui.features.holidaysCalendar.calendar.CalendarSetup
 import com.example.sheetcompute.ui.subFeatures.utils.DatePickerUtils
 import com.example.sheetcompute.ui.subFeatures.utils.DatePickerUtils.showSingleDayPickerDialog
 import com.example.sheetcompute.ui.subFeatures.utils.WeekendSelectionDialogFragment
+import com.kizitonwose.calendar.view.CalendarView
 import kotlinx.coroutines.launch
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.YearMonth
-import java.time.ZoneId
 import java.util.*
-import kotlin.text.get
 
 class HolidaysCalendarFragment : Fragment() {
     private var _binding: FragmentHolidaysCalendarBinding? = null
     private val binding get() = _binding!!
     private val viewModel: CalendarViewModel by viewModels()
     private lateinit var holidayAdapter: HolidayAdapter
-    private lateinit var calendarView: com.applandeo.materialcalendarview.CalendarView
-    private lateinit var calendarLogic: CalendarLogic
-
+    private lateinit var calendarSetup: CalendarSetup
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -58,16 +47,33 @@ class HolidaysCalendarFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val calendarView: CalendarView = binding.calendarView
 
-        calendarLogic = CalendarLogic(requireContext(), viewModel)
-
-        calendarView = binding.calendarView
-        calendarLogic.setupCalendar(calendarView)
-        calendarLogic.setupPageChangeListeners(calendarView)
-
+        calendarSetup = CalendarSetup(
+            binding.calendarView, viewModel.currentMonth.value,
+            DayOfWeek.SUNDAY
+        )
+        calendarSetup.setupCalendar()
+        calendarView.monthScrollListener = { month ->
+            val newMonth = month.yearMonth
+            if (newMonth != viewModel.currentMonth.value) {
+                viewModel.updateCurrentMonth(newMonth)
+                Log.d("HolidaysCalendarFragment", "Current month updated: $newMonth")
+            }
+        }
+        if (calendarView.adapter != null) {
+            calendarView.notifyCalendarChanged()
+        } else {
+            Log.e("HolidaysCalendarFragment", "CalendarView adapter is not initialized yet.")
+        }
+        viewModel.loading.observe(viewLifecycleOwner) {
+            binding.progressBar.visibility = if (it) View.VISIBLE else View.GONE
+        }
         setupRecyclerView()
+
         setupObservers()
         setupButtons()
+        viewModel.loadInitialData()
     }
 
     private fun setupRecyclerView() {
@@ -83,51 +89,48 @@ class HolidaysCalendarFragment : Fragment() {
         }
     }
 
+
+
     private fun setupObservers() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
+        lifecycleScope.launch {
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                // Launch weekendDays collector separately
                 launch {
                     viewModel.weekendDays.collect { weekendDays ->
-                        binding.tvWeekendSelection.text = if (weekendDays.isEmpty()) {
+                        Log.d("HolidaysCalendarFragment", "Weekend days updated: $weekendDays")
+                        calendarSetup.setWeekends(weekendDays)
+                        binding.calendarView.notifyCalendarChanged()
+
+                        val label = if (weekendDays.isEmpty()) {
                             getString(R.string.no_weekend_selected)
                         } else {
                             weekendDays.joinToString(", ") { it.name }
                         }
-                        updateCalendarEvents(calendarView)
+                        binding.tvWeekendSelection.text = label
+                    }
+                }
+
+
+
+                launch {
+                    viewModel.holidaysForCurrentMonth.collect {holidays->
+                            binding.calendarView.notifyCalendarChanged()
+                        holidayAdapter.submitList(holidays)
                     }
                 }
 
                 launch {
-                    viewModel.holidays.collect { holidays ->
-                        holidayAdapter.submitList(holidays)
-                        updateCalendarEvents(calendarView)
+                    viewModel.holidaysEvents.collect { holidays ->
+
+                        calendarSetup.setHolidays(holidays)
+                        binding.calendarView.notifyCalendarChanged()
                     }
+
                 }
             }
         }
     }
 
-    private fun showDayEventsDialog(date: Date) {
-        val calendar = Calendar.getInstance().apply { time = date }
-        val localDate = LocalDate.of(
-            calendar.get(Calendar.YEAR),
-            calendar.get(Calendar.MONTH) + 1,
-            calendar.get(Calendar.DAY_OF_MONTH)
-        )
-
-        val holidays = viewModel.holidays.value.filter {
-            !localDate.isBefore(it.startDate) && !localDate.isAfter(it.endDate)
-        }
-
-        if (holidays.isNotEmpty()) {
-            val holidayNames = holidays.joinToString("\n") { it.name }
-            AlertDialog.Builder(requireContext())
-                .setTitle(getString(R.string.holidays_on_date, localDate.toString()))
-                .setMessage(holidayNames)
-                .setPositiveButton(R.string.ok, null)
-                .show()
-        }
-    }
 
     private fun setupButtons() {
         binding.btnEditWeekend.setOnClickListener {
@@ -135,7 +138,9 @@ class HolidaysCalendarFragment : Fragment() {
                 childFragmentManager,
                 viewModel.weekendDays.value
             ) { selectedDays ->
+                Log.d("Calendar", "setupButtons: Selected weekend days: $selectedDays")
                 viewModel.updateWeekendDays(selectedDays)
+                binding.calendarView.notifyCalendarChanged()
             }
         }
 
@@ -187,16 +192,11 @@ class HolidaysCalendarFragment : Fragment() {
                         note = noteEditText.text.toString()
                     )
                 )
-                updateCalendarEvents(calendarView)
             }
             .setNegativeButton(getString(R.string.cancel), null)
             .show()
     }
 
-    fun updateCalendarEvents(calendarView: CalendarView) {
-        val decoratedDays = calendarLogic.calendarDecorator.decorateDays(calendarView.currentPageDate)
-        calendarView.setCalendarDays(decoratedDays)
-    }
 
     private fun showEditHolidayDialog(holiday: Holiday) {
         val dialogView = layoutInflater.inflate(R.layout.dialog_holiday_details, null)
@@ -232,13 +232,7 @@ class HolidaysCalendarFragment : Fragment() {
             .show()
     }
 
-    private fun LocalDate.toCalendar(): Calendar {
-        return Calendar.getInstance().apply {
-            set(Calendar.YEAR, year)
-            set(Calendar.MONTH, monthValue - 1)
-            set(Calendar.DAY_OF_MONTH, dayOfMonth)
-        }
-    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

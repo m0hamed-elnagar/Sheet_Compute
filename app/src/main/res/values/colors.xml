@@ -53,5 +53,9 @@
     <color name="working_day_bg">#00FFFFFF</color>    <!-- Transparent -->
     <color name="weekend_bg">#FFE3F2FD</color>        <!-- Light blue -->
     <color name="holiday_bg">#FFF44336</color>         <!-- Red -->
-    <color name="today_bg">#FF4CAF50</color>          <!-- Green -->
+    <color name="today_bg">#FF4CAF50</color>
+    <color name="holiday_color">#FBC02D</color> <!-- Red for holidays -->
+    <color name="weekend_color">#808080</color> <!-- Gray for weekends -->
+    <color name="workday_color">#689F38</color> <!-- White for workdays -->
+    <color name="divider_gray">#D3D3D3</color> <!-- Light gray divider -->
 </resources>

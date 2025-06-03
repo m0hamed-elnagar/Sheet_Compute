@@ -1,80 +1,197 @@
 package com.example.sheetcompute.ui.features.holidaysCalendar
 
-import android.content.SharedPreferences
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.example.sheetcompute.domain.PreferencesGateway
 import com.example.sheetcompute.data.local.entities.Holiday
-import com.example.sheetcompute.domain.repo.HolidayRepository
 import com.example.sheetcompute.domain.repo.HolidayRepositoryImpl
 import com.example.sheetcompute.ui.subFeatures.base.BaseViewModel
-import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import java.time.DayOfWeek
+import java.time.LocalDate
 import java.time.YearMonth
+import java.util.Calendar.*
+import kotlin.collections.flatMap
+import kotlin.collections.toSet
 
 class CalendarViewModel(
 ) : BaseViewModel() {
-private val holidayRepository = HolidayRepositoryImpl()
+    private val holidayRepository = HolidayRepositoryImpl()
     private val preferencesDataSource: PreferencesGateway = PreferencesGateway
-    private val _holidays = MutableStateFlow(emptyList<Holiday>())
-    val holidays: StateFlow<List<Holiday>> = _holidays
+    val weekendDays = preferencesDataSource.weekendDays.map {
+        weekOfDaysToCalendarDays(it)
+    }.stateIn(viewModelScope, SharingStarted.Eagerly, emptySet())
 
-    private val _weekendDays = MutableStateFlow(emptySet<DayOfWeek>())
-    val weekendDays: StateFlow<Set<DayOfWeek>> = _weekendDays
+    // Map of YearMonth to List<Holiday>
+    private val _holidaysByMonth =
+        MutableStateFlow<MutableMap<YearMonth, List<Holiday>>>(hashMapOf())
+    val holidaysByMonth = _holidaysByMonth.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.Eagerly,
+        initialValue = hashMapOf()
+    )
+    val holidaysEvents = _holidaysByMonth.map { holidaysByMonth ->
+        Log.e("khalid", "holidaysByMonth: $holidaysByMonth")
+        // Flatten the map to a set of LocalDate representing all holidays
+       holidaysByMonth.flatMap { it.value }
+            .flatMap { holiday -> rangeToDays(holiday.startDate, holiday.endDate) }
+            .toSet()
+    }.stateIn(viewModelScope, SharingStarted.Eagerly, emptySet())
+    private val _currentMonth = MutableStateFlow<YearMonth>(YearMonth.now())
 
-    private val _currentMonth = MutableStateFlow(YearMonth.now())
-    val currentMonth: StateFlow<YearMonth> = _currentMonth
+    val currentMonth = _currentMonth.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.Eagerly,
+        initialValue = YearMonth.now()
+    )
+    val holidaysForCurrentMonth: StateFlow<List<Holiday>> = combine(
+        _currentMonth,
+        _holidaysByMonth
+    ) { currentMonth, holidaysMap ->
+        holidaysMap[currentMonth] ?: emptyList()
+    }.stateIn(
+        viewModelScope,
+        SharingStarted.Eagerly,
+        emptyList()
+    )
+
 
     init {
+
         loadInitialData()
     }
 
-    private fun loadInitialData() {
-        viewModelScope.launch {
-            // Load weekend days
-            _weekendDays.value = preferencesDataSource.getWeekendDays() ?: setOf(DayOfWeek.FRIDAY)
+    fun loadInitialData() {
 
-            // Load current month holidays
-            loadHolidaysForMonth(_currentMonth.value)
+        viewModelScope.launch {
+            preferencesDataSource.init()
+            preloadMonths(_currentMonth.value, 5)
+
         }
     }
 
+    suspend fun preloadMonths(centerMonth: YearMonth, range: Int) {
+
+        val months = (-range..range).map { centerMonth.plusMonths(it.toLong()) }
+        val newMonths = months.filter { !holidaysByMonth.value.keys.contains(it) }
+        val holidaysMap = newMonths.associateWith { month ->
+            loadHolidaysFor(month)
+        }
+        _holidaysByMonth.value = _holidaysByMonth.value.toMutableMap().apply {
+            putAll(holidaysMap)
+        }
+    }
+
+
+
     fun loadHolidaysForMonth(month: YearMonth) {
         viewModelScope.launch {
-            val startDate = month.atDay(1)
-            val endDate = month.atEndOfMonth()
-            _holidays.value = holidayRepository.getHolidaysByDateRange(startDate, endDate)
+            if (!_holidaysByMonth.value.keys.contains(month)) {
+                val holidays = loadHolidaysFor(month)
+                _holidaysByMonth.value = _holidaysByMonth.value.toMutableMap().apply { put(month, holidays) }
+            }
             _currentMonth.value = month
         }
+    }
+
+    private suspend fun loadHolidaysFor(month: YearMonth): List<Holiday> {
+        val startDate = month.atDay(1)
+        val endDate = month.atEndOfMonth()
+        val holidays = holidayRepository.getHolidaysByDateRange(startDate, endDate)
+        return holidays
     }
 
     fun addHoliday(holiday: Holiday) {
         viewModelScope.launch {
             holidayRepository.addHoliday(holiday)
-            loadHolidaysForMonth(_currentMonth.value)
+            reloadCurrentMonth()
         }
     }
 
     fun updateHoliday(holiday: Holiday) {
         viewModelScope.launch {
             holidayRepository.updateHoliday(holiday)
-            loadHolidaysForMonth(_currentMonth.value)
+            reloadCurrentMonth()
         }
     }
 
     fun deleteHoliday(holiday: Holiday) {
         viewModelScope.launch {
             holidayRepository.deleteHoliday(holiday)
-            loadHolidaysForMonth(_currentMonth.value)
+            reloadCurrentMonth()
+        }
+    }
+    private suspend fun reloadCurrentMonth() {
+        val month = _currentMonth.value
+        val refreshed = loadHolidaysFor(month)
+        _holidaysByMonth.value = _holidaysByMonth.value.toMutableMap().apply {
+            put(month, refreshed)
+        }
+    }
+    fun updateWeekendDays(days: Set<DayOfWeek>) {
+        viewModelScope.launch {
+            preferencesDataSource.setWeekendDays(days.calenderToDayOfweek())
         }
     }
 
-    fun updateWeekendDays(days: Set<DayOfWeek>) {
-        viewModelScope.launch {
-            _weekendDays.value = days
-            preferencesDataSource.setWeekendDays(days)
+    // Kotlin
+    fun updateCurrentMonth(month: YearMonth) {
+        viewModelScope.launch(Dispatchers.Main) {
+            if (_currentMonth.value != month) {
+                _currentMonth.value = month
+                loadHolidaysForMonth(month)
+                Log.d("current", "updateCurrentMonth: ${_currentMonth.value}")
+            }
         }
     }
 }
+
+private fun weekOfDaysToCalendarDays(weekendDays: Set<Int>): Set<DayOfWeek> {
+    return weekendDays.map { dayOfWeek ->
+        when (dayOfWeek) {
+            SUNDAY -> DayOfWeek.SUNDAY
+            MONDAY -> DayOfWeek.MONDAY
+            TUESDAY -> DayOfWeek.TUESDAY
+            WEDNESDAY -> DayOfWeek.WEDNESDAY
+            THURSDAY -> DayOfWeek.THURSDAY
+            FRIDAY -> DayOfWeek.FRIDAY
+            SATURDAY -> DayOfWeek.SATURDAY
+            else -> throw IllegalArgumentException("Invalid day of week: $dayOfWeek")
+        }
+    }.toSet()
+}
+
+private fun Set<DayOfWeek>.calenderToDayOfweek(): Set<Int> = map { dayOfWeek ->
+    when (dayOfWeek) {
+        DayOfWeek.SUNDAY -> SUNDAY
+        DayOfWeek.MONDAY -> MONDAY
+        DayOfWeek.TUESDAY -> TUESDAY
+        DayOfWeek.WEDNESDAY -> WEDNESDAY
+        DayOfWeek.THURSDAY -> THURSDAY
+        DayOfWeek.FRIDAY -> FRIDAY
+        DayOfWeek.SATURDAY -> SATURDAY
+        else -> throw IllegalArgumentException("Invalid day of week: $dayOfWeek")
+    }
+}.toSet()
+
+private fun CalendarViewModel.rangeToDays(
+    start: LocalDate,
+    end: LocalDate
+): MutableList<LocalDate> {
+    val days = mutableListOf<LocalDate>()
+    var current = start
+    while (!current.isAfter(end)) {
+        days.add(current)
+        current = current.plusDays(1)
+    }
+    return days
+
+}
+

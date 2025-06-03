@@ -60,7 +60,6 @@ dependencies {
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.coroutines.android)
     implementation("com.kizitonwose.calendar:view:2.3.0")
-    implementation ("com.applandeo:material-calendar-view:1.9.2")
 
     // AndroidX Navigation
     implementation(libs.androidx.navigation.fragment.ktx)
