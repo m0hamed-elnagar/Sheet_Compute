@@ -16,7 +16,6 @@ import com.example.sheetcompute.databinding.EmployeeAttendanceFragmentBinding
 import com.example.sheetcompute.ui.subFeatures.utils.DateFilterHandler
 import com.example.sheetcompute.ui.subFeatures.utils.DatePickerUtils
 import com.example.sheetcompute.ui.subFeatures.utils.DateUtils.formatDateRange
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -110,31 +109,30 @@ class EmployeeAttendanceFragment : Fragment() {
         }
 
         viewModel.presentCount.observe(viewLifecycleOwner) { count ->
-            binding.txtDaysWorked.text = count.toString()
-            binding.presentCard.isSelected = viewModel.isStatusSelected(AttendanceStatus.PRESENT)
+            _binding?.txtDaysWorked?.text = count.toString()
+            _binding?.presentCard?.isSelected = viewModel.isStatusSelected(AttendanceStatus.PRESENT)
         }
 
         viewModel.absentCount.observe(viewLifecycleOwner) { count ->
-            binding.txtAbsentDays.text = count.toString()
-            binding.absentCard.isSelected = viewModel.isStatusSelected(AttendanceStatus.ABSENT)
+            _binding?.txtAbsentDays?.text = count.toString()
+            _binding?.absentCard?.isSelected = viewModel.isStatusSelected(AttendanceStatus.ABSENT)
         }
 
         viewModel.extraDaysCount.observe(viewLifecycleOwner) { count ->
-            binding.txtExtraDays.text = count.toString()
-            binding.extraDaysCard.isSelected =
+            _binding?.txtExtraDays?.text = count.toString()
+            _binding?.extraDaysCard?.isSelected =
                 viewModel.isStatusSelected(AttendanceStatus.EXTRA_DAY)
         }
 
         viewModel.tardiesCount.observe(viewLifecycleOwner) { hours ->
-            with(binding) {
-                txtTardies.text = hours.toString()
-                tardiesCard.isSelected =
+            _binding?.txtTardies?.text = hours.toString()
+            _binding?.tardiesCard?.isSelected =
                              viewModel.isStatusSelected(AttendanceStatus.LATE)
-            }
+
         }
 
         viewModel.isEmpty.observe(viewLifecycleOwner) { isEmpty ->
-            binding.txtEmptyLogs.visibility = if (isEmpty) View.VISIBLE else View.GONE
+            _binding?.txtEmptyLogs?.visibility = if (isEmpty) View.VISIBLE else View.GONE
         }
     }
 

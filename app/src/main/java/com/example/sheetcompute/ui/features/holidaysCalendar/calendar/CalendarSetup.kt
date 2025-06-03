@@ -6,7 +6,6 @@ import com.example.sheetcompute.R
 import com.kizitonwose.calendar.core.CalendarDay
 import com.kizitonwose.calendar.core.CalendarMonth
 import com.kizitonwose.calendar.core.DayPosition
-import com.kizitonwose.calendar.core.firstDayOfWeekFromLocale
 import com.kizitonwose.calendar.view.CalendarView
 import com.kizitonwose.calendar.view.MonthDayBinder
 import com.kizitonwose.calendar.view.MonthHeaderFooterBinder
@@ -53,6 +52,7 @@ class CalendarSetup(
                 if (data.position == DayPosition.MonthDate) {
                     // Show the valid day
                     container.dayTextView.visibility = View.VISIBLE
+                    container.dayBackground.visibility = View.VISIBLE
                     container.dayTextView.text = data.date.dayOfMonth.toString()
 
                     val backgroundRes = when {
@@ -69,9 +69,7 @@ class CalendarSetup(
                 } else {
                     // Hide out-of-month days
                     container.dayTextView.visibility = View.GONE
-                    container.dayTextView.text = ""
-                    container.dayTextView.setBackgroundResource(0)
-                    container.dayTextView.setOnClickListener(null)
+                   container.dayBackground.visibility = View.GONE
                 }
             }
         }

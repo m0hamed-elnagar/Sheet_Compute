@@ -13,5 +13,7 @@
     <string name="delete_holiday_confirmation">Are you sure you want to delete this holiday?</string>
     <string name="delete">Delete</string>
     <string name="ok">OK</string>
-    <string name="holidays_on_date">Holidays on %s</string>
+    <string name="holiday_name_required">Holiday name is required</string>
+    <string name="day_of_week_format">%1$s</string>
+       <string name="holidays_on_date">Holidays on %s</string>
 </resources>

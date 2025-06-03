@@ -2,24 +2,18 @@ package com.example.sheetcompute.ui.features.attendanceHistory.dateFilterHistory
 
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.sheetcompute.R
 import com.example.sheetcompute.databinding.FragmentDateFilterBinding
 import com.example.sheetcompute.ui.features.attendanceHistory.AttendanceAdapter
 import com.example.sheetcompute.ui.subFeatures.utils.DateFilterHandler
-import com.example.sheetcompute.ui.subFeatures.utils.DatePickerUtils
-import com.example.sheetcompute.ui.subFeatures.utils.DateUtils
-import com.example.sheetcompute.ui.subFeatures.utils.DateUtils.formatDateRange
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 class DateFilterFragment : Fragment() {
@@ -89,13 +83,13 @@ class DateFilterFragment : Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.isEmpty.collect { isEmpty ->
-                binding.txtEmptyHistory.visibility = if (isEmpty) View.VISIBLE else View.GONE
+                _binding?.txtEmptyHistory?.visibility = if (isEmpty) View.VISIBLE else View.GONE
             }
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.loading.observe(viewLifecycleOwner) { isLoading ->
-                binding.pbHistory.visibility = if (isLoading) View.VISIBLE else View.GONE
+                _binding?.pbHistory?.visibility = if (isLoading) View.VISIBLE else View.GONE
             }
         }
     }
@@ -103,7 +97,6 @@ class DateFilterFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         dateFilterHandler.cleanup()
-
         _binding = null
     }
 }
