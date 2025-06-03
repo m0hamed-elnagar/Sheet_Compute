@@ -22,7 +22,7 @@ interface HolidayDao {
 
     @Query("SELECT * FROM holidays")
     suspend fun getAllHolidays(): List<Holiday>
-    @Query("SELECT * FROM holidays WHERE startDate >= :startDate AND endDate <= :endDate")
+    @Query("SELECT * FROM holidays WHERE startDate >= :startDate AND endDate <= :endDate ORDER BY startDate")
     suspend fun getHolidaysByDateRange(startDate: LocalDate, endDate: LocalDate): List<Holiday>
 
 }

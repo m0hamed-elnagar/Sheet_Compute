@@ -96,7 +96,6 @@ class HolidaysCalendarFragment : Fragment() {
                 }
                 launch {
                     viewModel.holidaysForCurrentMonth
-                        .map { it.sortedBy { holiday -> holiday.startDate } }
                         .collect { holidays ->
                             binding.calendarView.notifyCalendarChanged()
                             holidayAdapter.submitList(holidays)
