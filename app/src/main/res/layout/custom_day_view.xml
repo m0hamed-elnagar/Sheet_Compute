@@ -3,17 +3,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/dayContainer"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-<TextView
-    android:id="@+id/calendarDayText"
-    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    android:textSize="14sp"
-    android:layout_margin="8dp"
-    tools:text="22" />
-<!-- Add a bottom divider -->
+    android:orientation="vertical"
+    android:padding="4dp">
+
+    <TextView
+        android:id="@+id/calendarDayText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|center_horizontal"
+        android:textColor="@android:color/black"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        tools:text="8" />
+
+    <View
+        android:id="@+id/dayBottomColorBar"
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="2dp"/>
+
     <View
         android:id="@+id/dayBottomDivider"
         android:layout_width="match_parent"
