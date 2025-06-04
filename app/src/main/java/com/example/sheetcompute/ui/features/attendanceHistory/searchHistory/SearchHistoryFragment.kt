@@ -76,9 +76,9 @@ class SearchHistoryFragment : Fragment() {
         lifecycleScope.launch {
             viewModel.attendanceRecords.collectLatest { pagingData ->
                 adapter.submitData(pagingData)
-                _binding?.rvHistory?.postDelayed({
-                    _binding?.rvHistory?.scrollToTop()
-                }, 100)
+                _binding?.rvHistory?.apply {
+                    this.scrollToTop()
+                }
             }
         }
 

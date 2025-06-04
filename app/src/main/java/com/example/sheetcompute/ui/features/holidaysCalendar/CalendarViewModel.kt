@@ -177,7 +177,6 @@ private fun Set<DayOfWeek>.calenderToDayOfweek(): Set<Int> = map { dayOfWeek ->
         DayOfWeek.THURSDAY -> THURSDAY
         DayOfWeek.FRIDAY -> FRIDAY
         DayOfWeek.SATURDAY -> SATURDAY
-        else -> throw IllegalArgumentException("Invalid day of week: $dayOfWeek")
     }
 }.toSet()
 

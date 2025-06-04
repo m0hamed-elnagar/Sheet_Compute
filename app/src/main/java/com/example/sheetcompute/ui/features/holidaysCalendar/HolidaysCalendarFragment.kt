@@ -23,7 +23,6 @@ import com.example.sheetcompute.ui.features.holidaysCalendar.calendar.CalendarSe
 import com.example.sheetcompute.ui.subFeatures.utils.DatePickerUtils
 import com.example.sheetcompute.ui.subFeatures.utils.WeekendSelectionDialogFragment
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.time.DayOfWeek
 import java.time.LocalDate

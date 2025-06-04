@@ -10,11 +10,8 @@ import com.example.sheetcompute.data.local.entities.EmployeeAttendanceRecord
 import com.example.sheetcompute.ui.subFeatures.base.BaseViewModel
 import kotlinx.coroutines.flow.*
 import androidx.lifecycle.asLiveData
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import java.time.Instant
 import java.time.LocalDate
-import java.time.ZoneId
 import kotlin.collections.plus
 
 class EmployeeAttendanceViewModel : BaseViewModel() {
@@ -51,7 +48,7 @@ class EmployeeAttendanceViewModel : BaseViewModel() {
 
     private fun getRecordsByDateRange(range: ClosedRange<LocalDate>?): List<EmployeeAttendanceRecord> {
         return DummyAttendanceData2.employeeAttendanceRecords.filter {
-            range?.contains(it.date) ?: true
+            range?.contains(it.date) != false
         }.sortedBy { it.date }
     }
 

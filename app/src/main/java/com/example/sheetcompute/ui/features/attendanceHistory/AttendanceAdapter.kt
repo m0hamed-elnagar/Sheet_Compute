@@ -12,7 +12,6 @@ import com.example.sheetcompute.databinding.AttendanceItemBinding
 import com.example.sheetcompute.ui.subFeatures.utils.DateUtils.getMonthName
 
 class AttendanceAdapter(
-    private val lifecycleScope: LifecycleCoroutineScope,
     private val onSelected: (Int) -> Unit
 ) : PagingDataAdapter<AttendanceRecordUI, AttendanceAdapter.ViewHolder>(AttendanceDiffCallback()) {
    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

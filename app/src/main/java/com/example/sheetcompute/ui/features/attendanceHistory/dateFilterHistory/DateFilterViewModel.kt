@@ -5,7 +5,6 @@ import androidx.paging.PagingData
 import com.example.sheetcompute.data.local.entities.AttendanceRecordUI
 import com.example.sheetcompute.data.local.entities.DummyAttendanceData
 import com.example.sheetcompute.ui.subFeatures.base.BaseViewModel
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -40,10 +39,7 @@ class DateFilterViewModel : BaseViewModel() {
         _isEmpty.value = filteredData.isEmpty()
         return flowOf(PagingData.from(filteredData))
     }
-fun setSelectedYearAndMonth(year: Int?, month: Int?) {
-        _selectedYear.value = year
-        _selectedMonth.value = month
-    }
+
     fun setSelectedYear(year: Int?) {
         _selectedYear.value = year
     }

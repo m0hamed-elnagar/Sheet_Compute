@@ -38,7 +38,7 @@ class HolidayAdapter(
             with(binding) {
                 tvHolidayName.text = holiday.name
 
-                // Format date display
+                // todo make the format utill and use the same format everywhere Format date display
                 tvHolidayDate.text = if (holiday.startDate == holiday.endDate) {
                     holiday.startDate.format(dateFormatter)
                 } else {

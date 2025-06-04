@@ -12,7 +12,7 @@ class WeekendSelectionDialogFragment(
 ) : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val daysOfWeek = DayOfWeek.values().toList() // Monday to Sunday
+        val daysOfWeek = DayOfWeek.entries
         val checkedItems = BooleanArray(daysOfWeek.size)
         val selectedDays = mutableSetOf<DayOfWeek>()
 
