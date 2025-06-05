@@ -38,4 +38,15 @@ object PreferencesGateway {
             .toSet()
     }
 
+    private const val MONTH_START_DAY_KEY = "month_start_day"
+    private const val DEFAULT_MONTH_START_DAY = 26
+
+    fun setMonthStartDay(day: Int) {
+        pref.edit { putInt(MONTH_START_DAY_KEY, day) }
+    }
+
+    fun getMonthStartDay(): Int {
+        return pref.getInt(MONTH_START_DAY_KEY, DEFAULT_MONTH_START_DAY)
+    }
+
 }
