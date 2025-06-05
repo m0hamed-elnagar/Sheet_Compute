@@ -45,11 +45,15 @@ class HolidaysCalendarFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupUI()
+        viewModel.loadInitialData()
+    }
+
+    private fun setupUI() {
         setupCalendar()
         setupRecyclerView()
         setupObservers()
         setupButtons()
-        viewModel.loadInitialData()
     }
 
     private fun setupCalendar() {
@@ -80,27 +84,37 @@ class HolidaysCalendarFragment : Fragment() {
     }
 
     private fun setupObservers() {
-       lifecycleScope.launch {
+        lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                launch {
-                    viewModel.weekendDays.collect { weekendDays ->
-                        Log.d("HolidaysCalendarFragment", "Weekend days updated: $weekendDays")
-                        calendarSetup.setWeekends(weekendDays)
-                        binding.calendarView.notifyCalendarChanged()
-                        updateWeekendSelectionLabel(weekendDays)
-                    }
-                }
-                viewModel.loading.observe(viewLifecycleOwner) {
-                    binding.progressBar.visibility = if (it) View.VISIBLE else View.GONE
-                }
-                launch {
-                    viewModel.holidaysForCurrentMonth
-                        .collect { holidays ->
-                            binding.calendarView.notifyCalendarChanged()
-                            holidayAdapter.submitList(holidays)
-                        }
-                }
+                subscribeToWeekendEvents()
+                subscribeToLoading()
+                subscribeToHolidaysForCurrentMonth()
                 subscribeToHolidaysEvents()
+            }
+        }
+    }
+
+    private fun CoroutineScope.subscribeToLoading() {
+        launch {
+            viewModel.loading.observe(viewLifecycleOwner) {
+                binding.progressBar.visibility = if (it) View.VISIBLE else View.GONE
+            }
+        }
+    }
+
+    private fun CoroutineScope.subscribeToHolidaysForCurrentMonth() {
+        launch {
+            viewModel.holidaysForCurrentMonth.collect { holidays ->
+                binding.calendarView.notifyCalendarChanged()
+                holidayAdapter.submitList(holidays)
+            }
+        }
+    }
+
+    private fun CoroutineScope.subscribeToWeekendEvents() {
+        launch {
+            viewModel.weekendDays.collect { weekendDays ->
+                onWeekendsChanged(weekendDays)
             }
         }
     }
@@ -111,6 +125,13 @@ class HolidaysCalendarFragment : Fragment() {
                 onHolidaysChanged(holidays)
             }
         }
+    }
+
+    private fun onWeekendsChanged(weekendDays: Set<DayOfWeek>) {
+        Log.d("HolidaysCalendarFragment", "Weekend days updated: $weekendDays")
+        calendarSetup.setWeekends(weekendDays)
+        binding.calendarView.notifyCalendarChanged()
+        updateWeekendSelectionLabel(weekendDays)
     }
 
     private fun onHolidaysChanged(holidays: Set<LocalDate>) {
@@ -255,4 +276,5 @@ class HolidaysCalendarFragment : Fragment() {
         _binding = null
     }
 }
+
 
