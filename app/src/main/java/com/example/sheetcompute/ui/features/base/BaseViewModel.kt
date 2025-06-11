@@ -1,4 +1,4 @@
-package com.example.sheetcompute.ui.subFeatures.base
+package com.example.sheetcompute.ui.features.base
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

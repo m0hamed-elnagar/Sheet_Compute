@@ -5,10 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.sheetcompute.domain.PreferencesGateway
 import com.example.sheetcompute.data.entities.Holiday
 import com.example.sheetcompute.domain.repo.HolidayRepositoryImpl
-import com.example.sheetcompute.domain.useCases.calendarDaysToDayOfWeekSet
-import com.example.sheetcompute.domain.useCases.calenderToDayOfWeek
-import com.example.sheetcompute.domain.useCases.rangeToDays
-import com.example.sheetcompute.ui.subFeatures.base.BaseViewModel
+import com.example.sheetcompute.domain.useCases.datetime.*
+import com.example.sheetcompute.ui.features.base.BaseViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -27,7 +25,7 @@ class CalendarViewModel(
     private val holidayRepository = HolidayRepositoryImpl()
     private val preferencesDataSource: PreferencesGateway = PreferencesGateway
     val weekendDays = preferencesDataSource.weekendDays.map {
-        calendarDaysToDayOfWeekSet(it)
+        CalendarDayToDayOfWeekUseCase.execute(it)
     }.stateIn(viewModelScope, SharingStarted.Eagerly, emptySet())
 
     // Map of YearMonth to List<Holiday>
@@ -42,7 +40,7 @@ class CalendarViewModel(
         Log.e("khalid", "holidaysByMonth: $holidaysByMonth")
         // Flatten the map to a set of LocalDate representing all holidays
        holidaysByMonth.flatMap { it.value }
-            .flatMap { holiday -> rangeToDays(holiday.startDate, holiday.endDate) }
+            .flatMap { holiday -> GenerateDateRangeUseCase.execute(holiday.startDate, holiday.endDate) }
             .toSet()
     }.stateIn(viewModelScope, SharingStarted.Eagerly, emptySet())
     private val _currentMonth = MutableStateFlow<YearMonth>(YearMonth.now())
@@ -137,9 +135,10 @@ class CalendarViewModel(
         }
     }
     fun updateWeekendDays(days: Set<DayOfWeek>) {
-        viewModelScope.launch {
-            preferencesDataSource.setWeekendDays(days.calenderToDayOfWeek())
-        }
+      viewModelScope.launch {
+        val calendarDays = DayOfWeekToCalendarDayUseCase.execute(days)
+        preferencesDataSource.setWeekendDays(calendarDays)
+    }
     }
 
     // Kotlin

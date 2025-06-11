@@ -6,6 +6,7 @@ import androidx.room.Database
 import com.example.sheetcompute.data.entities.AttendanceRecord
 import com.example.sheetcompute.data.paging.EmployeeAttendanceRecordsPagingSource
 import com.example.sheetcompute.data.roomDB.AppDatabase
+import java.time.LocalDate
 import java.util.Date
 
 class AttendanceRepo {
@@ -14,8 +15,8 @@ class AttendanceRepo {
     private val attendanceDao by lazy { database.EmployeeAttendanceDao() }
     fun getEmployeeAttendanceRecordsByRange(
         employeeId: String,
-        startDate: Date,
-        endDate: Date
+        startDate: LocalDate,
+        endDate: LocalDate
     ): Pager<Int, AttendanceRecord> {
 
         return Pager(

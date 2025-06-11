@@ -4,13 +4,14 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.sheetcompute.data.daos.EmployeeAttendanceDao
 import com.example.sheetcompute.data.entities.AttendanceRecord
+import java.time.LocalDate
 import java.util.Date
 
 class EmployeeAttendanceRecordsPagingSource(
     private val attendanceDao: EmployeeAttendanceDao,
     private val employeeId: String,
-    private val startDate: Date,
-    private val endDate: Date
+    private val startDate: LocalDate,
+    private val endDate: LocalDate
 ) : PagingSource<Int, AttendanceRecord>() {
     override fun getRefreshKey(state: PagingState<Int, AttendanceRecord>): Int? {
         return state.anchorPosition?.let { anchorPosition ->

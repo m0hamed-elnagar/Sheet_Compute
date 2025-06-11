@@ -4,7 +4,7 @@ package com.example.sheetcompute.ui.features.attendanceHistory.dateFilterHistory
 import androidx.paging.PagingData
 import com.example.sheetcompute.data.entities.AttendanceRecordUI
 import com.example.sheetcompute.data.entities.DummyAttendanceData
-import com.example.sheetcompute.ui.subFeatures.base.BaseViewModel
+import com.example.sheetcompute.ui.features.base.BaseViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

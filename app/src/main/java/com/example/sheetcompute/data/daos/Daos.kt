@@ -25,28 +25,31 @@ interface HolidayDao {
 
     @Query("SELECT * FROM holidays")
     suspend fun getAllHolidays(): List<Holiday>
+
     @Query("SELECT * FROM holidays WHERE startDate >= :startDate AND endDate <= :endDate ORDER BY startDate")
     suspend fun getHolidaysByDateRange(startDate: LocalDate, endDate: LocalDate): List<Holiday>
 
 }
+
 @Dao
-interface EmployeeAttendanceDao
-{
+interface EmployeeAttendanceDao {
     //todo get attendance records by date paginated and sorted by time
- @Transaction
-@Query("""
+    @Transaction
+    @Query(
+        """
     SELECT * FROM attendance_Record
     WHERE employeeId = :employeeId AND date >= :startDate AND date <= :endDate
     ORDER BY clockInTime ASC
     LIMIT :limit OFFSET :offset
-""")
-suspend fun getEmployeeRecordsByDateRangePaged(
+"""
+    )
+    suspend fun getEmployeeRecordsByDateRangePaged(
         employeeId: String,
-    startDate: Date,
-    endDate: Date,
-    limit: Int,
-    offset: Int
-): List<AttendanceRecord>
+        startDate: LocalDate,
+        endDate: LocalDate,
+        limit: Int,
+        offset: Int
+    ): List<AttendanceRecord>
 
     @Insert
     suspend fun addAttendanceRecord(attendanceRecord: AttendanceRecord)

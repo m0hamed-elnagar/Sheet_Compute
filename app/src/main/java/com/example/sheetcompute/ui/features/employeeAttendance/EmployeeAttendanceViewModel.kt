@@ -7,9 +7,10 @@ import androidx.paging.PagingData
 import com.example.sheetcompute.data.entities.AttendanceStatus
 import com.example.sheetcompute.data.entities.DummyAttendanceData2
 import com.example.sheetcompute.data.entities.EmployeeAttendanceRecord
-import com.example.sheetcompute.ui.subFeatures.base.BaseViewModel
+import com.example.sheetcompute.ui.features.base.BaseViewModel
 import kotlinx.coroutines.flow.*
 import androidx.lifecycle.asLiveData
+import com.example.sheetcompute.domain.PreferencesGateway
 import com.example.sheetcompute.domain.useCases.createCustomMonthRange
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -65,8 +66,9 @@ class EmployeeAttendanceViewModel : BaseViewModel() {
     // Date range controls
     fun setMonthRange(month: Int, year: Int) {
         Log.d("DateFilterHandler", "createCustomMonthRange: $month")
+        val startDay = PreferencesGateway.getMonthStartDay()
 
-        _dateRange.value = createCustomMonthRange(month, year)
+        _dateRange.value =createCustomMonthRange(month = 6, year = 2025, startDay = startDay)
     }
 
     fun setCustomRange(startDate: LocalDate, endDate: LocalDate) {
