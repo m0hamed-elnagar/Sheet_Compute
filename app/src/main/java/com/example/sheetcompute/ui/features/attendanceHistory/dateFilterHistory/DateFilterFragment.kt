@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.sheetcompute.R
 import com.example.sheetcompute.databinding.FragmentDateFilterBinding
 import com.example.sheetcompute.ui.features.attendanceHistory.AttendanceAdapter
-import com.example.sheetcompute.ui.subFeatures.utils.DateFilterHandler
+import com.example.sheetcompute.ui.subFeatures.spinners.DateFilterHandler
 import kotlinx.coroutines.launch
 
 class DateFilterFragment : Fragment() {

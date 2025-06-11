@@ -1,5 +1,6 @@
-package com.example.sheetcompute.ui.subFeatures.utils
+package com.example.sheetcompute.ui.subFeatures.spinners
 
+import android.R
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
@@ -32,10 +33,10 @@ class DateFilterHandler(
         val years = (currentYear - 10..currentYear).reversed().map { it.toString() }
         ArrayAdapter(
             yearSpinner.context,
-            android.R.layout.simple_spinner_item,
+            R.layout.simple_spinner_item,
             years
         ).also { adapter ->
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
             yearSpinner.adapter = adapter
         }
 
@@ -47,10 +48,10 @@ class DateFilterHandler(
         }
         ArrayAdapter(
             monthSpinner.context,
-            android.R.layout.simple_spinner_item,
+            R.layout.simple_spinner_item,
             months
         ).also { adapter ->
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
             monthSpinner.adapter = adapter
         }
         val currentMonth = Calendar.getInstance().get(Calendar.MONTH)

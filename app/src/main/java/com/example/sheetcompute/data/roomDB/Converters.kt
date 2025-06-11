@@ -1,4 +1,4 @@
-package com.example.sheetcompute.data.local.roomDB
+package com.example.sheetcompute.data.roomDB
 
 import androidx.room.TypeConverter
 import java.time.LocalDate

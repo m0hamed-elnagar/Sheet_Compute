@@ -3,14 +3,14 @@ package com.example.sheetcompute.domain
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
-import com.example.sheetcompute.data.local.entities.*
+import com.example.sheetcompute.data.entities.SHARED_PREFERENCE_NAME
+import com.example.sheetcompute.data.entities.WEEKEND_DAYS_KEY
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.withContext
-import java.time.DayOfWeek
 import java.util.Calendar
-import javax.inject.Inject
+
 object PreferencesGateway {
     val pref: SharedPreferences by lazy {
         DomainIntegration

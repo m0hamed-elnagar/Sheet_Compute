@@ -1,8 +1,8 @@
 package com.example.sheetcompute.ui.features.attendanceHistory.searchHistory
 
 import androidx.paging.PagingData
-import com.example.sheetcompute.data.local.entities.AttendanceRecordUI
-import com.example.sheetcompute.data.local.entities.DummyAttendanceData
+import com.example.sheetcompute.data.entities.AttendanceRecordUI
+import com.example.sheetcompute.data.entities.DummyAttendanceData
 import com.example.sheetcompute.ui.subFeatures.base.BaseViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow

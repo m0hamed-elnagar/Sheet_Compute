@@ -17,11 +17,11 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.sheetcompute.R
-import com.example.sheetcompute.data.local.entities.Holiday
+import com.example.sheetcompute.data.entities.Holiday
 import com.example.sheetcompute.databinding.FragmentHolidaysCalendarBinding
 import com.example.sheetcompute.ui.features.holidaysCalendar.calendar.CalendarSetup
-import com.example.sheetcompute.ui.subFeatures.utils.DatePickerUtils
-import com.example.sheetcompute.ui.subFeatures.utils.WeekendSelectionDialogFragment
+import com.example.sheetcompute.ui.subFeatures.dialogs.DatePickerUtils
+import com.example.sheetcompute.ui.subFeatures.dialogs.WeekendSelectionDialogFragment
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import java.time.DayOfWeek
@@ -181,6 +181,7 @@ class HolidaysCalendarFragment : Fragment() {
         }
     }
 
+//todo extract dialog
 
     private fun showHolidayDetailsDialog(startDate: LocalDate, endDate: LocalDate) {
         val dialogView = layoutInflater.inflate(R.layout.dialog_holiday_details, null)
@@ -215,7 +216,7 @@ class HolidaysCalendarFragment : Fragment() {
         }
         dialog.show()
     }
-
+//todo extract dialog
     private fun showEditHolidayDialog(holiday: Holiday) {
         val dialogView = layoutInflater.inflate(R.layout.dialog_holiday_details, null)
         val nameEditText = dialogView.findViewById<EditText>(R.id.etHolidayName)
@@ -250,6 +251,7 @@ class HolidaysCalendarFragment : Fragment() {
         }
         dialog.show()
     }
+//todo extract dialog
 
     private fun showDeleteHolidayDialog(holiday: Holiday) {
         AlertDialog.Builder(requireContext())

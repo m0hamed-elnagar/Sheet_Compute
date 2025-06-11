@@ -1,4 +1,5 @@
-package com.example.sheetcompute.ui.subFeatures.utils
+package com.example.sheetcompute.ui.subFeatures.dialogs
+
 import android.app.Dialog
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog

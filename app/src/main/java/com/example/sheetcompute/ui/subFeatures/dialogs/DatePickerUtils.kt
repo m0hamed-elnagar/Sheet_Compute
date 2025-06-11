@@ -1,13 +1,12 @@
-package com.example.sheetcompute.ui.subFeatures.utils
+package com.example.sheetcompute.ui.subFeatures.dialogs
 
 import android.util.Log
+import androidx.core.util.Pair
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.datepicker.MaterialDatePicker
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
-import androidx.core.util.Pair as AndroidPair
-
 
 object DatePickerUtils {
 
@@ -42,7 +41,7 @@ object DatePickerUtils {
             .build()
 
         datePicker.addOnPositiveButtonClickListener { selection ->
-            val pair = selection as AndroidPair<Long, Long>
+            val pair = selection as Pair<Long, Long>
             val startDate = Instant.ofEpochMilli(pair.first)
                 .atZone(ZoneId.systemDefault())
                 .toLocalDate()

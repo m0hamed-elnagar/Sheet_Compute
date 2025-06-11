@@ -1,4 +1,4 @@
-package com.example.sheetcompute.data.local.entities
+package com.example.sheetcompute.data.entities
 
 import java.time.LocalDate
 import java.time.LocalTime
@@ -24,7 +24,15 @@ data class EmployeeEntity(
         Index(value = ["employeeName"])
     ]
 )
+
 data class AttendanceRecord(
+    @PrimaryKey(autoGenerate = true) val id: Long = 0,
+    val employeeId: String,
+    val employeeName: String,
+    val date: LocalDate,
+    val clockInTime: LocalTime?,
+)
+data class AttendanceRecord2(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
     val employeeId: String,
     val employeeName: String,

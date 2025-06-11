@@ -1,4 +1,4 @@
-package com.example.sheetcompute.data.local.entities
+package com.example.sheetcompute.data.entities
 
 
     const val SHARED_PREFERENCE_NAME = "sheet_compute_prefs"

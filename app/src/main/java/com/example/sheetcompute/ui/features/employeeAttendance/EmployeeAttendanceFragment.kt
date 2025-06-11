@@ -11,10 +11,10 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.sheetcompute.data.local.entities.AttendanceStatus
+import com.example.sheetcompute.data.entities.AttendanceStatus
 import com.example.sheetcompute.databinding.EmployeeAttendanceFragmentBinding
-import com.example.sheetcompute.ui.subFeatures.utils.DateFilterHandler
-import com.example.sheetcompute.ui.subFeatures.utils.DatePickerUtils
+import com.example.sheetcompute.ui.subFeatures.spinners.DateFilterHandler
+import com.example.sheetcompute.ui.subFeatures.dialogs.DatePickerUtils
 import com.example.sheetcompute.ui.subFeatures.utils.DateUtils.formatDateRange
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch

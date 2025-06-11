@@ -1,0 +1,31 @@
+package com.example.sheetcompute.domain.repo
+
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.room.Database
+import com.example.sheetcompute.data.entities.AttendanceRecord
+import com.example.sheetcompute.data.paging.EmployeeAttendanceRecordsPagingSource
+import com.example.sheetcompute.data.roomDB.AppDatabase
+import java.util.Date
+
+class AttendanceRepo {
+    private val database by lazy { AppDatabase.get() }
+
+    private val attendanceDao by lazy { database.EmployeeAttendanceDao() }
+    fun getEmployeeAttendanceRecordsByRange(
+        employeeId: String,
+        startDate: Date,
+        endDate: Date
+    ): Pager<Int, AttendanceRecord> {
+
+        return Pager(
+            config = PagingConfig(
+                pageSize = 4,
+                enablePlaceholders = true,
+                maxSize = 12
+            ),
+            pagingSourceFactory = {
+                EmployeeAttendanceRecordsPagingSource(attendanceDao, employeeId, startDate, endDate)
+            })
+    }
+}

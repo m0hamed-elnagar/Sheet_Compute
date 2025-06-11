@@ -2,12 +2,11 @@ package com.example.sheetcompute.ui.features.attendanceHistory
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sheetcompute.R
-import com.example.sheetcompute.data.local.entities.AttendanceRecordUI
+import com.example.sheetcompute.data.entities.AttendanceRecordUI
 import com.example.sheetcompute.databinding.AttendanceItemBinding
 import com.example.sheetcompute.ui.subFeatures.utils.DateUtils.getMonthName
 
