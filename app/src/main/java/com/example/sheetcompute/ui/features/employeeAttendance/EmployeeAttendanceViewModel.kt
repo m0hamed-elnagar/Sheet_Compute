@@ -7,10 +7,10 @@ import androidx.paging.PagingData
 import com.example.sheetcompute.data.entities.AttendanceStatus
 import com.example.sheetcompute.data.entities.DummyAttendanceData2
 import com.example.sheetcompute.data.entities.EmployeeAttendanceRecord
-import com.example.sheetcompute.domain.PreferencesGateway
 import com.example.sheetcompute.ui.subFeatures.base.BaseViewModel
 import kotlinx.coroutines.flow.*
 import androidx.lifecycle.asLiveData
+import com.example.sheetcompute.domain.useCases.createCustomMonthRange
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import kotlin.collections.plus
@@ -73,30 +73,6 @@ class EmployeeAttendanceViewModel : BaseViewModel() {
         _dateRange.value = startDate..endDate
     }
 
-    private fun createCustomMonthRange(month: Int, year: Int): ClosedRange<LocalDate>? {
-        val startDay = PreferencesGateway.getMonthStartDay()
-        val endDay = if (startDay == 1) LocalDate.of(year, month, 1).lengthOfMonth() else startDay - 1
-        return if (month == 0) {
-            // Special case: all months selected
-            val start = LocalDate.of(year - 1, 12, startDay)
-            val end = LocalDate.of(year, 12, endDay)
-            start..end
-        } else {
-            val start: LocalDate
-            val end: LocalDate
-
-            if (month == 1) {
-                // January: previous year December startDay to current year January endDay
-                start = LocalDate.of(year - 1, 12, startDay)
-                end = LocalDate.of(year, 1, endDay)
-            } else {
-                // All other months
-                start = LocalDate.of(year, month - 1, startDay)
-                end = LocalDate.of(year, month, endDay)
-            }
-            start..end
-        }
-    }
 
     // Status filter controls
     fun toggleStatusFilter(status: AttendanceStatus) {

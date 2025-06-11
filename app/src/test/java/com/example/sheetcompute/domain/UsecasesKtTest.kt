@@ -1,5 +1,6 @@
 package com.example.sheetcompute.domain
 
+import com.example.sheetcompute.domain.useCases.calendarDaysToDayOfWeekSet
 import junit.framework.TestCase.assertEquals
 import org.junit.Test
 import java.time.DayOfWeek
@@ -9,9 +10,9 @@ class UsecasesKtTest {
 
     @Test
     fun `given when then`(){
-        val weekOfDays = setOf(DayOfWeek.SATURDAY, DayOfWeek.SUNDAY)
-        val expected = setOf(Calendar.SATURDAY, Calendar.SUNDAY) // Saturday and Sunday correspond to 6 and 7 in Calendar
-        val result = weekOfDaysToCalendarDays(weekOfDays)
+        val expected = setOf(DayOfWeek.SATURDAY, DayOfWeek.SUNDAY)
+        val calendarDays = setOf(Calendar.SATURDAY, Calendar.SUNDAY) // Saturday and Sunday correspond to 6 and 7 in Calendar
+        val result = calendarDaysToDayOfWeekSet(calendarDays)
         assertEquals(expected, result)
     }
 

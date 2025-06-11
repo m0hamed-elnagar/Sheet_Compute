@@ -8,7 +8,7 @@ import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
 
-object DatePickerUtils {
+object DatePickerDialogs {
 
     fun showSingleDayPickerDialog(
         fragmentManager: FragmentManager,

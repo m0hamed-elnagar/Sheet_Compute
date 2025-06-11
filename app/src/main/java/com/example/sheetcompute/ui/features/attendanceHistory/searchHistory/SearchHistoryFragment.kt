@@ -45,7 +45,7 @@ class SearchHistoryFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        adapter = AttendanceAdapter(viewLifecycleOwner.lifecycleScope) { employeeId ->
+        adapter = AttendanceAdapter() { employeeId ->
             val bundle = bundleOf("employeeId" to employeeId)
             findNavController().navigate(R.id.employeeAttendanceFragment, bundle)
         }

@@ -41,7 +41,7 @@ class DateFilterFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        adapter = AttendanceAdapter(viewLifecycleOwner.lifecycleScope) { employeeId ->
+        adapter = AttendanceAdapter() { employeeId ->
             val bundle = Bundle().apply {
                 putInt("employeeId", employeeId)
             }

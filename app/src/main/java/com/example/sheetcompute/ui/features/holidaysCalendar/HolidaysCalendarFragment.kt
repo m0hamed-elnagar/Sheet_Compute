@@ -6,9 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.PopupMenu
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -20,7 +18,9 @@ import com.example.sheetcompute.R
 import com.example.sheetcompute.data.entities.Holiday
 import com.example.sheetcompute.databinding.FragmentHolidaysCalendarBinding
 import com.example.sheetcompute.ui.features.holidaysCalendar.calendar.CalendarSetup
-import com.example.sheetcompute.ui.subFeatures.dialogs.DatePickerUtils
+import com.example.sheetcompute.ui.subFeatures.dialogs.DatePickerDialogs
+import com.example.sheetcompute.ui.subFeatures.dialogs.DeleteConfirmationDialogFragment
+import com.example.sheetcompute.ui.subFeatures.dialogs.HolidayDetailsDialogFragment
 import com.example.sheetcompute.ui.subFeatures.dialogs.WeekendSelectionDialogFragment
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -161,19 +161,18 @@ class HolidaysCalendarFragment : Fragment() {
             setOnMenuItemClickListener { item ->
                 when (item.itemId) {
                     R.id.menu_single_day -> {
-                        DatePickerUtils.showSingleDayPickerDialog(childFragmentManager) { date ->
+                        DatePickerDialogs.showSingleDayPickerDialog(childFragmentManager) { date ->
                             showHolidayDetailsDialog(date, date)
                         }
                         true
                     }
 
                     R.id.menu_range -> {
-                        DatePickerUtils.showRangePickerDialog(childFragmentManager) { startDate, endDate ->
+                        DatePickerDialogs.showRangePickerDialog(childFragmentManager) { startDate, endDate ->
                             showHolidayDetailsDialog(startDate, endDate)
                         }
                         true
                     }
-
                     else -> false
                 }
             }
@@ -181,87 +180,33 @@ class HolidaysCalendarFragment : Fragment() {
         }
     }
 
-//todo extract dialog
-
     private fun showHolidayDetailsDialog(startDate: LocalDate, endDate: LocalDate) {
-        val dialogView = layoutInflater.inflate(R.layout.dialog_holiday_details, null)
-        val nameEditText = dialogView.findViewById<EditText>(R.id.etHolidayName)
-        val noteEditText = dialogView.findViewById<EditText>(R.id.etHolidayNote)
-
-        val dialog = AlertDialog.Builder(requireContext())
-            .setTitle(getString(R.string.add_holiday))
-            .setView(dialogView)
-            .setPositiveButton(getString(R.string.save), null)
-            .setNegativeButton(getString(R.string.cancel), null)
-            .create()
-
-        dialog.setOnShowListener {
-            val saveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
-            saveButton.setOnClickListener {
-                val name = nameEditText.text.toString().trim()
-                if (name.isEmpty()) {
-                    nameEditText.error = getString(R.string.holiday_name_required)
-                } else {
-                    viewModel.addHoliday(
-                        Holiday(
-                            startDate = startDate,
-                            endDate = endDate,
-                            name = name,
-                            note = noteEditText.text.toString().trim()
-                        )
-                    )
-                    dialog.dismiss()
-                }
-            }
+        HolidayDetailsDialogFragment.showAddDialog(
+            parentFragmentManager,
+            startDate,
+            endDate
+        ) { holiday ->
+            viewModel.addHoliday(holiday)
         }
-        dialog.show()
     }
-//todo extract dialog
+
     private fun showEditHolidayDialog(holiday: Holiday) {
-        val dialogView = layoutInflater.inflate(R.layout.dialog_holiday_details, null)
-        val nameEditText = dialogView.findViewById<EditText>(R.id.etHolidayName)
-        val noteEditText = dialogView.findViewById<EditText>(R.id.etHolidayNote)
-
-        nameEditText.setText(holiday.name)
-        noteEditText.setText(holiday.note)
-
-        val dialog = AlertDialog.Builder(requireContext())
-            .setTitle(getString(R.string.edit_holiday))
-            .setView(dialogView)
-            .setPositiveButton(getString(R.string.save), null)
-            .setNegativeButton(getString(R.string.cancel), null)
-            .create()
-
-        dialog.setOnShowListener {
-            val saveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
-            saveButton.setOnClickListener {
-                val name = nameEditText.text.toString().trim()
-                if (name.isEmpty()) {
-                    nameEditText.error = getString(R.string.holiday_name_required)
-                } else {
-                    viewModel.updateHoliday(
-                        holiday.copy(
-                            name = name,
-                            note = noteEditText.text.toString().trim()
-                        )
-                    )
-                    dialog.dismiss()
-                }
-            }
+        HolidayDetailsDialogFragment.showEditDialog(
+            parentFragmentManager,
+            holiday
+        ) { updatedHoliday ->
+            viewModel.updateHoliday(updatedHoliday)
         }
-        dialog.show()
     }
-//todo extract dialog
 
     private fun showDeleteHolidayDialog(holiday: Holiday) {
-        AlertDialog.Builder(requireContext())
-            .setTitle(getString(R.string.confirm_delete))
-            .setMessage(getString(R.string.delete_holiday_confirmation))
-            .setPositiveButton(getString(R.string.delete)) { _, _ ->
-                viewModel.deleteHoliday(holiday)
-            }
-            .setNegativeButton(getString(R.string.cancel), null)
-            .show()
+        DeleteConfirmationDialogFragment.show(
+            parentFragmentManager,
+            getString(R.string.confirm_delete),
+            getString(R.string.delete_holiday_confirmation)
+        ) {
+            viewModel.deleteHoliday(holiday)
+        }
     }
 
     private fun updateWeekendSelectionLabel(weekendDays: Set<DayOfWeek>) {

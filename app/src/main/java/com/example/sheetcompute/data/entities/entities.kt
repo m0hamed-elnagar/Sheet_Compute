@@ -72,7 +72,7 @@ data class AttendanceRecordUI(
     indices = [Index(value = ["employeeId", "date"], unique = true)]
 )
 data class EmployeeAttendanceRecord(
-   @PrimaryKey(autoGenerate = true)     val Id: Int,
+   @PrimaryKey(autoGenerate = true)     val id: Int,
     val employeeId: String,
     val loginTime: Int, // store as minutes ( 570) to "HH:mm" format (e.g. "09:30")
     val date: LocalDate,

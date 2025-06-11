@@ -31,7 +31,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
                     android:background="@color/white"
-                    android:fadingEdgeLength="30dp"
+                    android:fadingEdgeLength="10dp"
                     android:minHeight="300dp"
                     android:requiresFadingEdge="horizontal"
                     app:cv_dayViewResource="@layout/custom_day_view"

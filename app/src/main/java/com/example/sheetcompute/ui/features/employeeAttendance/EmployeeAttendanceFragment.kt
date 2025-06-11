@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.sheetcompute.data.entities.AttendanceStatus
 import com.example.sheetcompute.databinding.EmployeeAttendanceFragmentBinding
 import com.example.sheetcompute.ui.subFeatures.spinners.DateFilterHandler
-import com.example.sheetcompute.ui.subFeatures.dialogs.DatePickerUtils
+import com.example.sheetcompute.ui.subFeatures.dialogs.DatePickerDialogs
 import com.example.sheetcompute.ui.subFeatures.utils.DateUtils.formatDateRange
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -81,7 +81,7 @@ class EmployeeAttendanceFragment : Fragment() {
         )
 
         binding.btnDateRange.setOnClickListener {
-            DatePickerUtils.showRangePickerDialog(
+            DatePickerDialogs.showRangePickerDialog(
                 requireActivity().supportFragmentManager
             ) { startDate, endDate ->
                 viewModel.setCustomRange(startDate, endDate)

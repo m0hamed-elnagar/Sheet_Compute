@@ -79,7 +79,7 @@ class EmployeeAttendanceAdapter(
 
                 // Handle click if needed
                 root.setOnClickListener {
-                    onSelected(item.Id)
+                    onSelected(item.id)
                 }
             }
         }
@@ -88,7 +88,7 @@ class EmployeeAttendanceAdapter(
 
 private class AttendanceDiffCallback : DiffUtil.ItemCallback<EmployeeAttendanceRecord>() {
     override fun areItemsTheSame(oldItem: EmployeeAttendanceRecord, newItem: EmployeeAttendanceRecord): Boolean =
-        oldItem.Id == newItem.Id
+        oldItem.id == newItem.id
 
     override fun areContentsTheSame(oldItem: EmployeeAttendanceRecord, newItem: EmployeeAttendanceRecord): Boolean =
         oldItem == newItem

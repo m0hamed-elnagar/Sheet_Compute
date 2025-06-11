@@ -5,6 +5,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.sheetcompute.domain.PreferencesGateway
 import com.example.sheetcompute.data.entities.Holiday
 import com.example.sheetcompute.domain.repo.HolidayRepositoryImpl
+import com.example.sheetcompute.domain.useCases.calendarDaysToDayOfWeekSet
+import com.example.sheetcompute.domain.useCases.calenderToDayOfWeek
+import com.example.sheetcompute.domain.useCases.rangeToDays
 import com.example.sheetcompute.ui.subFeatures.base.BaseViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,9 +18,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import java.time.DayOfWeek
-import java.time.LocalDate
 import java.time.YearMonth
-import java.util.Calendar.*
 import kotlin.collections.flatMap
 import kotlin.collections.toSet
 
@@ -26,7 +27,7 @@ class CalendarViewModel(
     private val holidayRepository = HolidayRepositoryImpl()
     private val preferencesDataSource: PreferencesGateway = PreferencesGateway
     val weekendDays = preferencesDataSource.weekendDays.map {
-        weekOfDaysToCalendarDays(it)
+        calendarDaysToDayOfWeekSet(it)
     }.stateIn(viewModelScope, SharingStarted.Eagerly, emptySet())
 
     // Map of YearMonth to List<Holiday>
@@ -137,7 +138,7 @@ class CalendarViewModel(
     }
     fun updateWeekendDays(days: Set<DayOfWeek>) {
         viewModelScope.launch {
-            preferencesDataSource.setWeekendDays(days.calenderToDayOfweek())
+            preferencesDataSource.setWeekendDays(days.calenderToDayOfWeek())
         }
     }
 
@@ -153,44 +154,4 @@ class CalendarViewModel(
     }
 }
 
-private fun weekOfDaysToCalendarDays(weekendDays: Set<Int>): Set<DayOfWeek> {
-    return weekendDays.map { dayOfWeek ->
-        when (dayOfWeek) {
-            SUNDAY -> DayOfWeek.SUNDAY
-            MONDAY -> DayOfWeek.MONDAY
-            TUESDAY -> DayOfWeek.TUESDAY
-            WEDNESDAY -> DayOfWeek.WEDNESDAY
-            THURSDAY -> DayOfWeek.THURSDAY
-            FRIDAY -> DayOfWeek.FRIDAY
-            SATURDAY -> DayOfWeek.SATURDAY
-            else -> throw IllegalArgumentException("Invalid day of week: $dayOfWeek")
-        }
-    }.toSet()
-}
-
-private fun Set<DayOfWeek>.calenderToDayOfweek(): Set<Int> = map { dayOfWeek ->
-    when (dayOfWeek) {
-        DayOfWeek.SUNDAY -> SUNDAY
-        DayOfWeek.MONDAY -> MONDAY
-        DayOfWeek.TUESDAY -> TUESDAY
-        DayOfWeek.WEDNESDAY -> WEDNESDAY
-        DayOfWeek.THURSDAY -> THURSDAY
-        DayOfWeek.FRIDAY -> FRIDAY
-        DayOfWeek.SATURDAY -> SATURDAY
-    }
-}.toSet()
-
-private fun CalendarViewModel.rangeToDays(
-    start: LocalDate,
-    end: LocalDate
-): MutableList<LocalDate> {
-    val days = mutableListOf<LocalDate>()
-    var current = start
-    while (!current.isAfter(end)) {
-        days.add(current)
-        current = current.plusDays(1)
-    }
-    return days
-
-}
 
