@@ -10,7 +10,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "employees")
 data class EmployeeEntity(
-    @PrimaryKey val id: String,
+    @PrimaryKey val id: Int,
     val name: String,
     val position: String = "",
     val department: String = "",
@@ -21,16 +21,15 @@ data class EmployeeEntity(
     indices = [
         Index(value = ["employeeId", "date"], unique = true), //  prevent duplicates + speed
         Index(value = ["date"]),
-        Index(value = ["employeeName"])
     ]
 )
 
 data class AttendanceRecord(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
     val employeeId: String,
-    val employeeName: String,
     val date: LocalDate,
-    val clockInTime: LocalTime?,
+    val clockIn: String, // e.g., "06:25 AM"
+    val tardyMinutes: Int = 0 // e.g., 35 mins late
 )
 data class AttendanceRecord2(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,

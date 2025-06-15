@@ -3,12 +3,12 @@ package com.example.sheetcompute.domain
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
-import com.example.sheetcompute.data.entities.SHARED_PREFERENCE_NAME
-import com.example.sheetcompute.data.entities.WEEKEND_DAYS_KEY
+import com.example.sheetcompute.data.entities.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.withContext
+import java.time.LocalTime
 import java.util.Calendar
 
 object PreferencesGateway {
@@ -19,6 +19,18 @@ object PreferencesGateway {
     }
     private val _weekendDays = MutableStateFlow(emptySet<Int>())
     val weekendDays: StateFlow<Set<Int>> = _weekendDays
+    //todo save the workingstart time
+    fun saveWorkStartTime(time: LocalTime) {
+        pref.edit().putString(KEY_WORK_START_TIME, time.toString()).apply()
+    }
+
+    fun getWorkStartTime(defaultTime: LocalTime = LocalTime.of(8, 30)): LocalTime {
+        return try {
+            LocalTime.parse(pref.getString(KEY_WORK_START_TIME, defaultTime.toString()))
+        } catch (e: Exception) {
+            defaultTime
+        }
+    }
     suspend fun init() = withContext(Dispatchers.IO) {
         _weekendDays.value = getWeekendDays() ?: setOf(Calendar.FRIDAY).also(::setWeekendDays)
     }
@@ -38,9 +50,7 @@ object PreferencesGateway {
             .toSet()
     }
 
-    private const val MONTH_START_DAY_KEY = "month_start_day"
-    private const val DEFAULT_MONTH_START_DAY = 26
-
+//todo save the month start day
     fun setMonthStartDay(day: Int) {
         pref.edit { putInt(MONTH_START_DAY_KEY, day) }
     }

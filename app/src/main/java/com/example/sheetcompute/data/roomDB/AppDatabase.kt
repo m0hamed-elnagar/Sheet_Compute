@@ -5,13 +5,15 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.example.sheetcompute.data.daos.EmployeeAttendanceDao
+import com.example.sheetcompute.data.daos.EmployeeDao
 import com.example.sheetcompute.data.daos.HolidayDao
 import com.example.sheetcompute.data.entities.AttendanceRecord
+import com.example.sheetcompute.data.entities.EmployeeEntity
 import com.example.sheetcompute.data.entities.Holiday
 import com.example.sheetcompute.domain.DomainIntegration
 
 @Database(
-    entities = [AttendanceRecord::class, Holiday::class],
+    entities = [AttendanceRecord::class, Holiday::class,EmployeeEntity::class],
     version = 2,
 //    exportSchema = true
 )
@@ -20,6 +22,7 @@ abstract class AppDatabase : RoomDatabase() {
     //    abstract fun employeeAttendanceDao(): EmployeeAttendanceDao
     abstract fun holidayDao(): HolidayDao
     abstract fun EmployeeAttendanceDao() :EmployeeAttendanceDao
+    abstract fun employeeDao(): EmployeeDao
 
     companion object {
         @Volatile

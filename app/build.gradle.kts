@@ -3,6 +3,8 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
+    alias(libs.plugins.navigation.safeargs.kotlin)
+
 }
 
 android {
@@ -67,7 +69,10 @@ dependencies {
 
     // ViewPager2
     implementation(libs.androidx.viewpager2)
-
+//    implementation (libs.poi)
+//    implementation (libs.poi.ooxml)
+    implementation ("com.github.SUPERCILEX.poi-android:poi:3.17")
+    implementation ("com.github.SUPERCILEX.poi-android:proguard:3.17")
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

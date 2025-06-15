@@ -5,14 +5,20 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.sheetcompute.data.entities.AttendanceStatus
 import com.example.sheetcompute.databinding.EmployeeAttendanceFragmentBinding
+import com.example.sheetcompute.domain.excel.ExcelImporter
+import com.example.sheetcompute.domain.excel.FilePickerFragmentHelper
+import com.example.sheetcompute.domain.repo.AttendanceRepo
+import com.example.sheetcompute.domain.repo.EmployeeRepo
 import com.example.sheetcompute.ui.subFeatures.spinners.DateFilterHandler
 import com.example.sheetcompute.ui.subFeatures.dialogs.DatePickerDialogs
 import com.example.sheetcompute.ui.subFeatures.utils.DateUtils.formatDateRange
@@ -25,6 +31,9 @@ class EmployeeAttendanceFragment : Fragment() {
     private val viewModel: EmployeeAttendanceViewModel by viewModels()
     private lateinit var adapter: EmployeeAttendanceAdapter
     private lateinit var dateFilterHandler: DateFilterHandler
+    private val args: EmployeeAttendanceFragmentArgs by navArgs()
+    private lateinit var filePicker: FilePickerFragmentHelper
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,16 +41,19 @@ class EmployeeAttendanceFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = EmployeeAttendanceFragmentBinding.inflate(inflater, container, false)
+        filePicker = FilePickerFragmentHelper(this)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupUI()
+        Log.d("EmployeeAttendanceFragment", "onViewCreated: Employee ID: ${args.employeeId}")
         setupObservers()
     }
 
     private fun setupUI() {
+
         setupRecyclerView()
         setupDateControls()
         setupCounterClickListeners()
@@ -127,7 +139,7 @@ class EmployeeAttendanceFragment : Fragment() {
         viewModel.tardiesCount.observe(viewLifecycleOwner) { hours ->
             _binding?.txtTardies?.text = hours.toString()
             _binding?.tardiesCard?.isSelected =
-                             viewModel.isStatusSelected(AttendanceStatus.LATE)
+                viewModel.isStatusSelected(AttendanceStatus.LATE)
 
         }
 
@@ -181,8 +193,7 @@ class EmployeeAttendanceFragment : Fragment() {
             .start()
 
 
-
-}
+    }
 
 
     private fun openEditDialog(recordId: Int) {

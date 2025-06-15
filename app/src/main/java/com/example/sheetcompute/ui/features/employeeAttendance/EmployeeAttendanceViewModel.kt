@@ -63,18 +63,15 @@ class EmployeeAttendanceViewModel : BaseViewModel() {
             .sumOf { it.lateDuration / 60 }
     }
 
-    // Date range controls
     fun setMonthRange(month: Int, year: Int) {
         Log.d("DateFilterHandler", "createCustomMonthRange: $month")
         val startDay = PreferencesGateway.getMonthStartDay()
-
-        _dateRange.value =createCustomMonthRange(month = 6, year = 2025, startDay = startDay)
+        _dateRange.value = createCustomMonthRange(month = month, year = year, startDay = startDay)
     }
 
     fun setCustomRange(startDate: LocalDate, endDate: LocalDate) {
         _dateRange.value = startDate..endDate
     }
-
 
     // Status filter controls
     fun toggleStatusFilter(status: AttendanceStatus) {

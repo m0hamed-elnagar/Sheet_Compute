@@ -29,4 +29,6 @@ class AttendanceRepo {
                 EmployeeAttendanceRecordsPagingSource(attendanceDao, employeeId, startDate, endDate)
             })
     }
+    suspend fun insertRecords(records: List<AttendanceRecord>):Int{ return attendanceDao.insertAll(records).count { it != -1L }}
+
 }
