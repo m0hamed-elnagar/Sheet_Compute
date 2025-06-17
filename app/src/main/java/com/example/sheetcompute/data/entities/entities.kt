@@ -56,14 +56,21 @@ data class EmployeeStats(
 enum class AttendanceStatus {
     PRESENT, ABSENT, LATE,EXTRA_DAY
 }
-
+data class AttendanceSummary(
+    val id: Int,
+    val name: String,
+    val month: Int,
+    val year: Int,
+    val presentDays: Int,
+    val totalTardyMinutes: Int?
+)
 data class AttendanceRecordUI(
     val id: Int,
     val name: String,
     val month: Int = 1,
     val year: Int = 2025,
     val absentCount: Int = 0,
-    val tardyCount: Int = 0,
+    val totalTardyMinutes: Int = 0,
     val workingDays: Int = 0
 
 )
@@ -87,4 +94,8 @@ data class Holiday(
     val name: String,
     val note: String = "",
     val createdAt: Long = System.currentTimeMillis()
+)
+data class HolidayRange(
+    val startDate: LocalDate,
+    val endDate: LocalDate
 )

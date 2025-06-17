@@ -78,24 +78,3 @@ class HolidayAdapter(
         }
     }
 }
-
-// Extension function for better date range formatting
-private fun formatDateRange(startDate: java.time.LocalDate, endDate: java.time.LocalDate): String {
-    val formatter = DateTimeFormatter.ofPattern("MMM dd, yyyy")
-
-    return when {
-        startDate == endDate -> startDate.format(formatter)
-        startDate.year == endDate.year && startDate.month == endDate.month -> {
-            // Same month: "Jan 15 - 20, 2024"
-            "${startDate.format(DateTimeFormatter.ofPattern("MMM dd"))} - ${endDate.format(formatter)}"
-        }
-        startDate.year == endDate.year -> {
-            // Same year: "Jan 15 - Feb 20, 2024"
-            "${startDate.format(DateTimeFormatter.ofPattern("MMM dd"))} - ${endDate.format(formatter)}"
-        }
-        else -> {
-            // Different years: "Dec 25, 2023 - Jan 5, 2024"
-            "${startDate.format(formatter)} - ${endDate.format(formatter)}"
-        }
-    }
-}

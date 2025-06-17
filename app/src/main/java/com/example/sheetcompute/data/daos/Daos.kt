@@ -9,10 +9,11 @@ import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
 import com.example.sheetcompute.data.entities.AttendanceRecord
+import com.example.sheetcompute.data.entities.AttendanceSummary
 import com.example.sheetcompute.data.entities.EmployeeEntity
 import com.example.sheetcompute.data.entities.Holiday
+import com.example.sheetcompute.data.entities.HolidayRange
 import java.time.LocalDate
-import java.util.Date
 
 @Dao
 interface HolidayDao {
@@ -31,6 +32,9 @@ interface HolidayDao {
     @Query("SELECT * FROM holidays WHERE startDate >= :startDate AND endDate <= :endDate ORDER BY startDate")
     suspend fun getHolidaysByDateRange(startDate: LocalDate, endDate: LocalDate): List<Holiday>
 
+    @Query("SELECT startDate, endDate FROM holidays WHERE startDate <= :end AND endDate >= :start")
+    suspend fun getHolidayRanges(start: LocalDate, end: LocalDate): List<HolidayRange>
+
 }
 @Dao
 interface EmployeeDao {
@@ -42,7 +46,7 @@ interface EmployeeDao {
 }
 
 @Dao
-interface EmployeeAttendanceDao {
+interface AttendanceDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertAll(records: List<AttendanceRecord>): List<Long>
     //getAllEmployeeIds
@@ -68,4 +72,29 @@ interface EmployeeAttendanceDao {
 
     @Insert
     suspend fun addAttendanceRecord(attendanceRecord: AttendanceRecord)
+    @Query(
+        """
+        SELECT e.id AS id,
+               e.name AS name,
+               :month AS month,
+               :year AS year,
+               COUNT(ar.id) AS presentDays,
+               SUM(ar.tardyMinutes) AS totalTardyMinutes
+        FROM employees e
+        LEFT JOIN attendance_Record ar
+            ON e.id = ar.employeeId AND ar.date BETWEEN :startDate AND :endDate
+        GROUP BY e.id
+        ORDER BY totalTardyMinutes ASC
+        LIMIT :limit OFFSET :offset
+        """
+    )
+    suspend fun getAttendanceSummary(
+        startDate: LocalDate,
+        endDate: LocalDate,
+        month: Int,
+        year: Int,
+        limit: Int,
+        offset: Int
+    ): List<AttendanceSummary>
+
 }

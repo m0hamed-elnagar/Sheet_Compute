@@ -2,13 +2,12 @@ package com.example.sheetcompute.data.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.example.sheetcompute.data.daos.EmployeeAttendanceDao
+import com.example.sheetcompute.data.daos.AttendanceDao
 import com.example.sheetcompute.data.entities.AttendanceRecord
 import java.time.LocalDate
-import java.util.Date
 
 class EmployeeAttendanceRecordsPagingSource(
-    private val attendanceDao: EmployeeAttendanceDao,
+    private val attendanceDao: AttendanceDao,
     private val employeeId: String,
     private val startDate: LocalDate,
     private val endDate: LocalDate

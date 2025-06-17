@@ -48,26 +48,34 @@ class DateFilterFragment : Fragment() {
         setupRecyclerView()
         setupDateFilterHandler()
         observeData()
-binding.importSheet.setOnClickListener {
-    filePickerHelper.pickExcelFile(
-        onFilePicked = { inputStream ->
-            // Launch your import logic
-            lifecycleScope.launch {
-                val result = ExcelImporter.import(
-                    inputStream,
-                    PreferencesGateway.getWorkStartTime(),
-                    employeeRepo,
-                    attendanceRepo
-                )
-                Toast.makeText(requireContext(), "Imported: ${result.recordsAdded} records and ${result.newEmployees}new employee", Toast.LENGTH_LONG).show()
-            }
-        },
-        onError = { exception ->
-            Toast.makeText(requireContext(), "Failed to import file: ${exception.message}", Toast.LENGTH_SHORT).show()
-        }
-    )
+        binding.importSheet.setOnClickListener {
+            filePickerHelper.pickExcelFile(
+                onFilePicked = { inputStream ->
+                    // Launch your import logic
+                    lifecycleScope.launch {
+                        val result = ExcelImporter.import(
+                            inputStream,
+                            PreferencesGateway.getWorkStartTime(),
+                            employeeRepo,
+                            attendanceRepo
+                        )
+                        Toast.makeText(
+                            requireContext(),
+                            "Imported: ${result.recordsAdded} records and ${result.newEmployees}new employee",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                },
+                onError = { exception ->
+                    Toast.makeText(
+                        requireContext(),
+                        "Failed to import file: ${exception.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            )
 
-}
+        }
     }
 
     private fun setupRecyclerView() {
@@ -100,7 +108,6 @@ binding.importSheet.setOnClickListener {
             }
         )
     }
-
 
 
     private fun observeData() {

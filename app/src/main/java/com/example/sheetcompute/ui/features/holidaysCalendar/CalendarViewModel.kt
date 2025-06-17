@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.example.sheetcompute.domain.PreferencesGateway
 import com.example.sheetcompute.data.entities.Holiday
-import com.example.sheetcompute.domain.repo.HolidayRepositoryImpl
+import com.example.sheetcompute.domain.repo.HolidayRepo
 import com.example.sheetcompute.domain.useCases.datetime.*
 import com.example.sheetcompute.ui.features.base.BaseViewModel
 import kotlinx.coroutines.Dispatchers
@@ -22,7 +22,7 @@ import kotlin.collections.toSet
 
 class CalendarViewModel(
 ) : BaseViewModel() {
-    private val holidayRepository = HolidayRepositoryImpl()
+    private val holidayRepository = HolidayRepo()
     private val preferencesDataSource: PreferencesGateway = PreferencesGateway
     val weekendDays = preferencesDataSource.weekendDays.map {
         CalendarDayToDayOfWeekUseCase.execute(it)

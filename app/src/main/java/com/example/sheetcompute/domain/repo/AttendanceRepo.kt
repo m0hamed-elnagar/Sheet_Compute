@@ -30,5 +30,7 @@ class AttendanceRepo {
             })
     }
     suspend fun insertRecords(records: List<AttendanceRecord>):Int{ return attendanceDao.insertAll(records).count { it != -1L }}
+// get the working days  for the  range  once
+    // use it to get the data and calc the presents and absent
 
 }

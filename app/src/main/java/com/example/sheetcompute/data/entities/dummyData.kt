@@ -8,7 +8,7 @@ object DummyAttendanceData {
             month = 1, // January
             year = 2023,
             absentCount = 2,
-            tardyCount = 1,
+            totalTardyMinutes = 1,
             workingDays = 22
         ),
         AttendanceRecordUI(
@@ -17,7 +17,7 @@ object DummyAttendanceData {
             month = 1,
             year = 2023,
             absentCount = 0,
-            tardyCount = 3,
+            totalTardyMinutes = 3,
             workingDays = 22
         ),
         AttendanceRecordUI(
@@ -26,7 +26,7 @@ object DummyAttendanceData {
             month = 1,
             year = 2023,
             absentCount = 5,
-            tardyCount = 0,
+            totalTardyMinutes = 0,
             workingDays = 22
         ),
         AttendanceRecordUI(
@@ -35,7 +35,7 @@ object DummyAttendanceData {
             month = 2,
             year = 2023,
             absentCount = 1,
-            tardyCount = 2,
+            totalTardyMinutes = 2,
             workingDays = 20
         ),
         AttendanceRecordUI(
@@ -44,7 +44,7 @@ object DummyAttendanceData {
             month = 2,
             year = 2023,
             absentCount = 0,
-            tardyCount = 0,
+            totalTardyMinutes = 0,
             workingDays = 20
         ),
         AttendanceRecordUI(
@@ -53,7 +53,7 @@ object DummyAttendanceData {
             month = 3,
             year = 2023,
             absentCount = 3,
-            tardyCount = 1,
+            totalTardyMinutes = 1,
             workingDays = 23
         ),
         AttendanceRecordUI(
@@ -62,7 +62,7 @@ object DummyAttendanceData {
             month = 3,
             year = 2023,
             absentCount = 0,
-            tardyCount = 4,
+            totalTardyMinutes = 4,
             workingDays = 23
         ),
         AttendanceRecordUI(
@@ -71,7 +71,7 @@ object DummyAttendanceData {
             month = 4,
             year = 2023,
             absentCount = 2,
-            tardyCount = 2,
+            totalTardyMinutes = 2,
             workingDays = 21
         ),
         // Additional records for more employees and months
@@ -81,7 +81,7 @@ object DummyAttendanceData {
             month = 1,
             year = 2023,
             absentCount = 1,
-            tardyCount = 1,
+            totalTardyMinutes = 1,
             workingDays = 22
         ),
         AttendanceRecordUI(
@@ -90,7 +90,7 @@ object DummyAttendanceData {
             month = 1,
             year = 2023,
             absentCount = 3,
-            tardyCount = 0,
+            totalTardyMinutes = 0,
             workingDays = 22
         ),
         AttendanceRecordUI(
@@ -99,7 +99,7 @@ object DummyAttendanceData {
             month = 2,
             year = 2023,
             absentCount = 0,
-            tardyCount = 5,
+            totalTardyMinutes = 5,
             workingDays = 20
         ),
         AttendanceRecordUI(
@@ -108,7 +108,7 @@ object DummyAttendanceData {
             month = 2,
             year = 2023,
             absentCount = 2,
-            tardyCount = 2,
+            totalTardyMinutes = 2,
             workingDays = 20
         ),
         AttendanceRecordUI(
@@ -117,7 +117,7 @@ object DummyAttendanceData {
             month = 3,
             year = 2023,
             absentCount = 1,
-            tardyCount = 3,
+            totalTardyMinutes = 3,
             workingDays = 23
         ),
         AttendanceRecordUI(
@@ -126,7 +126,7 @@ object DummyAttendanceData {
             month = 3,
             year = 2023,
             absentCount = 4,
-            tardyCount = 0,
+            totalTardyMinutes = 0,
             workingDays = 23
         ),
         AttendanceRecordUI(
@@ -135,7 +135,7 @@ object DummyAttendanceData {
             month = 4,
             year = 2023,
             absentCount = 0,
-            tardyCount = 1,
+            totalTardyMinutes = 1,
             workingDays = 21
         ),
         AttendanceRecordUI(
@@ -144,7 +144,7 @@ object DummyAttendanceData {
             month = 4,
             year = 2023,
             absentCount = 1,
-            tardyCount = 0,
+            totalTardyMinutes = 0,
             workingDays = 21
         ),
         // More months for existing employees
@@ -154,7 +154,7 @@ object DummyAttendanceData {
             month = 2,
             year = 2023,
             absentCount = 1,
-            tardyCount = 2,
+            totalTardyMinutes = 2,
             workingDays = 20
         ),
         AttendanceRecordUI(
@@ -163,7 +163,7 @@ object DummyAttendanceData {
             month = 2,
             year = 2023,
             absentCount = 0,
-            tardyCount = 1,
+            totalTardyMinutes = 1,
             workingDays = 20
         ),
         AttendanceRecordUI(
@@ -172,7 +172,7 @@ object DummyAttendanceData {
             month = 3,
             year = 2023,
             absentCount = 2,
-            tardyCount = 0,
+            totalTardyMinutes = 0,
             workingDays = 23
         ),
         AttendanceRecordUI(
@@ -181,7 +181,7 @@ object DummyAttendanceData {
             month = 3,
             year = 2023,
             absentCount = 0,
-            tardyCount = 3,
+            totalTardyMinutes = 3,
             workingDays = 23
         ),
         // Additional employees
@@ -191,7 +191,7 @@ object DummyAttendanceData {
             month = 1,
             year = 2023,
             absentCount = 0,
-            tardyCount = 0,
+            totalTardyMinutes = 0,
             workingDays = 22
         ),
         AttendanceRecordUI(
@@ -200,7 +200,7 @@ object DummyAttendanceData {
             month = 1,
             year = 2023,
             absentCount = 3,
-            tardyCount = 2,
+            totalTardyMinutes = 2,
             workingDays = 22
         ),
         AttendanceRecordUI(
@@ -209,7 +209,7 @@ object DummyAttendanceData {
             month = 2,
             year = 2023,
             absentCount = 1,
-            tardyCount = 1,
+            totalTardyMinutes = 1,
             workingDays = 20
         ),
         AttendanceRecordUI(
@@ -218,7 +218,7 @@ object DummyAttendanceData {
             month = 2,
             year = 2023,
             absentCount = 0,
-            tardyCount = 4,
+            totalTardyMinutes = 4,
             workingDays = 20
         ),
         // And more...
@@ -228,7 +228,7 @@ object DummyAttendanceData {
             month = 3,
             year = 2023,
             absentCount = 2,
-            tardyCount = 1,
+            totalTardyMinutes = 1,
             workingDays = 23
         ),
         AttendanceRecordUI(
@@ -237,7 +237,7 @@ object DummyAttendanceData {
             month = 3,
             year = 2023,
             absentCount = 1,
-            tardyCount = 0,
+            totalTardyMinutes = 0,
             workingDays = 23
         ),
         AttendanceRecordUI(
@@ -246,7 +246,7 @@ object DummyAttendanceData {
             month = 4,
             year = 2023,
             absentCount = 0,
-            tardyCount = 2,
+            totalTardyMinutes = 2,
             workingDays = 21
         ),
         AttendanceRecordUI(
@@ -255,7 +255,7 @@ object DummyAttendanceData {
             month = 4,
             year = 2023,
             absentCount = 3,
-            tardyCount = 1,
+            totalTardyMinutes = 1,
             workingDays = 21
         ),
         AttendanceRecordUI(
@@ -264,7 +264,7 @@ object DummyAttendanceData {
             month = 1,
             year = 2023,
             absentCount = 0,
-            tardyCount = 1,
+            totalTardyMinutes = 1,
             workingDays = 22
         ),
         AttendanceRecordUI(
@@ -273,7 +273,7 @@ object DummyAttendanceData {
             month = 1,
             year = 2025,
             absentCount = 1,
-            tardyCount = 0,
+            totalTardyMinutes = 0,
             workingDays = 22
         ),
         AttendanceRecordUI(
@@ -282,7 +282,7 @@ object DummyAttendanceData {
             month = 2,
             year = 2025,
             absentCount = 2,
-            tardyCount = 3,
+            totalTardyMinutes = 3,
             workingDays = 20
         ),
         AttendanceRecordUI(
@@ -291,7 +291,7 @@ object DummyAttendanceData {
             month = 2,
             year = 2025,
             absentCount = 0,
-            tardyCount = 4,
+            totalTardyMinutes = 4,
             workingDays = 20
         ),
         AttendanceRecordUI(
@@ -300,7 +300,7 @@ object DummyAttendanceData {
             month = 3,
             year = 2025,
             absentCount = 1,
-            tardyCount = 2,
+            totalTardyMinutes = 2,
             workingDays = 23
         ),
         AttendanceRecordUI(
@@ -309,7 +309,7 @@ object DummyAttendanceData {
             month = 3,
             year = 2025,
             absentCount = 3,
-            tardyCount = 0,
+            totalTardyMinutes = 0,
             workingDays = 23
         ),
         AttendanceRecordUI(
@@ -318,7 +318,7 @@ object DummyAttendanceData {
             month = 4,
             year = 2025,
             absentCount = 0,
-            tardyCount = 3,
+            totalTardyMinutes = 3,
             workingDays = 21
         ),
         AttendanceRecordUI(
@@ -327,7 +327,7 @@ object DummyAttendanceData {
             month = 4,
             year = 2025,
             absentCount = 2,
-            tardyCount = 2,
+            totalTardyMinutes = 2,
             workingDays = 21
         )
 
@@ -338,7 +338,7 @@ object DummyAttendanceData {
             month = 5,
             year = 2025,
             absentCount = 2,
-            tardyCount = 1,
+            totalTardyMinutes = 1,
             workingDays = 22
         ),
         AttendanceRecordUI(
@@ -347,7 +347,7 @@ object DummyAttendanceData {
             month = 5,
             year = 2025,
             absentCount = 0,
-            tardyCount = 3,
+            totalTardyMinutes = 3,
             workingDays = 22
         ),
         AttendanceRecordUI(
@@ -356,7 +356,7 @@ object DummyAttendanceData {
             month = 5,
             year = 2025,
             absentCount = 5,
-            tardyCount = 0,
+            totalTardyMinutes = 0,
             workingDays = 22
         )       
     )

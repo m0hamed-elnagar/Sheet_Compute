@@ -33,7 +33,7 @@ class AttendanceAdapter(
             with(binding) {
                 txtId.text = basics.id.toString()
                 txtName.text = basics.name
-                txttardyCount.text = basics.tardyCount.toString()
+                txttardyCount.text = basics.totalTardyMinutes.toString()
                 txtabsentsCount.text = basics.absentCount.toString()
                 txtMonth.text =
                     txtMonth.context.getString(R.string.date, getMonthName(basics.month), basics.year.toString())
