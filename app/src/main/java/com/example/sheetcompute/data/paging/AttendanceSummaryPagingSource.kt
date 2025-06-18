@@ -4,6 +4,7 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.sheetcompute.data.daos.AttendanceDao
 import com.example.sheetcompute.data.entities.AttendanceRecordUI
+import com.example.sheetcompute.data.entities.AttendanceSummary
 import java.time.LocalDate
 
 class AttendanceSummaryPagingSource(
@@ -11,6 +12,7 @@ class AttendanceSummaryPagingSource(
     private val month: Int,
     private val year: Int,
     private val range: ClosedRange<LocalDate>,
+    private val totalWorkingDays: Int,
     private val pageSize: Int
 ) : PagingSource<Int, AttendanceRecordUI>() {
 
@@ -29,11 +31,12 @@ class AttendanceSummaryPagingSource(
                 limit = pageSize,
                 offset = offset
             )
-            val workingDays = countWorkingDays(range)
 
-            val data = rawList.map {
-                mapToUI(it, workingDays)
-            }
+            val data = rawList
+                .filter { it.presentDays > 0 }
+                .map {
+                    mapToUI(it, totalWorkingDays)
+                }
 
             LoadResult.Page(
                 data = data,
@@ -45,4 +48,20 @@ class AttendanceSummaryPagingSource(
         }
     }
 
+}
+fun mapToUI(
+    raw: AttendanceSummary,
+    totalWorkingDays: Int,
+): AttendanceRecordUI {
+    val absentCount = totalWorkingDays - raw.presentDays
+
+    return AttendanceRecordUI(
+        id = raw.id,
+        name = raw.name,
+        month = raw.month,
+        year = raw.year,
+        absentCount = absentCount,
+        totalTardyMinutes = raw.totalTardyMinutes,
+        presentDays = raw.presentDays
+    )
 }

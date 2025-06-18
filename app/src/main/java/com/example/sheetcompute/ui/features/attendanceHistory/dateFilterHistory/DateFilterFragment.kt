@@ -99,6 +99,7 @@ class DateFilterFragment : Fragment() {
         dateFilterHandler = DateFilterHandler(
             yearSpinner = binding.spinnerYear,
             monthSpinner = binding.spinnerMonth,
+            includeAllMonths = false,
             coroutineScope = viewLifecycleOwner.lifecycleScope,
             onYearSelected = { year ->
                 viewModel.setSelectedYear(year)

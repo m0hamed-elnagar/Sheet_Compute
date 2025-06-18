@@ -84,7 +84,7 @@ interface AttendanceDao {
         LEFT JOIN attendance_Record ar
             ON e.id = ar.employeeId AND ar.date BETWEEN :startDate AND :endDate
         GROUP BY e.id
-        ORDER BY totalTardyMinutes ASC
+        ORDER BY totalTardyMinutes DESC
         LIMIT :limit OFFSET :offset
         """
     )

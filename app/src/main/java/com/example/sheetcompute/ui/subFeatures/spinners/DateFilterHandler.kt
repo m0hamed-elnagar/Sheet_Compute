@@ -1,6 +1,5 @@
 package com.example.sheetcompute.ui.subFeatures.spinners
 
-import android.R
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
@@ -17,6 +16,7 @@ class DateFilterHandler(
     private val yearSpinner: Spinner,
     private val monthSpinner: Spinner,
     private val coroutineScope: LifecycleCoroutineScope,
+    private val includeAllMonths: Boolean = true,
     private val onYearSelected: (Int?) -> Unit,
     private val onMonthSelected: (Int?) -> Unit
 ) {
@@ -24,38 +24,46 @@ class DateFilterHandler(
     private var monthSelectionJob: Job? = null
 
     init {
-        setupDateFilters()
+        setupDateFilters(includeAllMonths)
     }
 
-    private fun setupDateFilters() {
+    private fun setupDateFilters(includeAllMonths: Boolean = true) {
         // Setup year spinner
         val currentYear = Calendar.getInstance().get(Calendar.YEAR)
         val years = (currentYear - 10..currentYear).reversed().map { it.toString() }
         ArrayAdapter(
             yearSpinner.context,
-            R.layout.simple_spinner_item,
+            android.R.layout.simple_spinner_item,
             years
         ).also { adapter ->
-            adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             yearSpinner.adapter = adapter
         }
 
         // Setup month spinner
-        val months = listOf("All Months") + (0..11).map {
-            Calendar.getInstance().apply { set(Calendar.MONTH, it) }.getDisplayName(
-                Calendar.MONTH, Calendar.LONG, Locale.getDefault()
-            ) ?: ""
+        val months = if (includeAllMonths) {
+            listOf("All Months") + (0..11).map {
+                Calendar.getInstance().apply { set(Calendar.MONTH, it) }.getDisplayName(
+                    Calendar.MONTH, Calendar.LONG, Locale.getDefault()
+                ) ?: ""
+            }
+        } else {
+            (0..11).map {
+                Calendar.getInstance().apply { set(Calendar.MONTH, it) }.getDisplayName(
+                    Calendar.MONTH, Calendar.LONG, Locale.getDefault()
+                ) ?: ""
+            }
         }
         ArrayAdapter(
             monthSpinner.context,
-            R.layout.simple_spinner_item,
+            android.R.layout.simple_spinner_item,
             months
         ).also { adapter ->
-            adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             monthSpinner.adapter = adapter
         }
         val currentMonth = Calendar.getInstance().get(Calendar.MONTH)
-        monthSpinner.setSelection(currentMonth + 1)
+        monthSpinner.setSelection(if (includeAllMonths) currentMonth + 1 else currentMonth)
 
         // Year selection listener
         yearSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {

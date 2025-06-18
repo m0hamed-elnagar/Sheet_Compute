@@ -31,6 +31,7 @@ data class AttendanceRecord(
     val clockIn: String, // e.g., "06:25 AM"
     val tardyMinutes: Int = 0 // e.g., 35 mins late
 )
+
 data class AttendanceRecord2(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
     val employeeId: String,
@@ -54,16 +55,18 @@ data class EmployeeStats(
 )
 
 enum class AttendanceStatus {
-    PRESENT, ABSENT, LATE,EXTRA_DAY
+    PRESENT, ABSENT, LATE, EXTRA_DAY
 }
+
 data class AttendanceSummary(
     val id: Int,
     val name: String,
     val month: Int,
     val year: Int,
     val presentDays: Int,
-    val totalTardyMinutes: Int?
+    val totalTardyMinutes: Int = 0
 )
+
 data class AttendanceRecordUI(
     val id: Int,
     val name: String,
@@ -71,18 +74,20 @@ data class AttendanceRecordUI(
     val year: Int = 2025,
     val absentCount: Int = 0,
     val totalTardyMinutes: Int = 0,
-    val workingDays: Int = 0
+    val presentDays: Int = 0
 
 )
-@Entity(tableName = "employee_attendance_record",
+
+@Entity(
+    tableName = "employee_attendance_record",
     indices = [Index(value = ["employeeId", "date"], unique = true)]
 )
 data class EmployeeAttendanceRecord(
-   @PrimaryKey(autoGenerate = true)     val id: Int,
+    @PrimaryKey(autoGenerate = true) val id: Int,
     val employeeId: String,
     val loginTime: Int, // store as minutes ( 570) to "HH:mm" format (e.g. "09:30")
     val date: LocalDate,
-    val lateDuration: Long=0L,
+    val lateDuration: Long = 0L,
     val status: AttendanceStatus
 )
 
@@ -95,6 +100,7 @@ data class Holiday(
     val note: String = "",
     val createdAt: Long = System.currentTimeMillis()
 )
+
 data class HolidayRange(
     val startDate: LocalDate,
     val endDate: LocalDate

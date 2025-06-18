@@ -33,11 +33,11 @@ class AttendanceAdapter(
             with(binding) {
                 txtId.text = basics.id.toString()
                 txtName.text = basics.name
-                txttardyCount.text = basics.totalTardyMinutes.toString()
+                txttardyCount.text = formatMinutesToHoursMinutes(basics.totalTardyMinutes)
                 txtabsentsCount.text = basics.absentCount.toString()
                 txtMonth.text =
                     txtMonth.context.getString(R.string.date, getMonthName(basics.month), basics.year.toString())
-                txtWorkingDaysCount.text = basics.workingDays.toString()
+                txtWorkingDaysCount.text = basics.presentDays.toString()
 
                     root.setOnClickListener {
                         onSelected(basics.id)
@@ -45,6 +45,13 @@ class AttendanceAdapter(
 
             }
         }
+    }
+
+    // Add this function to the AttendanceAdapter class (outside ViewHolder)
+    private fun formatMinutesToHoursMinutes(minutes: Int): String {
+        val hours = minutes / 60
+        val mins = minutes % 60
+        return if (hours > 0) "${hours}h ${mins}m" else "${mins}m"
     }
 }
 
