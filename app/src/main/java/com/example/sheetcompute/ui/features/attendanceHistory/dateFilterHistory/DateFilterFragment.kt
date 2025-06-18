@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.sheetcompute.R
 import com.example.sheetcompute.databinding.FragmentDateFilterBinding
@@ -123,12 +124,19 @@ class DateFilterFragment : Fragment() {
             }
         }
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.isEmpty.collect { isEmpty ->
-                _binding?.txtEmptyHistory?.visibility = if (isEmpty) View.VISIBLE else View.GONE
-            }
-        }
 
+        viewLifecycleOwner.lifecycleScope.launch {
+        adapter.loadStateFlow.collect { loadState ->
+            // Show/hide progress bar based on loading state
+            binding.pbHistory.visibility = when (loadState.refresh) {
+                is LoadState.Loading -> View.VISIBLE
+                else -> View.GONE
+            }
+
+            // Show/hide empty state based on whether the list is empty
+            val isListEmpty = loadState.refresh is LoadState.NotLoading && adapter.itemCount == 0
+            binding.txtEmptyHistory.visibility = if (isListEmpty) View.VISIBLE else View.GONE
+        }}
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.loading.observe(viewLifecycleOwner) { isLoading ->
                 _binding?.pbHistory?.visibility = if (isLoading) View.VISIBLE else View.GONE

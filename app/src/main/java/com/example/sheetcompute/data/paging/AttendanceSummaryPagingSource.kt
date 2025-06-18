@@ -18,7 +18,13 @@ class AttendanceSummaryPagingSource(
     private val pageSize: Int,
 ) : PagingSource<Int, AttendanceRecordUI>() {
 
-    override fun getRefreshKey(state: PagingState<Int, AttendanceRecordUI>): Int? = 0
+//    override fun getRefreshKey(state: PagingState<Int, AttendanceRecordUI>): Int? = 0
+    override fun getRefreshKey(state: PagingState<Int, AttendanceRecordUI>): Int? {
+        return state.anchorPosition?.let { anchorPosition ->
+            val anchorPage = state.closestPageToPosition(anchorPosition)
+            anchorPage?.prevKey?.plus(1) ?: anchorPage?.nextKey?.minus(1)
+        }
+    }
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, AttendanceRecordUI> {
         // Wait for invalidation signal if present
