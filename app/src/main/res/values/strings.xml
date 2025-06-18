@@ -15,5 +15,10 @@
     <string name="ok">OK</string>
     <string name="holiday_name_required">Holiday name is required</string>
     <string name="day_of_week_format">%1$s</string>
-       <string name="holidays_on_date">Holidays on %s</string>
+    <string name="holidays_on_date">Holidays on %s</string>
+    <string name="no_records_found">No records found</string>
+    <string name="no_records_hint">Try changing your filters or importing data</string>
+    <string name="export_report">Export Report</string>
+    <string name="export_to_whatsapp">Export to WhatsApp</string>
+
 </resources>

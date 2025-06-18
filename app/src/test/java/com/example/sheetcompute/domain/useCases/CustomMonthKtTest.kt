@@ -47,4 +47,28 @@ class CustomMonthKtTest {
         assertEquals(LocalDate.of(2024, 4, 10), range?.start)
         assertEquals(LocalDate.of(2024, 5, 9), range?.endInclusive)
     }
+
+    @Test
+    fun `should handle months with 31 days correctly`() {
+        val range = createCustomMonthRange(3, 2024, 1) // March
+
+        assertEquals(LocalDate.of(2024, 2, 1), range?.start)
+        assertEquals(LocalDate.of(2024, 3, 31), range?.endInclusive)
+    }
+
+    @Test
+    fun `should handle February with 28 days correctly`() {
+        val range = createCustomMonthRange(2, 2023, 1) // Non-leap year
+
+        assertEquals(LocalDate.of(2023, 1, 1), range?.start)
+        assertEquals(LocalDate.of(2023, 2, 28), range?.endInclusive)
+    }
+
+    @Test
+    fun `should handle February with 29 days correctly`() {
+        val range = createCustomMonthRange(2, 2024, 1) // Leap year
+
+        assertEquals(LocalDate.of(2024, 1, 1), range?.start)
+        assertEquals(LocalDate.of(2024, 2, 29), range?.endInclusive)
+    }
 }

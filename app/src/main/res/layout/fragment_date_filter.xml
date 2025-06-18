@@ -38,8 +38,7 @@
                 android:layout_height="48dp"
                 android:layout_weight="1"
                 android:spinnerMode="dropdown" />
-
-          </LinearLayout>
+        </LinearLayout>
     </FrameLayout>
 
     <!-- RecyclerView -->
@@ -60,7 +59,7 @@
         android:id="@+id/txt_empty_history"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="No history available"
+        android:text="No RECORDS available"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@id/rv_history"
         app:layout_constraintEnd_toEndOf="parent"

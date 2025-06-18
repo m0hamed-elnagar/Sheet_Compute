@@ -20,6 +20,7 @@ import com.example.sheetcompute.domain.repo.AttendanceRepo
 import com.example.sheetcompute.domain.repo.EmployeeRepo
 import com.example.sheetcompute.ui.features.attendanceHistory.AttendanceAdapter
 import com.example.sheetcompute.ui.subFeatures.spinners.DateFilterHandler
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class DateFilterFragment : Fragment() {
@@ -61,9 +62,12 @@ class DateFilterFragment : Fragment() {
                         )
                         Toast.makeText(
                             requireContext(),
-                            "Imported: ${result.recordsAdded} records and ${result.newEmployees}new employee",
+                            "Imported: ${result.recordsAdded} records and ${result.newEmployees} new employee",
                             Toast.LENGTH_LONG
                         ).show()
+                        delay(3000)
+                        // Trigger data refresh after successful import
+                        viewModel.refreshData()
                     }
                 },
                 onError = { exception ->

@@ -5,6 +5,8 @@ import androidx.paging.PagingState
 import com.example.sheetcompute.data.daos.AttendanceDao
 import com.example.sheetcompute.data.entities.AttendanceRecordUI
 import com.example.sheetcompute.data.entities.AttendanceSummary
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import java.time.LocalDate
 
 class AttendanceSummaryPagingSource(
@@ -13,12 +15,14 @@ class AttendanceSummaryPagingSource(
     private val year: Int,
     private val range: ClosedRange<LocalDate>,
     private val totalWorkingDays: Int,
-    private val pageSize: Int
+    private val pageSize: Int,
 ) : PagingSource<Int, AttendanceRecordUI>() {
 
     override fun getRefreshKey(state: PagingState<Int, AttendanceRecordUI>): Int? = 0
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, AttendanceRecordUI> {
+        // Wait for invalidation signal if present
+
         val page = params.key ?: 0
         val offset = page * pageSize
 
@@ -47,21 +51,30 @@ class AttendanceSummaryPagingSource(
             LoadResult.Error(e)
         }
     }
+//
+//    override fun getRefreshKey(state: PagingState<Int, AttendanceRecordUI>): Int? {
+//        return state.anchorPosition?.let { anchorPosition ->
+//            state.closestPageToPosition(anchorPosition)?.prevKey?.plus(1)
+//                ?: state.closestPageToPosition(anchorPosition)?.nextKey?.minus(1)
+//        }
+//    }
 
-}
-fun mapToUI(
-    raw: AttendanceSummary,
-    totalWorkingDays: Int,
-): AttendanceRecordUI {
-    val absentCount = totalWorkingDays - raw.presentDays
+    companion object {
+        fun mapToUI(
+            raw: AttendanceSummary,
+            totalWorkingDays: Int,
+        ): AttendanceRecordUI {
+            val absentCount = totalWorkingDays - raw.presentDays
 
-    return AttendanceRecordUI(
-        id = raw.id,
-        name = raw.name,
-        month = raw.month,
-        year = raw.year,
-        absentCount = absentCount,
-        totalTardyMinutes = raw.totalTardyMinutes,
-        presentDays = raw.presentDays
-    )
+            return AttendanceRecordUI(
+                id = raw.id,
+                name = raw.name,
+                month = raw.month,
+                year = raw.year,
+                absentCount = absentCount,
+                totalTardyMinutes = raw.totalTardyMinutes,
+                presentDays = raw.presentDays
+            )
+        }
+    }
 }

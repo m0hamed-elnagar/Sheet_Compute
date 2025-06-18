@@ -2,14 +2,13 @@ package com.example.sheetcompute.domain.repo
 
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
-import androidx.room.Database
 import com.example.sheetcompute.data.entities.AttendanceRecord
 import com.example.sheetcompute.data.entities.AttendanceRecordUI
 import com.example.sheetcompute.data.paging.AttendanceSummaryPagingSource
 import com.example.sheetcompute.data.paging.EmployeeAttendanceRecordsPagingSource
 import com.example.sheetcompute.data.roomDB.AppDatabase
+import kotlinx.coroutines.flow.MutableSharedFlow
 import java.time.LocalDate
-import java.util.Date
 
 class AttendanceRepo {
     private val database by lazy { AppDatabase.get() }
@@ -39,7 +38,7 @@ fun getPagedAttendanceSummaries(
     year: Int,
     range: ClosedRange<LocalDate>,
     totalWorkingDays: Int,
-    pageSize: Int
+    pageSize: Int,
 ): Pager<Int, AttendanceRecordUI> {
     return Pager(
         config = PagingConfig(pageSize = pageSize),
@@ -54,5 +53,6 @@ fun getPagedAttendanceSummaries(
             )
         }
     )
+
 }
 }
