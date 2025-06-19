@@ -36,7 +36,7 @@ class AttendanceAdapter(
                 txttardyCount.text = formatMinutesToHoursMinutes(basics.totalTardyMinutes)
                 txtabsentsCount.text = basics.absentCount.toString()
                 txtMonth.text =
-                    txtMonth.context.getString(R.string.date, getMonthName(basics.month+1), basics.year.toString())
+                    txtMonth.context.getString(R.string.date, getMonthName(basics.month), basics.year.toString())
                 txtWorkingDaysCount.text = basics.presentDays.toString()
 
                     root.setOnClickListener {

@@ -51,7 +51,7 @@ class DateFilterViewModel : BaseViewModel() {
         _refreshTrigger
     ) { year, month, forceRefresh ->
         if (year != null && month != null) {
-            val range = createCustomMonthRange(month + 1, year, PreferencesGateway.getMonthStartDay())
+            val range = createCustomMonthRange(month , year, PreferencesGateway.getMonthStartDay())
             Log.d("DateFilterViewModel", "Selected range: $range")
             if (range != null) {
                 // Calculate working days

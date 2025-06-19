@@ -110,7 +110,7 @@ class DateFilterFragment : Fragment() {
                 viewModel.setSelectedYear(year)
             },
             onMonthSelected = { month ->
-                viewModel.setSelectedMonth(month)
+                viewModel.setSelectedMonth(month?.plus(1))
             }
         )
     }
