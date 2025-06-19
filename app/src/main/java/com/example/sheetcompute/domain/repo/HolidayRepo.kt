@@ -1,9 +1,9 @@
 package com.example.sheetcompute.domain.repo
 
-import com.example.sheetcompute.data.daos.HolidayDao
+import com.example.sheetcompute.domain.database.daos.HolidayDao
 import com.example.sheetcompute.data.entities.Holiday
 import com.example.sheetcompute.data.entities.HolidayRange
-import com.example.sheetcompute.data.roomDB.AppDatabase
+import com.example.sheetcompute.domain.database.roomDB.AppDatabase
 import java.time.LocalDate
 
 

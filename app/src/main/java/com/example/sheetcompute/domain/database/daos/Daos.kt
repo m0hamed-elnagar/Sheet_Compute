@@ -1,4 +1,4 @@
-package com.example.sheetcompute.data.daos
+package com.example.sheetcompute.domain.database.daos
 
 
 import androidx.room.Dao
