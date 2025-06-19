@@ -5,26 +5,35 @@ import com.example.sheetcompute.domain.repo.HolidayRepo
 import com.example.sheetcompute.domain.useCases.datetime.CalendarDayToDayOfWeekUseCase
 import com.example.sheetcompute.domain.useCases.datetime.GenerateDateRangeUseCase
 import com.example.sheetcompute.ui.subFeatures.utils.count
+import com.example.sheetcompute.ui.subFeatures.utils.filter
 import java.time.LocalDate
-import java.util.Calendar
 
 class CalculateWorkingDaysUseCase(
     private val holidayRepo: HolidayRepo
 ) {
-    suspend operator fun invoke(start: LocalDate, end: LocalDate): Int {
+    suspend  fun countWorkingDays(start: LocalDate, end: LocalDate): Int {
         // Weekend days from PreferencesGateway (already in StateFlow as Ints)
+        val nonWorking = getNonWorkingDays(start, end)
+
+        return (start..end).count { date ->
+            date !in nonWorking
+        }
+    }
+    suspend fun getWorkingDates(start: LocalDate, end: LocalDate): List<LocalDate> {
+        val nonWorking = getNonWorkingDays(start, end)
+        return (start..end).filter { it !in nonWorking }
+    }
+    suspend fun getNonWorkingDays(start: LocalDate, end: LocalDate): Set<LocalDate> {
         val weekends = PreferencesGateway.weekendDays.value.let {
             CalendarDayToDayOfWeekUseCase.execute(it)
         }
-        //get all holidays in the range
-        val holidayRanges = holidayRepo.getHolidayDatesBetween(start, end) // List<HolidayRange>
+
+        val holidayRanges = holidayRepo.getHolidayDatesBetween(start, end)
         val holidays = holidayRanges
             .flatMap { GenerateDateRangeUseCase.execute(it.startDate, it.endDate) }
-            .toSet()
 
-        return (start..end).count { date ->
-            date.dayOfWeek !in weekends && date !in holidays
-        }
+        val weekendDates = (start..end).filter { it.dayOfWeek in weekends }
+
+        return (holidays + weekendDates).toSet()
     }
 }
-

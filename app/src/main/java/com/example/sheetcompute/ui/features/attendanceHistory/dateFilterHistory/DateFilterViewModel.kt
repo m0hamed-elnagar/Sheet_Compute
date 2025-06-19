@@ -3,19 +3,15 @@ package com.example.sheetcompute.ui.features.attendanceHistory.dateFilterHistory
 
 import android.util.Log
 import androidx.lifecycle.viewModelScope
-import androidx.paging.Pager
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.example.sheetcompute.data.entities.AttendanceRecordUI
 import com.example.sheetcompute.domain.PreferencesGateway
 import com.example.sheetcompute.domain.repo.AttendanceRepo
 import com.example.sheetcompute.domain.repo.HolidayRepo
-import com.example.sheetcompute.domain.useCases.CalculateWorkingDaysUseCase
-import com.example.sheetcompute.domain.useCases.GetAttendanceSummaryPagerUseCase
+import com.example.sheetcompute.domain.useCases.attendance.GetAttendanceSummaryPagerUseCase
 import com.example.sheetcompute.domain.useCases.createCustomMonthRange
 import com.example.sheetcompute.ui.features.base.BaseViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import java.util.Calendar
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -24,10 +20,11 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import com.example.sheetcompute.domain.excel.ExcelImporter
 import com.example.sheetcompute.domain.repo.EmployeeRepo
+import com.example.sheetcompute.domain.useCases.CalculateWorkingDaysUseCase
+import com.example.sheetcompute.domain.useCases.workingDays.CountWorkingDaysUseCase
 import java.io.InputStream
 
 class DateFilterViewModel : BaseViewModel() {
@@ -39,11 +36,10 @@ class DateFilterViewModel : BaseViewModel() {
     // Empty state
     private val _isEmpty = MutableStateFlow(false)
     val isEmpty: StateFlow<Boolean> = _isEmpty
-    val currentMonthWorkingDays: StateFlow<Int?> = _currentMonthWorkingDays.asStateFlow()
     private val employeeRepo by lazy { EmployeeRepo() }
     private val attendanceRepo = AttendanceRepo()
     private val holidayRepo = HolidayRepo()
-    private val calculateWorkingDaysUseCase = CalculateWorkingDaysUseCase(holidayRepo)
+    private val calculateWorkingDaysUseCase = CountWorkingDaysUseCase(holidayRepo)
     private val getAttendanceSummaryPagerUseCase =
         GetAttendanceSummaryPagerUseCase(attendanceRepo, calculateWorkingDaysUseCase)
     private val _refreshTrigger = MutableStateFlow(0)
@@ -57,10 +53,7 @@ class DateFilterViewModel : BaseViewModel() {
             val range = createCustomMonthRange(month , year, PreferencesGateway.getMonthStartDay())
             Log.d("DateFilterViewModel", "Selected range: $range")
             if (range != null) {
-                // Calculate working days
-                viewModelScope.launch {
-                    _currentMonthWorkingDays.value = calculateWorkingDaysUseCase(range.start, range.endInclusive)
-                }
+
                 // Create new pager
                 getAttendanceSummaryPagerUseCase(month, year, range, 20)
             } else {

@@ -15,9 +15,10 @@ class AttendanceRepo {
 
     private val attendanceDao by lazy { database.EmployeeAttendanceDao() }
     fun getEmployeeAttendanceRecordsByRange(
-        employeeId: String,
+        employeeId: Long,
         startDate: LocalDate,
-        endDate: LocalDate
+        endDate: LocalDate,
+        holidays: List<LocalDate>
     ): Pager<Int, AttendanceRecord> {
 
         return Pager(
@@ -27,12 +28,10 @@ class AttendanceRepo {
                 maxSize = 12
             ),
             pagingSourceFactory = {
-                EmployeeAttendanceRecordsPagingSource(attendanceDao, employeeId, startDate, endDate)
+                EmployeeAttendanceRecordsPagingSource(attendanceDao, employeeId, startDate, endDate,holidays)
             })
     }
     suspend fun insertRecords(records: List<AttendanceRecord>):Int{ return attendanceDao.insertAll(records).count { it != -1L }}
-// get the working days  for the  range  once
-    // use it to get the data and calc the presents and absent
 fun getPagedAttendanceSummaries(
     month: Int,
     year: Int,

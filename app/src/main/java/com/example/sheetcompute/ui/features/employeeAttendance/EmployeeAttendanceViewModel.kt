@@ -51,7 +51,7 @@ class EmployeeAttendanceViewModel : BaseViewModel() {
     private fun getRecordsByDateRange(range: ClosedRange<LocalDate>?): List<EmployeeAttendanceRecord> {
         return DummyAttendanceData2.employeeAttendanceRecords.filter {
             range?.contains(it.date) != false
-        }.sortedBy { it.date }
+        }
     }
 
     private fun updateCounters(records: List<EmployeeAttendanceRecord>) {

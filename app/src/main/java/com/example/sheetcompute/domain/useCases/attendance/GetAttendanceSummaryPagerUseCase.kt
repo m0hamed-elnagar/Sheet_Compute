@@ -1,14 +1,14 @@
-package com.example.sheetcompute.domain.useCases
+package com.example.sheetcompute.domain.useCases.attendance
 
 import androidx.paging.Pager
 import com.example.sheetcompute.data.entities.AttendanceRecordUI
 import com.example.sheetcompute.domain.repo.AttendanceRepo
-import kotlinx.coroutines.flow.MutableSharedFlow
+import com.example.sheetcompute.domain.useCases.workingDays.CountWorkingDaysUseCase
 import java.time.LocalDate
 
 class GetAttendanceSummaryPagerUseCase(
     private val attendanceRepo: AttendanceRepo,
-    private val workingDaysUseCase: CalculateWorkingDaysUseCase
+    private val workingDaysUseCase: CountWorkingDaysUseCase
 ) {
 
     suspend operator fun invoke(month: Int, year: Int, range: ClosedRange<LocalDate>

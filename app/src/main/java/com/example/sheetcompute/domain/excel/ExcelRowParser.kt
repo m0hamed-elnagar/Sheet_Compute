@@ -47,7 +47,7 @@ object ExcelRowParser {
         val date = parseDateSafely(dateStr) ?: return null
         val clockIn = calcClockIn(timeCell)?: return null
         val tardy = if (clockIn.isAfter(workStartTime)) {
-            Duration.between(workStartTime, clockIn).toMinutes().toInt()
+            Duration.between(workStartTime, clockIn).toMinutes()
         } else 0
         val record = AttendanceRecord(
             employeeId = id.toString(),

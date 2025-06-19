@@ -4,13 +4,16 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.sheetcompute.data.daos.AttendanceDao
 import com.example.sheetcompute.data.entities.AttendanceRecord
+import com.example.sheetcompute.data.entities.AttendanceStatus
+import com.example.sheetcompute.data.entities.EmployeeAttendanceRecord
 import java.time.LocalDate
 
 class EmployeeAttendanceRecordsPagingSource(
     private val attendanceDao: AttendanceDao,
-    private val employeeId: String,
+    private val employeeId: Long,
     private val startDate: LocalDate,
-    private val endDate: LocalDate
+    private val endDate: LocalDate,
+    private val holidays : List<LocalDate> = emptyList()
 ) : PagingSource<Int, AttendanceRecord>() {
     override fun getRefreshKey(state: PagingState<Int, AttendanceRecord>): Int? {
         return state.anchorPosition?.let { anchorPosition ->
@@ -29,6 +32,7 @@ class EmployeeAttendanceRecordsPagingSource(
                 employeeId = employeeId, startDate = startDate,
                 endDate = endDate, pageSize, offset
             )
+            records.forEach { it.toEmployeeAttendanceRecord(holidays) }
             LoadResult.Page(
                 data = records,
                 prevKey = if (page == 0) null else page - 1,
@@ -38,4 +42,20 @@ class EmployeeAttendanceRecordsPagingSource(
             LoadResult.Error(e)
         }
     }
+}
+fun AttendanceRecord.toEmployeeAttendanceRecord(holidays: List<LocalDate>): EmployeeAttendanceRecord {
+    val status = when {
+        date in holidays -> AttendanceStatus.EXTRA_DAY
+        tardyMinutes >= 1 -> AttendanceStatus.LATE
+        else ->AttendanceStatus.PRESENT
+    }
+
+    return EmployeeAttendanceRecord(
+        id =id,
+        employeeId = employeeId,
+        loginTime = clockIn,
+        date = date,
+        lateDuration = tardyMinutes,
+        status = status
+    )
 }

@@ -63,7 +63,7 @@ interface AttendanceDao {
 """
     )
     suspend fun getEmployeeRecordsByDateRangePaged(
-        employeeId: String,
+        employeeId: Long,
         startDate: LocalDate,
         endDate: LocalDate,
         limit: Int,

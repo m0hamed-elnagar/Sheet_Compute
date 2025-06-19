@@ -24,3 +24,12 @@ operator fun ClosedRange<LocalDate>.iterator(): Iterator<LocalDate> =
     }
     return count
 }
+fun ClosedRange<LocalDate>.filter(predicate: (LocalDate) -> Boolean): List<LocalDate> {
+    val result = mutableListOf<LocalDate>()
+    for (date in this) {
+        if (predicate(date)) {
+            result.add(date)
+        }
+    }
+    return result
+}

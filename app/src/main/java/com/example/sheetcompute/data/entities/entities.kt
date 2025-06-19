@@ -29,18 +29,9 @@ data class AttendanceRecord(
     val employeeId: String,
     val date: LocalDate,
     val clockIn: String, // e.g., "06:25 AM"
-    val tardyMinutes: Int = 0 // e.g., 35 mins late
+    val tardyMinutes: Long = 0 // e.g., 35 mins late
 )
 
-data class AttendanceRecord2(
-    @PrimaryKey(autoGenerate = true) val id: Long = 0,
-    val employeeId: String,
-    val employeeName: String,
-    val date: LocalDate,
-    val clockInTime: LocalTime?,
-    val status: AttendanceStatus = AttendanceStatus.PRESENT,
-    val lateMinutes: Int = 0
-)
 
 @Entity("EmployeeStats")
 data class EmployeeStats(
@@ -83,9 +74,9 @@ data class AttendanceRecordUI(
     indices = [Index(value = ["employeeId", "date"], unique = true)]
 )
 data class EmployeeAttendanceRecord(
-    @PrimaryKey(autoGenerate = true) val id: Int,
+    @PrimaryKey(autoGenerate = true) val id: Long,
     val employeeId: String,
-    val loginTime: Int, // store as minutes ( 570) to "HH:mm" format (e.g. "09:30")
+    val loginTime: String,
     val date: LocalDate,
     val lateDuration: Long = 0L,
     val status: AttendanceStatus
