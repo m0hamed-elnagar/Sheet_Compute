@@ -1,8 +1,8 @@
-package com.example.sheetcompute.data.paging
+package com.example.sheetcompute.domain.database.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.example.sheetcompute.data.daos.AttendanceDao
+import com.example.sheetcompute.domain.database.daos.AttendanceDao
 import com.example.sheetcompute.data.entities.AttendanceRecord
 import com.example.sheetcompute.data.entities.AttendanceStatus
 import com.example.sheetcompute.data.entities.EmployeeAttendanceRecord

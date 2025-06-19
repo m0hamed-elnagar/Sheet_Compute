@@ -4,10 +4,9 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import com.example.sheetcompute.data.entities.AttendanceRecord
 import com.example.sheetcompute.data.entities.AttendanceRecordUI
-import com.example.sheetcompute.data.paging.AttendanceSummaryPagingSource
-import com.example.sheetcompute.data.paging.EmployeeAttendanceRecordsPagingSource
-import com.example.sheetcompute.data.roomDB.AppDatabase
-import kotlinx.coroutines.flow.MutableSharedFlow
+import com.example.sheetcompute.domain.database.paging.AttendanceSummaryPagingSource
+import com.example.sheetcompute.domain.database.paging.EmployeeAttendanceRecordsPagingSource
+import com.example.sheetcompute.domain.database.roomDB.AppDatabase
 import java.time.LocalDate
 
 class AttendanceRepo {
