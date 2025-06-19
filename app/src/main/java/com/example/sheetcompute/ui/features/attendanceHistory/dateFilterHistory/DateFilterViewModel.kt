@@ -26,6 +26,9 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
+import com.example.sheetcompute.domain.excel.ExcelImporter
+import com.example.sheetcompute.domain.repo.EmployeeRepo
+import java.io.InputStream
 
 class DateFilterViewModel : BaseViewModel() {
     // Date filters
@@ -37,7 +40,7 @@ class DateFilterViewModel : BaseViewModel() {
     private val _isEmpty = MutableStateFlow(false)
     val isEmpty: StateFlow<Boolean> = _isEmpty
     val currentMonthWorkingDays: StateFlow<Int?> = _currentMonthWorkingDays.asStateFlow()
-
+    private val employeeRepo by lazy { EmployeeRepo() }
     private val attendanceRepo = AttendanceRepo()
     private val holidayRepo = HolidayRepo()
     private val calculateWorkingDaysUseCase = CalculateWorkingDaysUseCase(holidayRepo)
@@ -97,5 +100,27 @@ class DateFilterViewModel : BaseViewModel() {
 
     fun refreshData() {
         _refreshTrigger.value++
+        Log.d("DateFilterViewModel", "Data refresh triggered")
+    }
+
+    fun importDataFromExcel(inputStream: InputStream, onComplete: (String) -> Unit, onError: (String) -> Unit) {
+        viewModelScope.launch {
+            try {
+                val result = ExcelImporter.import(
+                    inputStream,
+                    PreferencesGateway.getWorkStartTime(),
+                    employeeRepo,
+                    attendanceRepo
+                )
+                val message = "Imported: ${result.recordsAdded} records and ${result.newEmployees} new employees"
+                Log.d("DateFilterViewModel", message)
+                refreshData() // Trigger data refresh
+                onComplete(message)
+            } catch (e: Exception) {
+                val errorMessage = "Failed to import data: ${e.message}"
+                Log.e("DateFilterViewModel", errorMessage, e)
+                onError(errorMessage)
+            }
+        }
     }
 }

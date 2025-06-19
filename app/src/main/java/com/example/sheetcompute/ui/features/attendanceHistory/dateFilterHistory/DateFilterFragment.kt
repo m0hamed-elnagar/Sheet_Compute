@@ -14,14 +14,9 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.sheetcompute.R
 import com.example.sheetcompute.databinding.FragmentDateFilterBinding
-import com.example.sheetcompute.domain.PreferencesGateway
-import com.example.sheetcompute.domain.excel.ExcelImporter
 import com.example.sheetcompute.domain.excel.FilePickerFragmentHelper
-import com.example.sheetcompute.domain.repo.AttendanceRepo
-import com.example.sheetcompute.domain.repo.EmployeeRepo
 import com.example.sheetcompute.ui.features.attendanceHistory.AttendanceAdapter
 import com.example.sheetcompute.ui.subFeatures.spinners.DateFilterHandler
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class DateFilterFragment : Fragment() {
@@ -31,8 +26,6 @@ class DateFilterFragment : Fragment() {
     private lateinit var adapter: AttendanceAdapter
     private lateinit var dateFilterHandler: DateFilterHandler
     private lateinit var filePickerHelper: FilePickerFragmentHelper
-    private val employeeRepo by lazy { EmployeeRepo() }
-    private val attendanceRepo by lazy { AttendanceRepo() }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -53,38 +46,24 @@ class DateFilterFragment : Fragment() {
         binding.importSheet.setOnClickListener {
             filePickerHelper.pickExcelFile(
                 onFilePicked = { inputStream ->
-                    // Launch your import logic
                     lifecycleScope.launch {
-                        val result = ExcelImporter.import(
+                        viewModel.importDataFromExcel(
                             inputStream,
-                            PreferencesGateway.getWorkStartTime(),
-                            employeeRepo,
-                            attendanceRepo
+                            onComplete = { message -> showToast(message)},
+                            onError = { errorMessage -> showToast(errorMessage) }
                         )
-                        Toast.makeText(
-                            requireContext(),
-                            "Imported: ${result.recordsAdded} records and ${result.newEmployees} new employee",
-                            Toast.LENGTH_LONG
-                        ).show()
-                        delay(3000)
-                        // Trigger data refresh after successful import
-                        viewModel.refreshData()
                     }
                 },
-                onError = { exception ->
-                    Toast.makeText(
-                        requireContext(),
-                        "Failed to import file: ${exception.message}",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                onError = { exception ->showToast(exception.message.toString())
                 }
-            )
 
+            )
         }
     }
 
+
     private fun setupRecyclerView() {
-        adapter = AttendanceAdapter() { employeeId ->
+        adapter = AttendanceAdapter { employeeId ->
             val bundle = Bundle().apply {
                 putInt("employeeId", employeeId)
             }
@@ -126,22 +105,28 @@ class DateFilterFragment : Fragment() {
 
 
         viewLifecycleOwner.lifecycleScope.launch {
-        adapter.loadStateFlow.collect { loadState ->
-            // Show/hide progress bar based on loading state
-            binding.pbHistory.visibility = when (loadState.refresh) {
-                is LoadState.Loading -> View.VISIBLE
-                else -> View.GONE
-            }
+            adapter.loadStateFlow.collect { loadState ->
+                // Show/hide progress bar based on loading state
+                binding.pbHistory.visibility = when (loadState.refresh) {
+                    is LoadState.Loading -> View.VISIBLE
+                    else -> View.GONE
+                }
 
-            // Show/hide empty state based on whether the list is empty
-            val isListEmpty = loadState.refresh is LoadState.NotLoading && adapter.itemCount == 0
-            binding.txtEmptyHistory.visibility = if (isListEmpty) View.VISIBLE else View.GONE
-        }}
+                // Show/hide empty state based on whether the list is empty
+                val isListEmpty =
+                    loadState.refresh is LoadState.NotLoading && adapter.itemCount == 0
+                binding.txtEmptyHistory.visibility = if (isListEmpty) View.VISIBLE else View.GONE
+            }
+        }
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.loading.observe(viewLifecycleOwner) { isLoading ->
                 _binding?.pbHistory?.visibility = if (isLoading) View.VISIBLE else View.GONE
             }
         }
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
     }
 
     override fun onDestroyView() {
