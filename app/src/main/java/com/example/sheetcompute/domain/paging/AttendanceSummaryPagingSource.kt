@@ -1,4 +1,4 @@
-package com.example.sheetcompute.data.paging
+package com.example.sheetcompute.domain.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState

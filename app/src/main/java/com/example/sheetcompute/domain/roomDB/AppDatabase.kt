@@ -1,4 +1,4 @@
-package com.example.sheetcompute.data.roomDB
+package com.example.sheetcompute.domain.roomDB
 
 import androidx.room.Database
 import androidx.room.Room

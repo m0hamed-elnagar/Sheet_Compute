@@ -1,7 +1,7 @@
 package com.example.sheetcompute.domain.repo
 
 import com.example.sheetcompute.data.entities.EmployeeEntity
-import com.example.sheetcompute.data.roomDB.AppDatabase
+import com.example.sheetcompute.domain.roomDB.AppDatabase
 
 class EmployeeRepo {
     private val database by lazy { AppDatabase.get() }

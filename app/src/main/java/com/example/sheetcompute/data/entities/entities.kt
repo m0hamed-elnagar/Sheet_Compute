@@ -10,7 +10,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "employees")
 data class EmployeeEntity(
-    @PrimaryKey val id: Int,
+    @PrimaryKey val id: Long,
     val name: String,
     val position: String = "",
     val department: String = "",
