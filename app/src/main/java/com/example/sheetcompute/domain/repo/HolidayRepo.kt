@@ -1,6 +1,6 @@
 package com.example.sheetcompute.domain.repo
 
-import com.example.sheetcompute.data.daos.HolidayDao
+import com.example.sheetcompute.domain.gateways.database.daos.HolidayDao
 import com.example.sheetcompute.data.entities.Holiday
 import com.example.sheetcompute.data.entities.HolidayRange
 import com.example.sheetcompute.data.roomDB.AppDatabase

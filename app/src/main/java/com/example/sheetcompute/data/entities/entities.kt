@@ -26,24 +26,13 @@ data class EmployeeEntity(
 
 data class AttendanceRecord(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
-    val employeeId: String,
+    val employeeId: Long,
     val date: LocalDate,
     val clockIn: String, // e.g., "06:25 AM"
     val tardyMinutes: Long = 0 // e.g., 35 mins late
 )
 
 
-@Entity("EmployeeStats")
-data class EmployeeStats(
-    @PrimaryKey val employeeId: String,
-
-    val totalPresent: Int = 0,
-    val totalAbsent: Int = 0,
-    val totalLate: Int = 0,
-    val extraDays: Int = 0, // weekends or holidays worked
-    val lastUpdated: LocalDate
-
-)
 
 enum class AttendanceStatus {
     PRESENT, ABSENT, LATE, EXTRA_DAY
@@ -75,7 +64,7 @@ data class AttendanceRecordUI(
 )
 data class EmployeeAttendanceRecord(
     @PrimaryKey(autoGenerate = true) val id: Long,
-    val employeeId: String,
+    val employeeId: Long,
     val loginTime: String,
     val date: LocalDate,
     val lateDuration: Long = 0L,

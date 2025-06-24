@@ -1,4 +1,4 @@
-package com.example.sheetcompute.data.daos
+package com.example.sheetcompute.domain.gateways.database.daos
 
 
 import androidx.room.Dao
@@ -36,6 +36,7 @@ interface HolidayDao {
     suspend fun getHolidayRanges(start: LocalDate, end: LocalDate): List<HolidayRange>
 
 }
+
 @Dao
 interface EmployeeDao {
     @Query("SELECT id FROM employees")
@@ -44,34 +45,31 @@ interface EmployeeDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertAll(employees: List<EmployeeEntity>)
 }
-
 @Dao
 interface AttendanceDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertAll(records: List<AttendanceRecord>): List<Long>
+
     //getAllEmployeeIds
     @Query("SELECT id FROM employees")
     suspend fun getAllEmployeeIds(): List<Int>
+
     //todo get attendance records by date paginated and sorted by time
     @Transaction
     @Query(
         """
     SELECT * FROM attendance_Record
-    WHERE employeeId = :employeeId AND date >= :startDate AND date <= :endDate
-    ORDER BY date ASC
-    LIMIT :limit OFFSET :offset
+     WHERE employeeId = :employeeId AND date IN (:dates)
 """
     )
-    suspend fun getEmployeeRecordsByDateRangePaged(
+    suspend fun getEmployeeRecordsByDateList(
         employeeId: Long,
-        startDate: LocalDate,
-        endDate: LocalDate,
-        limit: Int,
-        offset: Int
+        dates: List<LocalDate>
     ): List<AttendanceRecord>
 
     @Insert
     suspend fun addAttendanceRecord(attendanceRecord: AttendanceRecord)
+
     @Query(
         """
         SELECT e.id AS id,

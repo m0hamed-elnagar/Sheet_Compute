@@ -2,11 +2,9 @@ package com.example.sheetcompute.data.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.example.sheetcompute.data.daos.AttendanceDao
+import com.example.sheetcompute.domain.gateways.database.daos.AttendanceDao
 import com.example.sheetcompute.data.entities.AttendanceRecordUI
 import com.example.sheetcompute.data.entities.AttendanceSummary
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
 import java.time.LocalDate
 
 class AttendanceSummaryPagingSource(

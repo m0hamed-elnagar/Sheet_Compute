@@ -4,6 +4,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import com.example.sheetcompute.data.entities.AttendanceRecord
 import com.example.sheetcompute.data.entities.AttendanceRecordUI
+import com.example.sheetcompute.data.entities.EmployeeAttendanceRecord
 import com.example.sheetcompute.data.paging.AttendanceSummaryPagingSource
 import com.example.sheetcompute.data.paging.EmployeeAttendanceRecordsPagingSource
 import com.example.sheetcompute.data.roomDB.AppDatabase
@@ -19,7 +20,7 @@ class AttendanceRepo {
         startDate: LocalDate,
         endDate: LocalDate,
         holidays: List<LocalDate>
-    ): Pager<Int, AttendanceRecord> {
+    ): Pager<Int, EmployeeAttendanceRecord> {
 
         return Pager(
             config = PagingConfig(
