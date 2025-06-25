@@ -6,7 +6,7 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sheetcompute.R
-import com.example.sheetcompute.entities.AttendanceRecordUI
+import com.example.sheetcompute.data.entities.AttendanceRecordUI
 import com.example.sheetcompute.databinding.AttendanceItemBinding
 import com.example.sheetcompute.ui.subFeatures.utils.DateUtils.getMonthName
 

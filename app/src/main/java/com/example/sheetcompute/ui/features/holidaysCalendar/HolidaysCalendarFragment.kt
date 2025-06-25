@@ -15,7 +15,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.sheetcompute.R
-import com.example.sheetcompute.entities.Holiday
+import com.example.sheetcompute.data.entities.Holiday
 import com.example.sheetcompute.databinding.FragmentHolidaysCalendarBinding
 import com.example.sheetcompute.ui.features.holidaysCalendar.calendar.CalendarSetup
 import com.example.sheetcompute.ui.subFeatures.dialogs.DatePickerDialogs

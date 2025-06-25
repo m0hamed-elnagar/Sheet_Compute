@@ -9,15 +9,15 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sheetcompute.R
-import com.example.sheetcompute.entities.AttendanceStatus
-import com.example.sheetcompute.entities.EmployeeAttendanceRecord
+import com.example.sheetcompute.data.entities.AttendanceStatus
+import com.example.sheetcompute.data.entities.EmployeeAttendanceRecord
 import com.example.sheetcompute.databinding.EmployeeItem2Binding
 import com.example.sheetcompute.ui.subFeatures.utils.DateUtils
 import java.time.format.DateTimeFormatter
 
 class EmployeeAttendanceAdapter(
     private val context: Context,
-    private val onSelected: (Int) -> Unit
+    private val onSelected: (Long) -> Unit
 ) : PagingDataAdapter<EmployeeAttendanceRecord, EmployeeAttendanceAdapter.ViewHolder>(
     AttendanceDiffCallback()
 ) {
@@ -74,7 +74,7 @@ class EmployeeAttendanceAdapter(
                 }
 
                 // Bind additional info
-                tvAdditionalInfo.text = "Checked in at ${DateUtils.minutesToTimeString(item.loginTime)}"
+                tvAdditionalInfo.text = "Checked in at ${item.loginTime}"
                 tvAdditionalInfo.visibility = View.VISIBLE
 
                 // Handle click if needed

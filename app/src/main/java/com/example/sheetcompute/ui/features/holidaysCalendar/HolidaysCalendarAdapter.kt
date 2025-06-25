@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.sheetcompute.entities.Holiday
+import com.example.sheetcompute.data.entities.Holiday
 import com.example.sheetcompute.databinding.ItemHolidayBinding
 import java.time.format.DateTimeFormatter
 

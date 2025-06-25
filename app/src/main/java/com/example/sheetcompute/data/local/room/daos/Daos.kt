@@ -1,4 +1,4 @@
-package com.example.sheetcompute.domain.gateways.database.daos
+package com.example.sheetcompute.data.local.room.daos
 
 
 import androidx.room.Dao
@@ -8,11 +8,11 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
-import com.example.sheetcompute.entities.AttendanceRecord
-import com.example.sheetcompute.entities.AttendanceSummary
-import com.example.sheetcompute.entities.EmployeeEntity
-import com.example.sheetcompute.entities.Holiday
-import com.example.sheetcompute.entities.HolidayRange
+import com.example.sheetcompute.data.entities.AttendanceRecord
+import com.example.sheetcompute.data.entities.AttendanceSummary
+import com.example.sheetcompute.data.entities.EmployeeEntity
+import com.example.sheetcompute.data.entities.Holiday
+import com.example.sheetcompute.data.entities.HolidayRange
 import java.time.LocalDate
 
 @Dao
@@ -37,7 +37,7 @@ interface HolidayDao {
 @Dao
 interface EmployeeDao {
     @Query("SELECT id FROM employees")
-    suspend fun getAllEmployeeIds(): List<Int>
+    suspend fun getAllEmployeeIds(): List<Long>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertAll(employees: List<EmployeeEntity>)
