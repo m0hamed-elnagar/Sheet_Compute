@@ -1,4 +1,4 @@
-package com.example.sheetcompute.domain.gateways.database.daos
+package com.example.sheetcompute.data.local.room.daos
 
 
 import androidx.room.Dao
@@ -26,9 +26,6 @@ interface HolidayDao {
     @Delete
     suspend fun deleteHoliday(holiday: Holiday)
 
-    @Query("SELECT * FROM holidays")
-    suspend fun getAllHolidays(): List<Holiday>
-
     @Query("SELECT * FROM holidays WHERE startDate >= :startDate AND endDate <= :endDate ORDER BY startDate")
     suspend fun getHolidaysByDateRange(startDate: LocalDate, endDate: LocalDate): List<Holiday>
 
@@ -40,7 +37,7 @@ interface HolidayDao {
 @Dao
 interface EmployeeDao {
     @Query("SELECT id FROM employees")
-    suspend fun getAllEmployeeIds(): List<Int>
+    suspend fun getAllEmployeeIds(): List<Long>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertAll(employees: List<EmployeeEntity>)

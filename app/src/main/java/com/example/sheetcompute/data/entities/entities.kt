@@ -1,7 +1,6 @@
 package com.example.sheetcompute.data.entities
 
 import java.time.LocalDate
-import java.time.LocalTime
 
 import androidx.room.Entity
 import androidx.room.Index
@@ -10,7 +9,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "employees")
 data class EmployeeEntity(
-    @PrimaryKey val id: Int,
+    @PrimaryKey val id: Long,
     val name: String,
     val position: String = "",
     val department: String = "",

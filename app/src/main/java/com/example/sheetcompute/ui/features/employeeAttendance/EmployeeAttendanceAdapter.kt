@@ -17,7 +17,7 @@ import java.time.format.DateTimeFormatter
 
 class EmployeeAttendanceAdapter(
     private val context: Context,
-    private val onSelected: (Int) -> Unit
+    private val onSelected: (Long) -> Unit
 ) : PagingDataAdapter<EmployeeAttendanceRecord, EmployeeAttendanceAdapter.ViewHolder>(
     AttendanceDiffCallback()
 ) {
@@ -74,7 +74,7 @@ class EmployeeAttendanceAdapter(
                 }
 
                 // Bind additional info
-                tvAdditionalInfo.text = "Checked in at ${DateUtils.minutesToTimeString(item.loginTime)}"
+                tvAdditionalInfo.text = "Checked in at ${item.loginTime}"
                 tvAdditionalInfo.visibility = View.VISIBLE
 
                 // Handle click if needed

@@ -10,7 +10,7 @@ import com.example.sheetcompute.data.entities.EmployeeAttendanceRecord
 import com.example.sheetcompute.ui.features.base.BaseViewModel
 import kotlinx.coroutines.flow.*
 import androidx.lifecycle.asLiveData
-import com.example.sheetcompute.domain.PreferencesGateway
+import com.example.sheetcompute.data.local.PreferencesGateway
 import com.example.sheetcompute.domain.useCases.createCustomMonthRange
 import kotlinx.coroutines.launch
 import java.time.LocalDate

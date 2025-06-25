@@ -1,8 +1,8 @@
-package com.example.sheetcompute.domain.useCases.attendance
+package com.example.sheetcompute.domain.usecase.attendance
 
 import androidx.paging.Pager
 import com.example.sheetcompute.data.entities.AttendanceRecordUI
-import com.example.sheetcompute.domain.repo.AttendanceRepo
+import com.example.sheetcompute.data.repo.AttendanceRepo
 import com.example.sheetcompute.domain.useCases.workingDays.CountWorkingDaysUseCase
 import java.time.LocalDate
 

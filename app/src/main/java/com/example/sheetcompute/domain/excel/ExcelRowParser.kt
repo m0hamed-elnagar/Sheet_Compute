@@ -27,7 +27,7 @@ object ExcelRowParser {
         workStartTime: LocalTime
     ): ParseResult? {
         val idCell = row.getCell(0)?.let { formatter.formatCellValue(it) } ?: return null
-        val id = idCell.toIntOrNull() ?: return null
+        val id = idCell.toLongOrNull() ?: return null
         val name = row.getCell(1)?.toString()?.trim() ?: return null
         val dateStr = row.getCell(2)?.toString()?.trim() ?: return null
         val timeCell = row.getCell(3)
@@ -50,7 +50,7 @@ object ExcelRowParser {
             Duration.between(workStartTime, clockIn).toMinutes()
         } else 0
         val record = AttendanceRecord(
-            employeeId = id.toString(),
+            employeeId = id,
             date = date,
             clockIn = formatTimeForStorage(clockIn),
             tardyMinutes = tardy
