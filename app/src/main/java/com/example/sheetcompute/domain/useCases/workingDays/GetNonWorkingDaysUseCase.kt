@@ -1,6 +1,6 @@
 package com.example.sheetcompute.domain.useCases.workingDays
 
-import com.example.sheetcompute.domain.PreferencesGateway
+import com.example.sheetcompute.data.local.PreferencesGateway
 import com.example.sheetcompute.data.repo.HolidayRepo
 import com.example.sheetcompute.domain.useCases.datetime.CalendarDayToDayOfWeekUseCase
 import com.example.sheetcompute.domain.useCases.datetime.GenerateDateRangeUseCase

@@ -2,7 +2,7 @@ package com.example.sheetcompute.domain.excel
 
 import com.example.sheetcompute.data.entities.AttendanceRecord
 import com.example.sheetcompute.data.entities.EmployeeEntity
-import com.example.sheetcompute.domain.PreferencesGateway
+import com.example.sheetcompute.data.local.PreferencesGateway
 import com.example.sheetcompute.data.repo.AttendanceRepo
 import com.example.sheetcompute.data.repo.EmployeeRepo
 import kotlinx.coroutines.Dispatchers

@@ -2,7 +2,7 @@ package com.example.sheetcompute.ui.features.holidaysCalendar
 
 import android.util.Log
 import androidx.lifecycle.viewModelScope
-import com.example.sheetcompute.domain.PreferencesGateway
+import com.example.sheetcompute.data.local.PreferencesGateway
 import com.example.sheetcompute.data.entities.Holiday
 import com.example.sheetcompute.data.repo.HolidayRepo
 import com.example.sheetcompute.domain.useCases.datetime.*
