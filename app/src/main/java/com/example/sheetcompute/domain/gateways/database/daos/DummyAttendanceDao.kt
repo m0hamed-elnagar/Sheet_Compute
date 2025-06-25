@@ -1,7 +1,7 @@
 package com.example.sheetcompute.domain.gateways.database.daos
 
-import com.example.sheetcompute.data.entities.AttendanceRecord
-import com.example.sheetcompute.data.entities.AttendanceSummary
+import com.example.sheetcompute.entities.AttendanceRecord
+import com.example.sheetcompute.entities.AttendanceSummary
 import java.time.LocalDate
 
 class DummyAttendanceDao : AttendanceDao {

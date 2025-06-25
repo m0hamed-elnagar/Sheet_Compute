@@ -1,7 +1,6 @@
-package com.example.sheetcompute.data.entities
+package com.example.sheetcompute.entities
 
 import java.time.LocalDate
-import java.time.LocalTime
 
 import androidx.room.Entity
 import androidx.room.Index

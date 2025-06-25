@@ -3,8 +3,8 @@ package com.example.sheetcompute.domain.paging
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.sheetcompute.domain.gateways.database.daos.AttendanceDao
-import com.example.sheetcompute.data.entities.AttendanceRecordUI
-import com.example.sheetcompute.data.entities.AttendanceSummary
+import com.example.sheetcompute.entities.AttendanceRecordUI
+import com.example.sheetcompute.entities.AttendanceSummary
 import java.time.LocalDate
 
 class AttendanceSummaryPagingSource(
@@ -55,13 +55,7 @@ class AttendanceSummaryPagingSource(
             LoadResult.Error(e)
         }
     }
-//
-//    override fun getRefreshKey(state: PagingState<Int, AttendanceRecordUI>): Int? {
-//        return state.anchorPosition?.let { anchorPosition ->
-//            state.closestPageToPosition(anchorPosition)?.prevKey?.plus(1)
-//                ?: state.closestPageToPosition(anchorPosition)?.nextKey?.minus(1)
-//        }
-//    }
+
 
     companion object {
         fun mapToUI(

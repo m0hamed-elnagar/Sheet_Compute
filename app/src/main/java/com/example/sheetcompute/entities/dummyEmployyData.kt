@@ -1,4 +1,4 @@
-package com.example.sheetcompute.data.entities
+package com.example.sheetcompute.entities
 
 import java.time.LocalDate
 

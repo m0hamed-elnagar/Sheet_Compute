@@ -8,11 +8,11 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
-import com.example.sheetcompute.data.entities.AttendanceRecord
-import com.example.sheetcompute.data.entities.AttendanceSummary
-import com.example.sheetcompute.data.entities.EmployeeEntity
-import com.example.sheetcompute.data.entities.Holiday
-import com.example.sheetcompute.data.entities.HolidayRange
+import com.example.sheetcompute.entities.AttendanceRecord
+import com.example.sheetcompute.entities.AttendanceSummary
+import com.example.sheetcompute.entities.EmployeeEntity
+import com.example.sheetcompute.entities.Holiday
+import com.example.sheetcompute.entities.HolidayRange
 import java.time.LocalDate
 
 @Dao
@@ -25,9 +25,6 @@ interface HolidayDao {
 
     @Delete
     suspend fun deleteHoliday(holiday: Holiday)
-
-    @Query("SELECT * FROM holidays")
-    suspend fun getAllHolidays(): List<Holiday>
 
     @Query("SELECT * FROM holidays WHERE startDate >= :startDate AND endDate <= :endDate ORDER BY startDate")
     suspend fun getHolidaysByDateRange(startDate: LocalDate, endDate: LocalDate): List<Holiday>

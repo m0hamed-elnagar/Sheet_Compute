@@ -1,4 +1,4 @@
-package com.example.sheetcompute.domain.roomDB
+package com.example.sheetcompute.domain.gateways.database.roomDB
 
 import androidx.room.Database
 import androidx.room.Room
@@ -7,9 +7,9 @@ import androidx.room.TypeConverters
 import com.example.sheetcompute.domain.gateways.database.daos.AttendanceDao
 import com.example.sheetcompute.domain.gateways.database.daos.EmployeeDao
 import com.example.sheetcompute.domain.gateways.database.daos.HolidayDao
-import com.example.sheetcompute.data.entities.AttendanceRecord
-import com.example.sheetcompute.data.entities.EmployeeEntity
-import com.example.sheetcompute.data.entities.Holiday
+import com.example.sheetcompute.entities.AttendanceRecord
+import com.example.sheetcompute.entities.EmployeeEntity
+import com.example.sheetcompute.entities.Holiday
 import com.example.sheetcompute.domain.DomainIntegration
 
 @Database(

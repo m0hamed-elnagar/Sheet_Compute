@@ -3,7 +3,11 @@ package com.example.sheetcompute.domain
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
-import com.example.sheetcompute.data.entities.*
+import com.example.sheetcompute.entities.DEFAULT_MONTH_START_DAY
+import com.example.sheetcompute.entities.KEY_WORK_START_TIME
+import com.example.sheetcompute.entities.MONTH_START_DAY_KEY
+import com.example.sheetcompute.entities.SHARED_PREFERENCE_NAME
+import com.example.sheetcompute.entities.WEEKEND_DAYS_KEY
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

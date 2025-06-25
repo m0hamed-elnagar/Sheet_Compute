@@ -4,9 +4,9 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
-import com.example.sheetcompute.data.entities.AttendanceStatus
-import com.example.sheetcompute.data.entities.DummyAttendanceData2
-import com.example.sheetcompute.data.entities.EmployeeAttendanceRecord
+import com.example.sheetcompute.entities.AttendanceStatus
+import com.example.sheetcompute.entities.DummyAttendanceData2
+import com.example.sheetcompute.entities.EmployeeAttendanceRecord
 import com.example.sheetcompute.ui.features.base.BaseViewModel
 import kotlinx.coroutines.flow.*
 import androidx.lifecycle.asLiveData

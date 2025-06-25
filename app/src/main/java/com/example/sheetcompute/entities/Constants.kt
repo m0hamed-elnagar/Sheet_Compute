@@ -1,4 +1,6 @@
-package com.example.sheetcompute.data.entities
+package com.example.sheetcompute.entities
+
+import java.util.Date
 
 
 const val SHARED_PREFERENCE_NAME = "sheet_compute_prefs"

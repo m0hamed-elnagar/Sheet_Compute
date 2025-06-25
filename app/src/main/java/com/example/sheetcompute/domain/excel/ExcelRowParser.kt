@@ -3,8 +3,8 @@ package com.example.sheetcompute.domain.excel
 import com.example.sheetcompute.ui.subFeatures.utils.DateUtils.formatTimeForStorage
 
 import android.util.Log
-import com.example.sheetcompute.data.entities.AttendanceRecord
-import com.example.sheetcompute.data.entities.EmployeeEntity
+import com.example.sheetcompute.entities.AttendanceRecord
+import com.example.sheetcompute.entities.EmployeeEntity
 import com.example.sheetcompute.ui.subFeatures.utils.DateUtils.parseDateSafely
 import com.example.sheetcompute.ui.subFeatures.utils.DateUtils.parseTimeString
 import org.apache.poi.ss.usermodel.Cell
