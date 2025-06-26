@@ -3,29 +3,37 @@ package com.example.sheetcompute.ui.features.employeeAttendance
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
-import androidx.paging.PagingData
 import com.example.sheetcompute.data.entities.AttendanceStatus
-import com.example.sheetcompute.data.entities.DummyAttendanceData2
 import com.example.sheetcompute.data.entities.EmployeeAttendanceRecord
 import com.example.sheetcompute.ui.features.base.BaseViewModel
 import kotlinx.coroutines.flow.*
 import androidx.lifecycle.asLiveData
 import com.example.sheetcompute.data.local.PreferencesGateway
+import com.example.sheetcompute.data.repo.AttendanceRepo
+import com.example.sheetcompute.data.repo.HolidayRepo
 import com.example.sheetcompute.domain.useCases.createCustomMonthRange
+import com.example.sheetcompute.domain.useCases.workingDays.GetNonWorkingDaysUseCase
+import com.example.sheetcompute.domain.usecase.GetEmployeeAttendanceRecordsUseCase
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import kotlin.collections.plus
+import com.example.sheetcompute.ui.subFeatures.utils.DateUtils.formatMinutesToHoursMinutes
 
-class EmployeeAttendanceViewModel : BaseViewModel() {
-    private val _dateRange = MutableStateFlow<ClosedRange<LocalDate>?>(null)
+class EmployeeAttendanceViewModel(
+) : BaseViewModel() {
+    internal val _dateRange = MutableStateFlow<ClosedRange<LocalDate>?>(null)
     private val _selectedStatuses = MutableStateFlow<Set<AttendanceStatus>>(emptySet())
     private val _cachedRecords = MutableStateFlow<List<EmployeeAttendanceRecord>>(emptyList())
-
+    private val attendanceRepo = AttendanceRepo()
+    private val holidayRepo = HolidayRepo()
+    private val getNonWorkingDaysUseCase = GetNonWorkingDaysUseCase(holidayRepo)
+    private val getEmployeeAttendanceRecordsUseCase = GetEmployeeAttendanceRecordsUseCase(attendanceRepo, getNonWorkingDaysUseCase)
     // Counters
     private val _presentCount = MutableStateFlow(0)
     private val _absentCount = MutableStateFlow(0)
     private val _extraDaysCount = MutableStateFlow(0)
     private val _tardiesCount = MutableStateFlow(0L)
+    private var cachedEmployeeId: Long? = null
 
     val presentCount: LiveData<Int> = _presentCount.asLiveData()
     val absentCount: LiveData<Int> = _absentCount.asLiveData()
@@ -33,45 +41,65 @@ class EmployeeAttendanceViewModel : BaseViewModel() {
     val tardiesCount: LiveData<Long> = _tardiesCount.asLiveData()
     val isEmpty: LiveData<Boolean> = _cachedRecords.map { it.isEmpty() }.asLiveData()
 
-    val filteredRecords: Flow<PagingData<EmployeeAttendanceRecord>> =
+    val filteredRecords: StateFlow<List<EmployeeAttendanceRecord>> =
         _cachedRecords.combine(_selectedStatuses) { records, statuses ->
-            PagingData.from(if (statuses.isEmpty()) records else records.filter { it.status in statuses })
-        }
+      if (statuses.isEmpty()) records else records.filter { record ->
+                statuses.any { status ->
+                    if (status == AttendanceStatus.PRESENT) record.status != AttendanceStatus.ABSENT else record.status == status
+                }
+            }        }.stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
 
-    init {
-        viewModelScope.launch {
-            _dateRange.collect { range ->
-                val records = getRecordsByDateRange(range)
-                _cachedRecords.value = records
-                updateCounters(records)
-            }
-        }
+    fun setEmployeeId(id: Long) {
+        cachedEmployeeId = id
+        tryInitialFetch()
     }
-
-    private fun getRecordsByDateRange(range: ClosedRange<LocalDate>?): List<EmployeeAttendanceRecord> {
-        return DummyAttendanceData2.employeeAttendanceRecords.filter {
-            range?.contains(it.date) != false
-        }
-    }
-
-    private fun updateCounters(records: List<EmployeeAttendanceRecord>) {
-        _presentCount.value = records.count { it.status == AttendanceStatus.PRESENT }
-        _absentCount.value = records.count { it.status == AttendanceStatus.ABSENT }
-        _extraDaysCount.value = records.count { it.status == AttendanceStatus.EXTRA_DAY }
-        _tardiesCount.value = records
-            .filter { it.status == AttendanceStatus.LATE }
-            .sumOf { it.lateDuration / 60 }
-    }
-
+init {
+    val now = LocalDate.now()
+    setMonthRange(now.monthValue, now.year)
+}
     fun setMonthRange(month: Int, year: Int) {
         Log.d("DateFilterHandler", "createCustomMonthRange: $month")
         val startDay = PreferencesGateway.getMonthStartDay()
         _dateRange.value = createCustomMonthRange(month = month, year = year, startDay = startDay)
+        tryInitialFetch()
     }
 
     fun setCustomRange(startDate: LocalDate, endDate: LocalDate) {
         _dateRange.value = startDate..endDate
+        tryInitialFetch()
     }
+
+    private fun tryInitialFetch() {
+        val id = cachedEmployeeId
+        val range = _dateRange.value
+        if (id != null && range != null) {
+            viewModelScope.launch {
+                fetchRecordsForEmployee(range)
+            }
+        }
+    }
+
+    suspend fun fetchRecordsForEmployee(range: ClosedRange<LocalDate>?) {
+        val employeeId = cachedEmployeeId ?: return
+        val records = if (range != null) getRecordsByDateRange(employeeId, range) else emptyList()
+        _cachedRecords.value = records
+        updateCounters(records)
+    }
+
+    private suspend fun getRecordsByDateRange(employeeId: Long, range: ClosedRange<LocalDate>): List<EmployeeAttendanceRecord> {
+        return getEmployeeAttendanceRecordsUseCase(employeeId, range.start, range.endInclusive)
+    }
+
+    private fun updateCounters(records: List<EmployeeAttendanceRecord>) {
+        _presentCount.value = records.count { it.status != AttendanceStatus.ABSENT }
+        _absentCount.value = records.count { it.status == AttendanceStatus.ABSENT }
+        _extraDaysCount.value = records.count { it.status == AttendanceStatus.EXTRA_DAY }
+        _tardiesCount.value = records
+            .filter { it.status == AttendanceStatus.LATE }
+            .sumOf { it.lateDuration  }
+    }
+
+
 
     // Status filter controls
     fun toggleStatusFilter(status: AttendanceStatus) {

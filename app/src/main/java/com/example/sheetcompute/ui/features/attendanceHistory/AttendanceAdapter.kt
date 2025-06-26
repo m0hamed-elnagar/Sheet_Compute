@@ -8,10 +8,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.sheetcompute.R
 import com.example.sheetcompute.data.entities.AttendanceRecordUI
 import com.example.sheetcompute.databinding.AttendanceItemBinding
+import com.example.sheetcompute.ui.subFeatures.utils.DateUtils.formatMinutesToHoursMinutes
 import com.example.sheetcompute.ui.subFeatures.utils.DateUtils.getMonthName
 
 class AttendanceAdapter(
-    private val onSelected: (Int) -> Unit
+    private val onSelected: (Long) -> Unit
 ) : PagingDataAdapter<AttendanceRecordUI, AttendanceAdapter.ViewHolder>(AttendanceDiffCallback()) {
    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = AttendanceItemBinding.inflate(
@@ -47,12 +48,7 @@ class AttendanceAdapter(
         }
     }
 
-    // Add this function to the AttendanceAdapter class (outside ViewHolder)
-    private fun formatMinutesToHoursMinutes(minutes: Int): String {
-        val hours = minutes / 60
-        val mins = minutes % 60
-        return if (hours > 0) "${hours}h ${mins}m" else "${mins}m"
-    }
+
 }
 
 private class AttendanceDiffCallback : DiffUtil.ItemCallback<AttendanceRecordUI>() {

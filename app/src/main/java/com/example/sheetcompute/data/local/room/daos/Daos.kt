@@ -42,6 +42,7 @@ interface EmployeeDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertAll(employees: List<EmployeeEntity>)
 }
+
 @Dao
 interface AttendanceDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
@@ -62,6 +63,13 @@ interface AttendanceDao {
     suspend fun getEmployeeRecordsByDateList(
         employeeId: Long,
         dates: List<LocalDate>
+    ): List<AttendanceRecord>
+
+    @Query("SELECT * FROM attendance_Record WHERE employeeId = :employeeId AND date BETWEEN :startDate AND :endDate ORDER BY date")
+    suspend fun getEmployeeRecordsByDateRange(
+        employeeId: Long,
+        startDate: LocalDate,
+        endDate: LocalDate
     ): List<AttendanceRecord>
 
     @Insert

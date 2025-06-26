@@ -37,8 +37,7 @@
         android:label="EmployeeAttendanceFragment">
         <argument
             android:name="employeeId"
-            app:argType="integer"
-            android:defaultValue="0" />
+            app:argType="long" />
     </fragment>
     <fragment
         android:id="@+id/holidaysCalendarFragment"

@@ -18,6 +18,7 @@ import com.example.sheetcompute.ui.subFeatures.sheetPicker.FilePickerFragmentHel
 import com.example.sheetcompute.ui.subFeatures.spinners.DateFilterHandler
 import com.example.sheetcompute.ui.subFeatures.dialogs.DatePickerDialogs
 import com.example.sheetcompute.ui.subFeatures.utils.DateUtils.formatDateRange
+import com.example.sheetcompute.ui.subFeatures.utils.DateUtils.formatMinutesToHoursMinutes
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -27,7 +28,7 @@ class EmployeeAttendanceFragment : Fragment() {
     private val viewModel: EmployeeAttendanceViewModel by viewModels()
     private lateinit var adapter: EmployeeAttendanceAdapter
     private lateinit var dateFilterHandler: DateFilterHandler
-    private val args: EmployeeAttendanceFragmentArgs by navArgs()
+    private val args by navArgs<EmployeeAttendanceFragmentArgs>()
     private lateinit var filePicker: FilePickerFragmentHelper
 
 
@@ -44,6 +45,13 @@ class EmployeeAttendanceFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupUI()
+        if (args.employeeId == 0L) {
+            Log.e("EmployeeAttendanceFragment", "Invalid or missing employeeId argument! Navigation will not proceed.")
+            // Optionally, show a message or navigate back
+            requireActivity().onBackPressedDispatcher.onBackPressed()
+            return
+        }
+        viewModel.setEmployeeId(args.employeeId)
         Log.d("EmployeeAttendanceFragment", "onViewCreated: Employee ID: ${args.employeeId}")
         setupObservers()
     }
@@ -111,32 +119,26 @@ class EmployeeAttendanceFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.filteredRecords.collectLatest {
-                    adapter.submitData(it)
+                    adapter.submitList(it)
                 }
             }
         }
-
         viewModel.presentCount.observe(viewLifecycleOwner) { count ->
             _binding?.txtDaysWorked?.text = count.toString()
             _binding?.presentCard?.isSelected = viewModel.isStatusSelected(AttendanceStatus.PRESENT)
         }
-
         viewModel.absentCount.observe(viewLifecycleOwner) { count ->
             _binding?.txtAbsentDays?.text = count.toString()
             _binding?.absentCard?.isSelected = viewModel.isStatusSelected(AttendanceStatus.ABSENT)
         }
-
         viewModel.extraDaysCount.observe(viewLifecycleOwner) { count ->
             _binding?.txtExtraDays?.text = count.toString()
-            _binding?.extraDaysCard?.isSelected =
-                viewModel.isStatusSelected(AttendanceStatus.EXTRA_DAY)
+            _binding?.extraDaysCard?.isSelected = viewModel.isStatusSelected(AttendanceStatus.EXTRA_DAY)
         }
-
         viewModel.tardiesCount.observe(viewLifecycleOwner) { hours ->
-            _binding?.txtTardies?.text = hours.toString()
-            _binding?.tardiesCard?.isSelected =
-                viewModel.isStatusSelected(AttendanceStatus.LATE)
 
+            _binding?.txtTardies?.text =  formatMinutesToHoursMinutes(hours)
+            _binding?.tardiesCard?.isSelected = viewModel.isStatusSelected(AttendanceStatus.LATE)
         }
 
         viewModel.isEmpty.observe(viewLifecycleOwner) { isEmpty ->
@@ -192,7 +194,7 @@ class EmployeeAttendanceFragment : Fragment() {
     }
 
 
-    private fun openEditDialog(recordId: Int) {
+    private fun openEditDialog(recordId: Long) {
         // Implement edit dialog
     }
 

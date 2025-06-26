@@ -65,7 +65,7 @@ class DateFilterFragment : Fragment() {
     private fun setupRecyclerView() {
         adapter = AttendanceAdapter { employeeId ->
             val bundle = Bundle().apply {
-                putInt("employeeId", employeeId)
+                putLong("employeeId", employeeId)
             }
             findNavController().navigate(
                 R.id.action_pagerContainerFragment_to_employeeAttendanceFragment,
