@@ -21,5 +21,6 @@
     <string name="export_report">Export Report</string>
     <string name="export_to_whatsapp">Export to WhatsApp</string>
     <string name="no_internet_connection">\No connection. Check your internet and try again.</string>
+    <string name="feature_not_available_for_now">Feature not available for now</string>
 
 </resources>

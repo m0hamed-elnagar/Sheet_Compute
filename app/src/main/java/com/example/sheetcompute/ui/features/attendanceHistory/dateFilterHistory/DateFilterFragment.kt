@@ -17,6 +17,9 @@ import com.example.sheetcompute.databinding.FragmentDateFilterBinding
 import com.example.sheetcompute.ui.subFeatures.sheetPicker.FilePickerFragmentHelper
 import com.example.sheetcompute.ui.subFeatures.spinners.DateFilterHandler
 import com.example.sheetcompute.ui.subFeatures.utils.isInternetAvailable
+import com.example.sheetcompute.ui.subFeatures.utils.showToast
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.remoteconfig.ktx.remoteConfig
 import kotlinx.coroutines.launch
 
 class DateFilterFragment : Fragment() {
@@ -43,14 +46,23 @@ class DateFilterFragment : Fragment() {
         setupRecyclerView()
         setupDateFilterHandler()
         observeData()
-        binding.importSheet.setOnClickListener {
-            if (isInternetAvailable(requireContext())) {
+        binding.importSheet.setOnClickListener { extractExcel() }
+
+    }
+
+    private fun extractExcel() {
+        if (isInternetAvailable(requireContext())) {
+            val isExcelEnabled = Firebase.remoteConfig.getBoolean("excel_enabled")
+
+            if (isExcelEnabled) {
                 showFilePicker()
             } else {
-                showToast(getString(R.string.no_internet_connection))
+                // ❌ Show toast, disable button
+                showToast(requireContext(), getString(R.string.feature_not_available_for_now))
             }
+        } else {
+            showToast(requireContext(), getString(R.string.no_internet_connection))
         }
-
     }
 
     private fun showFilePicker() {
@@ -59,13 +71,13 @@ class DateFilterFragment : Fragment() {
                 lifecycleScope.launch {
                     viewModel.importDataFromExcel(
                         inputStream,
-                        onComplete = { message -> showToast(message) },
-                        onError = { errorMessage -> showToast(errorMessage) }
+                        onComplete = { message -> showToast(requireContext(),message) },
+                        onError = { errorMessage -> showToast(requireContext(),errorMessage) }
                     )
                 }
             },
             onError = { exception ->
-                showToast(exception.message.toString())
+                showToast(requireContext(),exception.message.toString())
             }
 
         )
@@ -135,9 +147,7 @@ class DateFilterFragment : Fragment() {
         }
     }
 
-    private fun showToast(message: String) {
-        Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
-    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
