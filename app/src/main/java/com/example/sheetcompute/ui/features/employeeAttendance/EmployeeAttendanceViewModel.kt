@@ -11,6 +11,8 @@ import androidx.lifecycle.asLiveData
 import com.example.sheetcompute.data.local.PreferencesGateway
 import com.example.sheetcompute.data.repo.AttendanceRepo
 import com.example.sheetcompute.data.repo.HolidayRepo
+import com.example.sheetcompute.data.repo.EmployeeRepo
+import com.example.sheetcompute.data.entities.EmployeeEntity
 import com.example.sheetcompute.domain.useCases.createCustomMonthRange
 import com.example.sheetcompute.domain.useCases.workingDays.GetNonWorkingDaysUseCase
 import com.example.sheetcompute.domain.usecase.GetEmployeeAttendanceRecordsUseCase
@@ -26,6 +28,7 @@ class EmployeeAttendanceViewModel(
     private val _cachedRecords = MutableStateFlow<List<EmployeeAttendanceRecord>>(emptyList())
     private val attendanceRepo = AttendanceRepo()
     private val holidayRepo = HolidayRepo()
+    private val employeeRepo = EmployeeRepo()
     private val getNonWorkingDaysUseCase = GetNonWorkingDaysUseCase(holidayRepo)
     private val getEmployeeAttendanceRecordsUseCase = GetEmployeeAttendanceRecordsUseCase(attendanceRepo, getNonWorkingDaysUseCase)
     // Counters
@@ -35,11 +38,14 @@ class EmployeeAttendanceViewModel(
     private val _tardiesCount = MutableStateFlow(0L)
     private var cachedEmployeeId: Long? = null
 
+    private val _selectedEmployee = MutableStateFlow<EmployeeEntity?>(null)
+
     val presentCount: LiveData<Int> = _presentCount.asLiveData()
     val absentCount: LiveData<Int> = _absentCount.asLiveData()
     val extraDaysCount: LiveData<Int> = _extraDaysCount.asLiveData()
     val tardiesCount: LiveData<Long> = _tardiesCount.asLiveData()
     val isEmpty: LiveData<Boolean> = _cachedRecords.map { it.isEmpty() }.asLiveData()
+    val selectedEmployee: StateFlow<EmployeeEntity?> = _selectedEmployee.asStateFlow()
 
     val filteredRecords: StateFlow<List<EmployeeAttendanceRecord>> =
         _cachedRecords.combine(_selectedStatuses) { records, statuses ->
@@ -51,6 +57,7 @@ class EmployeeAttendanceViewModel(
 
     fun setEmployeeId(id: Long) {
         cachedEmployeeId = id
+        fetchEmployeeById(id)
         tryInitialFetch()
     }
 init {
@@ -115,5 +122,12 @@ init {
     fun clearFilters() {
         _dateRange.value = null
         _selectedStatuses.value = emptySet()
+    }
+
+    fun fetchEmployeeById(id: Long) {
+        viewModelScope.launch {
+            val employee = employeeRepo.getEmployeeById(id)
+            _selectedEmployee.value = employee
+        }
     }
 }

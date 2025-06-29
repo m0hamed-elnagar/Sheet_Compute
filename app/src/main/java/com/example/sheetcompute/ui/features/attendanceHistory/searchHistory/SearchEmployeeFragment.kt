@@ -14,18 +14,17 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.sheetcompute.R
 import com.example.sheetcompute.databinding.FragmentSearchEmployeeBinding
-import com.example.sheetcompute.ui.features.attendanceHistory.AttendanceAdapter
 import com.example.sheetcompute.ui.subFeatures.utils.scrollToTop
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-class SearchHistoryFragment : Fragment() {
+class SearchEmployeeFragment : Fragment() {
     private var _binding: FragmentSearchEmployeeBinding? = null
     private val binding get() = _binding!!
     private val viewModel: SearchViewModel by viewModels()
-    private lateinit var adapter: AttendanceAdapter
+    private lateinit var adapter: SearchEmployeeAdapter
     private var searchJob: Job? = null
 
     override fun onCreateView(
@@ -45,14 +44,14 @@ class SearchHistoryFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        adapter = AttendanceAdapter() { employeeId ->
+        adapter = SearchEmployeeAdapter() { employeeId ->
             val bundle = bundleOf("employeeId" to employeeId)
             findNavController().navigate(R.id.employeeAttendanceFragment, bundle)
         }
         binding.rvHistory.apply {
             layoutManager = LinearLayoutManager(requireContext())
             setHasFixedSize(true)
-            adapter = this@SearchHistoryFragment.adapter
+            adapter = this@SearchEmployeeFragment.adapter
         }
     }
 
@@ -75,7 +74,7 @@ class SearchHistoryFragment : Fragment() {
     private fun observeData() {
         lifecycleScope.launch {
             viewModel.attendanceRecords.collectLatest { pagingData ->
-                adapter.submitData(pagingData)
+                adapter.submitList(pagingData)
                 _binding?.rvHistory?.apply {
                     this.scrollToTop()
                 }

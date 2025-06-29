@@ -20,5 +20,6 @@
     <string name="no_records_hint">Try changing your filters or importing data</string>
     <string name="export_report">Export Report</string>
     <string name="export_to_whatsapp">Export to WhatsApp</string>
+    <string name="no_internet_connection">\No connection. Check your internet and try again.</string>
 
 </resources>

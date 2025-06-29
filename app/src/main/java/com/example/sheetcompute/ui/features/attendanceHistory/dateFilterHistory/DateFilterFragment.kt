@@ -15,15 +15,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.sheetcompute.R
 import com.example.sheetcompute.databinding.FragmentDateFilterBinding
 import com.example.sheetcompute.ui.subFeatures.sheetPicker.FilePickerFragmentHelper
-import com.example.sheetcompute.ui.features.attendanceHistory.AttendanceAdapter
 import com.example.sheetcompute.ui.subFeatures.spinners.DateFilterHandler
+import com.example.sheetcompute.ui.subFeatures.utils.isInternetAvailable
 import kotlinx.coroutines.launch
 
 class DateFilterFragment : Fragment() {
     private var _binding: FragmentDateFilterBinding? = null
     private val binding get() = _binding!!
     private val viewModel: DateFilterViewModel by viewModels()
-    private lateinit var adapter: AttendanceAdapter
+    private lateinit var adapter: AttendanceSummaryAdapter
     private lateinit var dateFilterHandler: DateFilterHandler
     private lateinit var filePickerHelper: FilePickerFragmentHelper
     override fun onCreateView(
@@ -44,26 +44,36 @@ class DateFilterFragment : Fragment() {
         setupDateFilterHandler()
         observeData()
         binding.importSheet.setOnClickListener {
-            filePickerHelper.pickExcelFile(
-                onFilePicked = { inputStream ->
-                    lifecycleScope.launch {
-                        viewModel.importDataFromExcel(
-                            inputStream,
-                            onComplete = { message -> showToast(message)},
-                            onError = { errorMessage -> showToast(errorMessage) }
-                        )
-                    }
-                },
-                onError = { exception ->showToast(exception.message.toString())
-                }
-
-            )
+            if (isInternetAvailable(requireContext())) {
+                showFilePicker()
+            } else {
+                showToast(getString(R.string.no_internet_connection))
+            }
         }
+
+    }
+
+    private fun showFilePicker() {
+        filePickerHelper.pickExcelFile(
+            onFilePicked = { inputStream ->
+                lifecycleScope.launch {
+                    viewModel.importDataFromExcel(
+                        inputStream,
+                        onComplete = { message -> showToast(message) },
+                        onError = { errorMessage -> showToast(errorMessage) }
+                    )
+                }
+            },
+            onError = { exception ->
+                showToast(exception.message.toString())
+            }
+
+        )
     }
 
 
     private fun setupRecyclerView() {
-        adapter = AttendanceAdapter { employeeId ->
+        adapter = AttendanceSummaryAdapter { employeeId ->
             val bundle = Bundle().apply {
                 putLong("employeeId", employeeId)
             }

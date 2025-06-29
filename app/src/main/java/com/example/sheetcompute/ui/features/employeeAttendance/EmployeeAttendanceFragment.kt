@@ -123,6 +123,13 @@ class EmployeeAttendanceFragment : Fragment() {
                 }
             }
         }
+        viewLifecycleOwner.lifecycleScope.launch {
+
+        viewModel.selectedEmployee.collectLatest {
+            binding.txtEmployeeName.text = it?.name ?: "Unknown Employee"
+            binding.txtEmployeeId.text = it?.id?.toString() ?: ""
+            binding.txtEmployeePosition.text = it?.position ?: "Position"
+        }}
         viewModel.presentCount.observe(viewLifecycleOwner) { count ->
             _binding?.txtDaysWorked?.text = count.toString()
             _binding?.presentCard?.isSelected = viewModel.isStatusSelected(AttendanceStatus.PRESENT)

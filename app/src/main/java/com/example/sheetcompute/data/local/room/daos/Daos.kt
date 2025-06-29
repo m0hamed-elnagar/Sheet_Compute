@@ -39,6 +39,22 @@ interface EmployeeDao {
     @Query("SELECT id FROM employees")
     suspend fun getAllEmployeeIds(): List<Long>
 
+    @Query("SELECT * FROM employees")
+    suspend fun getAllEmployees(): List<EmployeeEntity>
+
+    @Query(
+        """
+        SELECT *
+        FROM employees 
+        WHERE (:query IS NULL OR :query = '' OR 
+               name LIKE '%' || :query || '%' OR 
+               id LIKE '%' || :query || '%')
+        ORDER BY id ASC
+    """
+    )
+    suspend fun getEmployees(query: String?): List<EmployeeEntity>
+    @Query("SELECT * FROM employees WHERE id = :id")
+    suspend fun getEmployeeById(id: Long): EmployeeEntity?
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertAll(employees: List<EmployeeEntity>)
 }
