@@ -46,7 +46,7 @@
 app:layout_constraintBottom_toBottomOf="parent"        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         tools:itemCount="9"
-        tools:listitem="@layout/attendance_item" />
+        tools:listitem="@layout/search_item" />
 
     <TextView
         android:id="@+id/txt_empty_history"

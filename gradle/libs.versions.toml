@@ -20,6 +20,7 @@ appcompat = "1.7.0"
 roomKtx = "2.7.1"
 ksp = "2.0.21-1.0.27"
 viewpager2 = "1.1.0"
+firebase = "33.16.0"
 
 [libraries]
 androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintlayout" }
@@ -45,10 +46,12 @@ androidx-recyclerview = { group = "androidx.recyclerview", name = "recyclerview"
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinxCoroutinesAndroid" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutinesCore" }
 material = { module = "com.google.android.material:material", version.ref = "material" }
-poi = { module = "org.apache.poi:poi", version.ref = "poi" }
-poi-ooxml = { module = "org.apache.poi:poi-ooxml", version.ref = "poiOoxml" }
+firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebase" }
+firebase-config = { group = "com.google.firebase", name = "firebase-config-ktx", version = "" }
+firebase-common-ktx = { group = "com.google.firebase", name = "firebase-common-ktx", version= "21.0.0" }
 
 [plugins]
+google-services = { id = "com.google.gms.google-services", version = "4.4.3" }
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }

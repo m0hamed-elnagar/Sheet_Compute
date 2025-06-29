@@ -66,7 +66,7 @@
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/presentCard"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_margin="4dp"
                     android:layout_weight="1"
                     android:clickable="true"
@@ -93,7 +93,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0"
-                            android:textSize="18sp"
+                            android:textSize="12sp"
                             android:textStyle="bold" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
@@ -101,7 +101,7 @@
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/absentCard"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_margin="4dp"
                     android:layout_weight="1"
                     android:clickable="true"
@@ -128,7 +128,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0"
-                            android:textSize="18sp"
+                            android:textSize="12sp"
                             android:textStyle="bold" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
@@ -136,7 +136,7 @@
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/tardiesCard"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_margin="4dp"
                     android:layout_weight="1"
                     android:clickable="true"
@@ -165,7 +165,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0"
-                            android:textSize="18sp"
+                            android:textSize="12sp"
                             android:textStyle="bold" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
@@ -173,7 +173,7 @@
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/extraDaysCard"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_margin="4dp"
                     android:layout_weight="1"
                     android:clickable="true"
@@ -200,7 +200,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0"
-                            android:textSize="18sp"
+                            android:textSize="12sp"
                             android:textStyle="bold" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>

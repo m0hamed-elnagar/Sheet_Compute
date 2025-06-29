@@ -56,14 +56,14 @@ class CalendarViewModel : BaseViewModel() {
         val months = (-range..range).map { centerMonth.plusMonths(it.toLong()) }
         val newMonths = months.filter { !holidaysByMonth.value.keys.contains(it) }
         val holidaysMap = newMonths.associateWith { month -> loadHolidaysFor(month) }
-        _holidaysByMonth.update { it.apply { putAll(holidaysMap) } }
+        _holidaysByMonth.update { old -> old.toMutableMap().apply { putAll(holidaysMap) } }
     }
 
     fun loadHolidaysForMonth(month: YearMonth) {
         viewModelScope.launch {
             if (!_holidaysByMonth.value.containsKey(month)) {
                 val holidays = loadHolidaysFor(month)
-                _holidaysByMonth.update { it.apply { put(month, holidays) } }
+                _holidaysByMonth.update { old -> old.toMutableMap().apply { put(month, holidays) } }
             }
             _currentMonth.value = month
         }
@@ -99,7 +99,7 @@ class CalendarViewModel : BaseViewModel() {
     private suspend fun reloadCurrentMonth() {
         val month = _currentMonth.value
         val refreshed = loadHolidaysFor(month)
-        _holidaysByMonth.update { it.apply { put(month, refreshed) } }
+        _holidaysByMonth.update { old -> old.toMutableMap().apply { put(month, refreshed) } }
     }
 
     fun updateWeekendDays(days: Set<DayOfWeek>) {

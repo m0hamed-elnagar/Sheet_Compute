@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sheetcompute.R
@@ -13,14 +14,24 @@ import com.example.sheetcompute.data.entities.AttendanceStatus
 import com.example.sheetcompute.data.entities.EmployeeAttendanceRecord
 import com.example.sheetcompute.databinding.EmployeeItem2Binding
 import com.example.sheetcompute.ui.subFeatures.utils.DateUtils
+import com.example.sheetcompute.ui.subFeatures.utils.DateUtils.formatMinutesToHoursMinutes
 import java.time.format.DateTimeFormatter
+import kotlin.collections.get
 
 class EmployeeAttendanceAdapter(
     private val context: Context,
     private val onSelected: (Long) -> Unit
-) : PagingDataAdapter<EmployeeAttendanceRecord, EmployeeAttendanceAdapter.ViewHolder>(
-    AttendanceDiffCallback()
+) : RecyclerView.Adapter< EmployeeAttendanceAdapter.ViewHolder>(
 ) {
+    private val asyncDiffer = AsyncListDiffer(this, AttendanceDiffCallback())
+    fun submitList(list: List<EmployeeAttendanceRecord>) {
+        asyncDiffer.submitList(list)
+    }
+    override fun getItemCount(): Int = asyncDiffer.currentList.size
+    override fun getItemId(position: Int): Long =
+        asyncDiffer.currentList[position].id
+
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = EmployeeItem2Binding.inflate(
             LayoutInflater.from(parent.context),
@@ -31,7 +42,7 @@ class EmployeeAttendanceAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        getItem(position)?.let { holder.bind(it) }
+        holder.bind(asyncDiffer.currentList[position])
     }
 
     inner class ViewHolder(
@@ -45,10 +56,10 @@ class EmployeeAttendanceAdapter(
                 tvDay.text = date.format(DateTimeFormatter.ofPattern("EEEE")) // e.g. "Monday"
 
                 // Bind late duration
-                val loginTimeMinutes = 540 // 9:00 AM in minutes
+
                 val lateDuration = item.lateDuration ?: 0
                 if (lateDuration > 0) {
-                    tvLateDuration.text = "$lateDuration mins late"
+                    tvLateDuration.text = formatMinutesToHoursMinutes(lateDuration)
                     tvLateDuration.setTextColor(ContextCompat.getColor(context, R.color.late_red)) // make sure R.color.red is defined
                 } else {
                     tvLateDuration.text = "On time"
@@ -64,6 +75,8 @@ class EmployeeAttendanceAdapter(
                     }
                     AttendanceStatus.ABSENT -> {
                         chipStatus.chipBackgroundColor = ContextCompat.getColorStateList(context, R.color.status_absent)
+                        binding.tvLateDuration.visibility = View.GONE // Hide late duration for absent
+                        binding.tvAdditionalInfo.visibility = View.GONE // Hide additional info for absent
                     }
                     AttendanceStatus.LATE -> {
                         chipStatus.chipBackgroundColor = ContextCompat.getColorStateList(context, R.color.status_late)

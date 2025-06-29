@@ -15,15 +15,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.sheetcompute.R
 import com.example.sheetcompute.databinding.FragmentDateFilterBinding
 import com.example.sheetcompute.ui.subFeatures.sheetPicker.FilePickerFragmentHelper
-import com.example.sheetcompute.ui.features.attendanceHistory.AttendanceAdapter
 import com.example.sheetcompute.ui.subFeatures.spinners.DateFilterHandler
+import com.example.sheetcompute.ui.subFeatures.utils.isInternetAvailable
+import com.example.sheetcompute.ui.subFeatures.utils.showToast
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.remoteconfig.ktx.remoteConfig
 import kotlinx.coroutines.launch
 
 class DateFilterFragment : Fragment() {
     private var _binding: FragmentDateFilterBinding? = null
     private val binding get() = _binding!!
     private val viewModel: DateFilterViewModel by viewModels()
-    private lateinit var adapter: AttendanceAdapter
+    private lateinit var adapter: AttendanceSummaryAdapter
     private lateinit var dateFilterHandler: DateFilterHandler
     private lateinit var filePickerHelper: FilePickerFragmentHelper
     override fun onCreateView(
@@ -43,29 +46,48 @@ class DateFilterFragment : Fragment() {
         setupRecyclerView()
         setupDateFilterHandler()
         observeData()
-        binding.importSheet.setOnClickListener {
-            filePickerHelper.pickExcelFile(
-                onFilePicked = { inputStream ->
-                    lifecycleScope.launch {
-                        viewModel.importDataFromExcel(
-                            inputStream,
-                            onComplete = { message -> showToast(message)},
-                            onError = { errorMessage -> showToast(errorMessage) }
-                        )
-                    }
-                },
-                onError = { exception ->showToast(exception.message.toString())
-                }
+        binding.importSheet.setOnClickListener { extractExcel() }
 
-            )
+    }
+
+    private fun extractExcel() {
+        if (isInternetAvailable(requireContext())) {
+            val isExcelEnabled = Firebase.remoteConfig.getBoolean("excel_enabled")
+
+            if (isExcelEnabled) {
+                showFilePicker()
+            } else {
+                // ❌ Show toast, disable button
+                showToast(requireContext(), getString(R.string.feature_not_available_for_now))
+            }
+        } else {
+            showToast(requireContext(), getString(R.string.no_internet_connection))
         }
+    }
+
+    private fun showFilePicker() {
+        filePickerHelper.pickExcelFile(
+            onFilePicked = { inputStream ->
+                lifecycleScope.launch {
+                    viewModel.importDataFromExcel(
+                        inputStream,
+                        onComplete = { message -> showToast(requireContext(),message) },
+                        onError = { errorMessage -> showToast(requireContext(),errorMessage) }
+                    )
+                }
+            },
+            onError = { exception ->
+                showToast(requireContext(),exception.message.toString())
+            }
+
+        )
     }
 
 
     private fun setupRecyclerView() {
-        adapter = AttendanceAdapter { employeeId ->
+        adapter = AttendanceSummaryAdapter { employeeId ->
             val bundle = Bundle().apply {
-                putInt("employeeId", employeeId)
+                putLong("employeeId", employeeId)
             }
             findNavController().navigate(
                 R.id.action_pagerContainerFragment_to_employeeAttendanceFragment,
@@ -125,9 +147,7 @@ class DateFilterFragment : Fragment() {
         }
     }
 
-    private fun showToast(message: String) {
-        Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
-    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

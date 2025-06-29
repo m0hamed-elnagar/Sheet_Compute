@@ -13,7 +13,11 @@ import java.util.Locale
 
 object DateUtils {
     private val TIME_DISPLAY_FORMATTER = DateTimeFormatter.ofPattern("h:mm a", Locale.US)
-
+     fun formatMinutesToHoursMinutes(minutes: Long): String {
+        val hours = minutes / 60
+        val mins = minutes % 60
+        return if (hours > 0) "${hours}h ${mins}m" else "${mins}m"
+    }
      fun formatTimeForStorage(time: LocalTime): String {
         return time.format(TIME_DISPLAY_FORMATTER)
             .replace("AM", " AM")  // Ensure space before AM

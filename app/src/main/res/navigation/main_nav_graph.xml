@@ -17,7 +17,7 @@
 
     <fragment
         android:id="@+id/searchFragment"
-        android:name="com.example.sheetcompute.ui.features.attendanceHistory.searchHistory.SearchHistoryFragment"
+        android:name="com.example.sheetcompute.ui.features.attendanceHistory.searchHistory.SearchEmployeeFragment"
         android:label="SearchFragment" >
         <action
             android:id="@+id/action_searchFragment_to_employeeAttendanceFragment"
@@ -37,8 +37,7 @@
         android:label="EmployeeAttendanceFragment">
         <argument
             android:name="employeeId"
-            app:argType="integer"
-            android:defaultValue="0" />
+            app:argType="long" />
     </fragment>
     <fragment
         android:id="@+id/holidaysCalendarFragment"

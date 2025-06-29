@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "181610655168",
+    "project_id": "attendsheet-f906a",
+    "storage_bucket": "attendsheet-f906a.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:181610655168:android:04e27d6cf7b0be541fec25",
+        "android_client_info": {
+          "package_name": "com.example.sheetcompute"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyATFrZqPtclzJ6osHWcaj5e6dvQmd0m5Mw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

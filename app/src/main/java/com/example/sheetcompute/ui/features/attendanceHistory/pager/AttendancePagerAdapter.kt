@@ -5,14 +5,14 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.sheetcompute.ui.features.attendanceHistory.dateFilterHistory.DateFilterFragment
-import com.example.sheetcompute.ui.features.attendanceHistory.searchHistory.SearchHistoryFragment
+import com.example.sheetcompute.ui.features.attendanceHistory.searchHistory.SearchEmployeeFragment
 
 class AttendancePagerAdapter ( fragmentManager: FragmentManager,
     lifecycle: Lifecycle
 ) : FragmentStateAdapter(fragmentManager, lifecycle) {
 
     private val fragments = listOf(
-        SearchHistoryFragment(),
+        SearchEmployeeFragment(),
         DateFilterFragment()
     )
 

@@ -1,4 +1,4 @@
-package com.example.sheetcompute.domain.usecase.attendance
+package com.example.sheetcompute.domain.useCases.attendance
 
 import androidx.paging.Pager
 import com.example.sheetcompute.data.entities.AttendanceRecordUI

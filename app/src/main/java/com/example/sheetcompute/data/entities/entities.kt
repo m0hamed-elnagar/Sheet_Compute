@@ -38,21 +38,21 @@ enum class AttendanceStatus {
 }
 
 data class AttendanceSummary(
-    val id: Int,
+    val id: Long,
     val name: String,
     val month: Int,
     val year: Int,
     val presentDays: Int,
-    val totalTardyMinutes: Int = 0
+    val totalTardyMinutes: Long = 0
 )
 
 data class AttendanceRecordUI(
-    val id: Int,
+    val id: Long = 0,
     val name: String,
     val month: Int = 1,
     val year: Int = 2025,
     val absentCount: Int = 0,
-    val totalTardyMinutes: Int = 0,
+    val totalTardyMinutes: Long = 0,
     val presentDays: Int = 0
 
 )
