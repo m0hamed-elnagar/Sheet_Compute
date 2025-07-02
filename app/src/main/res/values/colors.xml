@@ -9,10 +9,10 @@
     <color name="white">#FFFFFFFF</color>
 <!--    <color name="colorPrimary">#240f21</color>-->
     <color name="colorPrimaryVariant">#0a466e</color>
-<!--    <color name="colorSecondary">#68c7d4</color>-->
     <color name="colorOnPrimary">#FFFFFF</color> <!-- white text on dark background -->
     <color name="colorOnSecondary">#000000</color> <!-- black text on light bg -->
-
+<!--    <color name="colorSecondary">#68c7d4</color>-->
+<color name="lightPink">#E8BEE0</color>
     <color name="green_500">#4CAF50</color>
     <color name="red_500">#F44336</color>
     <color name="amber_500">#FFF9C4</color>

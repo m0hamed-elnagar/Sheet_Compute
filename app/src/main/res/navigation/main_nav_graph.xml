@@ -43,13 +43,9 @@
         android:id="@+id/holidaysCalendarFragment"
         android:name="com.example.sheetcompute.ui.features.holidaysCalendar.HolidaysCalendarFragment"
         android:label="HolidaysCalendarFragment" />
-    <!--    <fragment-->
-<!--        android:id="@+id/settingsFragment"-->
-<!--        android:name="com.example.sheetcompute.ui.SettingsFragment"-->
-<!--        android:label="SettingsFragment" />-->
+    <fragment
+        android:id="@+id/settingFragment"
+        android:name="com.example.sheetcompute.ui.features.settingFragment.SettingFragment"
+        android:label="SettingFragment" />
 
-<!--    <fragment-->
-<!--        android:id="@+id/holidaysCalendarFragment"-->
-<!--        android:name="com.example.sheetcompute.ui.HolidaysCalendarFragment"-->
-<!--        android:label="HolidaysCalendarFragment" />-->
 </navigation>

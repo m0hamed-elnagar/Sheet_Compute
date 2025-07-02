@@ -50,15 +50,15 @@ private fun setupToolbarMenu() {
             true
         }
 
-//        R.id.action_settings -> {
-//            val currentDest = navController.currentDestination?.id
-//            if (currentDest == R.id.settingsFragment) {
-//                navController.popBackStack()
-//            } else {
-//                navController.navigate(R.id.settingsFragment)
-//            }
-//            true
-//        }
+        R.id.action_settings -> {
+            val currentDest = navController.currentDestination?.id
+            if (currentDest == R.id.settingFragment) {
+                navController.popBackStack()
+            } else {
+                navController.navigate(R.id.settingFragment)
+            }
+            true
+        }
 
         else -> false
     }
