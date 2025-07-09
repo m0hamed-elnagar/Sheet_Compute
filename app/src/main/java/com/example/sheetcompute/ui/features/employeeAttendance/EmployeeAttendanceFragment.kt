@@ -14,19 +14,14 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.sheetcompute.data.entities.AttendanceStatus
 import com.example.sheetcompute.databinding.EmployeeAttendanceFragmentBinding
-import com.example.sheetcompute.domain.excel.export.EmployeeRecordsWorkbookBuilder
 import com.example.sheetcompute.ui.subFeatures.sheetPicker.FilePickerFragmentHelper
 import com.example.sheetcompute.ui.subFeatures.spinners.DateFilterHandler
 import com.example.sheetcompute.ui.subFeatures.dialogs.DatePickerDialogs
 import com.example.sheetcompute.ui.subFeatures.utils.DateUtils.formatDateRange
 import com.example.sheetcompute.ui.subFeatures.utils.DateUtils.formatMinutesToHoursMinutes
-import com.example.sheetcompute.ui.subFeatures.utils.ExcelFileSaver.saveToDownloads
-import com.example.sheetcompute.ui.subFeatures.utils.showToast
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-@AndroidEntryPoint
 class EmployeeAttendanceFragment : Fragment() {
     private var _binding: EmployeeAttendanceFragmentBinding? = null
     private val binding get() = _binding!!
@@ -66,44 +61,6 @@ class EmployeeAttendanceFragment : Fragment() {
         setupRecyclerView()
         setupDateControls()
         setupCounterClickListeners()
-        binding.exportReport.setOnClickListener { exportEmployeeRecordsToXls() }
-        binding.ToWhatsApp.setOnClickListener { shareEmployeeRecordsToWhatsapp() }
-    }
-
-    private fun exportEmployeeRecordsToXls() {
-        val employee = viewModel.selectedEmployee.value
-        val records = viewModel.filteredRecords.value
-        if (employee != null && records.isNotEmpty()) {
-            val workbook = EmployeeRecordsWorkbookBuilder.buildWorkbook(
-                listOf(employee), records
-            )
-            val file = saveToDownloads(requireContext(), workbook,"Employees Records")
-            if (file != null) {
-                showToast(requireContext(), "Exported to: ${file.name}")
-            } else {
-               showToast(requireContext(), "Failed to export XLS")
-            }
-        } else {
-           showToast(requireContext(), "No data to export")
-        }
-    }
-
-    private fun shareEmployeeRecordsToWhatsapp() {
-        val employee = viewModel.selectedEmployee.value
-        val records = viewModel.filteredRecords.value
-        if (employee != null && records.isNotEmpty()) {
-            val workbook = EmployeeRecordsWorkbookBuilder.buildWorkbook(
-                listOf(employee), records
-            )
-            val file = saveToDownloads(requireContext(), workbook,"Employees Records")
-            if (file != null) {
-                com.example.sheetcompute.ui.subFeatures.utils.shareXlsViaWhatsApp(requireContext(), file)
-            } else {
-                showToast(requireContext(), "Failed to export XLS")
-            }
-        } else {
-            showToast(requireContext(), "No data to export")
-        }
     }
 
     private fun setupRecyclerView() {

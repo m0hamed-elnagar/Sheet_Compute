@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -12,20 +13,15 @@ import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.sheetcompute.R
-import com.example.sheetcompute.data.local.PreferencesGateway
 import com.example.sheetcompute.databinding.FragmentDateFilterBinding
-import com.example.sheetcompute.ui.subFeatures.dialogs.ImportConfirmationDialog
-import com.example.sheetcompute.ui.subFeatures.dialogs.ImportResultDialog
 import com.example.sheetcompute.ui.subFeatures.sheetPicker.FilePickerFragmentHelper
 import com.example.sheetcompute.ui.subFeatures.spinners.DateFilterHandler
 import com.example.sheetcompute.ui.subFeatures.utils.isInternetAvailable
 import com.example.sheetcompute.ui.subFeatures.utils.showToast
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.ktx.remoteConfig
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import javax.inject.Inject
-@AndroidEntryPoint
+
 class DateFilterFragment : Fragment() {
     private var _binding: FragmentDateFilterBinding? = null
     private val binding get() = _binding!!
@@ -33,8 +29,6 @@ class DateFilterFragment : Fragment() {
     private lateinit var adapter: AttendanceSummaryAdapter
     private lateinit var dateFilterHandler: DateFilterHandler
     private lateinit var filePickerHelper: FilePickerFragmentHelper
-    @Inject
-    lateinit var preferencesGateway: PreferencesGateway
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -52,13 +46,8 @@ class DateFilterFragment : Fragment() {
         setupRecyclerView()
         setupDateFilterHandler()
         observeData()
-        binding.importSheet.setOnClickListener { showImportDialog() }
-    }
+        binding.importSheet.setOnClickListener { extractExcel() }
 
-    private fun showImportDialog() {
-        ImportConfirmationDialog(requireContext(), preferencesGateway , onConfirm = {
-            extractExcel()
-        }).show()
     }
 
     private fun extractExcel() {
@@ -82,21 +71,13 @@ class DateFilterFragment : Fragment() {
                 lifecycleScope.launch {
                     viewModel.importDataFromExcel(
                         inputStream,
-                        onComplete = { message, importResult ->
-                            if (importResult != null) {
-                                ImportResultDialog(requireContext(), importResult).show()
-                            } else {
-                                showToast(requireContext(), message)
-                            }
-                        },
-                        onError = { errorMessage ->
-                            showToast(requireContext(), errorMessage)
-                        }
+                        onComplete = { message -> showToast(requireContext(),message) },
+                        onError = { errorMessage -> showToast(requireContext(),errorMessage) }
                     )
                 }
             },
             onError = { exception ->
-                showToast(requireContext(), exception.message.toString())
+                showToast(requireContext(),exception.message.toString())
             }
 
         )

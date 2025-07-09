@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
@@ -13,33 +14,25 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.sheetcompute.R
-import com.example.sheetcompute.data.local.PreferencesGateway
 import com.example.sheetcompute.databinding.FragmentSearchEmployeeBinding
-import com.example.sheetcompute.ui.subFeatures.dialogs.ImportConfirmationDialog
-import com.example.sheetcompute.ui.subFeatures.dialogs.ImportResultDialog
 import com.example.sheetcompute.ui.subFeatures.sheetPicker.FilePickerFragmentHelper
 import com.example.sheetcompute.ui.subFeatures.utils.isInternetAvailable
 import com.example.sheetcompute.ui.subFeatures.utils.scrollToTop
 import com.example.sheetcompute.ui.subFeatures.utils.showToast
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.ktx.remoteConfig
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@AndroidEntryPoint
-class SearchEmployeeFragment  : Fragment() {
+class SearchEmployeeFragment : Fragment() {
     private var _binding: FragmentSearchEmployeeBinding? = null
     private val binding get() = _binding!!
     private val viewModel: SearchViewModel by viewModels()
     private lateinit var adapter: SearchEmployeeAdapter
     private var searchJob: Job? = null
     private lateinit var filePickerHelper: FilePickerFragmentHelper
-    @Inject
-    lateinit var preferencesGateway: PreferencesGateway
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -56,16 +49,9 @@ class SearchEmployeeFragment  : Fragment() {
         setupRecyclerView()
         setupSearch()
         observeData()
-        binding.importSheet.setOnClickListener { showImportDialog() }
+        binding.importSheet.setOnClickListener { extractExcel() }
     }
-//todo extract to use in other fragments
-    private fun showImportDialog() {
-        ImportConfirmationDialog(requireContext(),
-            preferencesGateway
-            , onConfirm = {
-            extractExcel()
-        }).show()
-    }
+
 
     private fun extractExcel() {
         if (isInternetAvailable(requireContext())) {
@@ -88,21 +74,14 @@ class SearchEmployeeFragment  : Fragment() {
                 lifecycleScope.launch {
                     viewModel.importDataFromExcel(
                         inputStream,
-                        onComplete = { message, importResult ->
-                            if (importResult != null) {
-                                ImportResultDialog(requireContext(), importResult).show()
-                            } else {
-                                showToast(requireContext(), message)
-                            }
-                        },
-                        onError = { errorMessage ->
-                            showToast(requireContext(), errorMessage)
-                        }
+                        requireContext(), // Pass context for saving file
+                        onComplete = { message -> showToast(requireContext(),message) },
+                        onError = { errorMessage -> showToast(requireContext(),errorMessage) }
                     )
                 }
             },
             onError = { exception ->
-                showToast(requireContext(), exception.message.toString())
+                showToast(requireContext(),exception.message.toString())
             }
 
         )
@@ -110,7 +89,7 @@ class SearchEmployeeFragment  : Fragment() {
 
 
     private fun setupRecyclerView() {
-        adapter = SearchEmployeeAdapter { employeeId ->
+        adapter = SearchEmployeeAdapter() { employeeId ->
             val bundle = bundleOf("employeeId" to employeeId)
             findNavController().navigate(R.id.employeeAttendanceFragment, bundle)
         }

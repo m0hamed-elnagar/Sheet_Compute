@@ -44,10 +44,9 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="⚠️ Note: Tardiness will be calculated based on the selected work start time. If you change the time, please re-import the file — either as a new import or an update — for the changes to take effect."
+        android:text="Note: Tardies will be counted when employees arrive after this time"
         android:textColor="?android:attr/textColorSecondary"
         android:textSize="12sp"
-        android:padding="8dp"
         android:layout_marginBottom="16dp"/>
 
     <Button
@@ -62,7 +61,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Download the template to prepare your Excel file with the correct format and data."
+        android:text="Please ensure your Excel file meets these requirements:"
         android:layout_marginBottom="8dp"/>
 
 

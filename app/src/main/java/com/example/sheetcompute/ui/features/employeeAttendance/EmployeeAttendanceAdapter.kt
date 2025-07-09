@@ -72,27 +72,17 @@ class EmployeeAttendanceAdapter(
                 when (item.status) {
                     AttendanceStatus.PRESENT -> {
                         chipStatus.chipBackgroundColor = ContextCompat.getColorStateList(context, R.color.status_present)
-                        binding.ivLateIcon.visibility = View.VISIBLE
-                        binding.tvLateDuration.visibility = View.VISIBLE
-                        binding.tvAdditionalInfo.visibility = View.VISIBLE
                     }
                     AttendanceStatus.ABSENT -> {
                         chipStatus.chipBackgroundColor = ContextCompat.getColorStateList(context, R.color.status_absent)
-                        binding.ivLateIcon.visibility = View.GONE // Hide late icon for absent
                         binding.tvLateDuration.visibility = View.GONE // Hide late duration for absent
                         binding.tvAdditionalInfo.visibility = View.GONE // Hide additional info for absent
                     }
                     AttendanceStatus.LATE -> {
                         chipStatus.chipBackgroundColor = ContextCompat.getColorStateList(context, R.color.status_late)
-                        binding.ivLateIcon.visibility = View.VISIBLE
-                        binding.tvLateDuration.visibility = View.VISIBLE
-                        binding.tvAdditionalInfo.visibility = View.VISIBLE
                     }
                     AttendanceStatus.EXTRA_DAY -> {
                         chipStatus.chipBackgroundColor = ContextCompat.getColorStateList(context, R.color.status_present)
-                        binding.ivLateIcon.visibility = View.VISIBLE
-                        binding.tvLateDuration.visibility = View.VISIBLE
-                        binding.tvAdditionalInfo.visibility = View.VISIBLE
                     }
                 }
 

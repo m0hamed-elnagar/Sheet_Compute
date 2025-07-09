@@ -20,18 +20,17 @@ import kotlinx.coroutines.launch
 import java.time.LocalDate
 import kotlin.collections.plus
 import com.example.sheetcompute.ui.subFeatures.utils.DateUtils.formatMinutesToHoursMinutes
-import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 
-@HiltViewModel
-class EmployeeAttendanceViewModel @Inject constructor(
-    private val getEmployeeAttendanceRecordsUseCase : GetEmployeeAttendanceRecordsUseCase,
-    private val employeeRepo: EmployeeRepo,
-    private val preferencesGateway: PreferencesGateway
+class EmployeeAttendanceViewModel(
 ) : BaseViewModel() {
     internal val _dateRange = MutableStateFlow<ClosedRange<LocalDate>?>(null)
     private val _selectedStatuses = MutableStateFlow<Set<AttendanceStatus>>(emptySet())
     private val _cachedRecords = MutableStateFlow<List<EmployeeAttendanceRecord>>(emptyList())
+    private val attendanceRepo = AttendanceRepo()
+    private val holidayRepo = HolidayRepo()
+    private val employeeRepo = EmployeeRepo()
+    private val getNonWorkingDaysUseCase = GetNonWorkingDaysUseCase(holidayRepo)
+    private val getEmployeeAttendanceRecordsUseCase = GetEmployeeAttendanceRecordsUseCase(attendanceRepo, getNonWorkingDaysUseCase)
     // Counters
     private val _presentCount = MutableStateFlow(0)
     private val _absentCount = MutableStateFlow(0)
@@ -67,7 +66,7 @@ init {
 }
     fun setMonthRange(month: Int, year: Int) {
         Log.d("DateFilterHandler", "createCustomMonthRange: $month")
-        val startDay = preferencesGateway.getMonthStartDay()
+        val startDay = PreferencesGateway.getMonthStartDay()
         _dateRange.value = createCustomMonthRange(month = month, year = year, startDay = startDay)
         tryInitialFetch()
     }

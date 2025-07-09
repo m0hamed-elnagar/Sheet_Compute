@@ -1,11 +1,11 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-//    alias(libs.plugins.ksp)
+    alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
     alias(libs.plugins.navigation.safeargs.kotlin)
     alias(libs.plugins.google.services)
-    id("kotlin-kapt")
+
 }
 
 android {
@@ -18,18 +18,10 @@ android {
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
-        vectorDrawables.useSupportLibrary = true
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
-    signingConfigs {
-        create("release") {
-            storeFile = file("keyStore.jks")
-            storePassword = "android101"
-            keyAlias = "key0"
-            keyPassword = "android101"
-        }
-    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -37,7 +29,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            signingConfig = signingConfigs.getByName("release")
+            signingConfig = signingConfigs.getByName("debug")
         }
     }
     compileOptions {
@@ -63,8 +55,8 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
-    kapt(libs.androidx.room.compiler)
-    kapt(libs.hilt.compiler)
+    ksp(libs.androidx.room.compiler)
+    ksp(libs.hilt.compiler)
     implementation(libs.hilt.android)
     implementation(libs.androidx.room.paging)
     implementation(libs.androidx.paging.runtime)
