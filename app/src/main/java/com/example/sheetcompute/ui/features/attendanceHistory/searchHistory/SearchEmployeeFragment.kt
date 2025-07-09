@@ -14,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.sheetcompute.R
 import com.example.sheetcompute.databinding.FragmentSearchEmployeeBinding
+import com.example.sheetcompute.ui.features.attendanceHistory.searchHistory.ImportConfirmationDialog
 import com.example.sheetcompute.ui.subFeatures.sheetPicker.FilePickerFragmentHelper
 import com.example.sheetcompute.ui.subFeatures.utils.isInternetAvailable
 import com.example.sheetcompute.ui.subFeatures.utils.scrollToTop
@@ -48,9 +49,14 @@ class SearchEmployeeFragment : Fragment() {
         setupRecyclerView()
         setupSearch()
         observeData()
-        binding.importSheet.setOnClickListener { extractExcel() }
+        binding.importSheet.setOnClickListener { showImportDialog() }
     }
 
+    private fun showImportDialog() {
+        ImportConfirmationDialog(requireContext(), onConfirm = {
+            extractExcel()
+        }).show()
+    }
 
     private fun extractExcel() {
         if (isInternetAvailable(requireContext())) {
