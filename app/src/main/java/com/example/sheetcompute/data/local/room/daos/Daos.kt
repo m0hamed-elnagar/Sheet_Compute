@@ -39,9 +39,26 @@ interface EmployeeDao {
     @Query("SELECT id FROM employees")
     suspend fun getAllEmployeeIds(): List<Long>
 
+    @Query("SELECT * FROM employees")
+    suspend fun getAllEmployees(): List<EmployeeEntity>
+
+    @Query(
+        """
+        SELECT *
+        FROM employees 
+        WHERE (:query IS NULL OR :query = '' OR 
+               name LIKE '%' || :query || '%' OR 
+               id LIKE '%' || :query || '%')
+        ORDER BY id ASC
+    """
+    )
+    suspend fun getEmployees(query: String?): List<EmployeeEntity>
+    @Query("SELECT * FROM employees WHERE id = :id")
+    suspend fun getEmployeeById(id: Long): EmployeeEntity?
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertAll(employees: List<EmployeeEntity>)
 }
+
 @Dao
 interface AttendanceDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
@@ -62,6 +79,13 @@ interface AttendanceDao {
     suspend fun getEmployeeRecordsByDateList(
         employeeId: Long,
         dates: List<LocalDate>
+    ): List<AttendanceRecord>
+
+    @Query("SELECT * FROM attendance_Record WHERE employeeId = :employeeId AND date BETWEEN :startDate AND :endDate ORDER BY date")
+    suspend fun getEmployeeRecordsByDateRange(
+        employeeId: Long,
+        startDate: LocalDate,
+        endDate: LocalDate
     ): List<AttendanceRecord>
 
     @Insert

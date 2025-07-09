@@ -1,4 +1,4 @@
-package com.example.sheetcompute.ui.features.attendanceHistory
+package com.example.sheetcompute.ui.features.attendanceHistory.dateFilterHistory
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,11 +8,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.sheetcompute.R
 import com.example.sheetcompute.data.entities.AttendanceRecordUI
 import com.example.sheetcompute.databinding.AttendanceItemBinding
-import com.example.sheetcompute.ui.subFeatures.utils.DateUtils.getMonthName
+import com.example.sheetcompute.ui.subFeatures.utils.DateUtils
 
-class AttendanceAdapter(
-    private val onSelected: (Int) -> Unit
-) : PagingDataAdapter<AttendanceRecordUI, AttendanceAdapter.ViewHolder>(AttendanceDiffCallback()) {
+class AttendanceSummaryAdapter(
+    private val onSelected: (Long) -> Unit
+) : PagingDataAdapter<AttendanceRecordUI, AttendanceSummaryAdapter.ViewHolder>(AttendanceDiffCallback()) {
    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = AttendanceItemBinding.inflate(
             LayoutInflater.from(parent.context),
@@ -33,10 +33,12 @@ class AttendanceAdapter(
             with(binding) {
                 txtId.text = basics.id.toString()
                 txtName.text = basics.name
-                txttardyCount.text = formatMinutesToHoursMinutes(basics.totalTardyMinutes)
+                txttardyCount.text = DateUtils.formatMinutesToHoursMinutes(basics.totalTardyMinutes)
                 txtabsentsCount.text = basics.absentCount.toString()
                 txtMonth.text =
-                    txtMonth.context.getString(R.string.date, getMonthName(basics.month), basics.year.toString())
+                    txtMonth.context.getString(
+                        R.string.date,
+                        DateUtils.getMonthName(basics.month), basics.year.toString())
                 txtWorkingDaysCount.text = basics.presentDays.toString()
 
                     root.setOnClickListener {
@@ -47,12 +49,7 @@ class AttendanceAdapter(
         }
     }
 
-    // Add this function to the AttendanceAdapter class (outside ViewHolder)
-    private fun formatMinutesToHoursMinutes(minutes: Int): String {
-        val hours = minutes / 60
-        val mins = minutes % 60
-        return if (hours > 0) "${hours}h ${mins}m" else "${mins}m"
-    }
+
 }
 
 private class AttendanceDiffCallback : DiffUtil.ItemCallback<AttendanceRecordUI>() {

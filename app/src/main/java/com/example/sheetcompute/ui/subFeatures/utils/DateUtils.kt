@@ -13,7 +13,11 @@ import java.util.Locale
 
 object DateUtils {
     private val TIME_DISPLAY_FORMATTER = DateTimeFormatter.ofPattern("h:mm a", Locale.US)
-
+     fun formatMinutesToHoursMinutes(minutes: Long): String {
+        val hours = minutes / 60
+        val mins = minutes % 60
+        return if (hours > 0) "${hours}h ${mins}m" else "${mins}m"
+    }
      fun formatTimeForStorage(time: LocalTime): String {
         return time.format(TIME_DISPLAY_FORMATTER)
             .replace("AM", " AM")  // Ensure space before AM
@@ -50,30 +54,32 @@ object DateUtils {
         }
     }
 
-    fun parseDateSafely(dateStr: String): LocalDate? {
-        return try {
-            // Try common formats first
-            listOf(
-                "dd-MMM-yyyy",  // 10-Jun-2025
-                "dd-MM-yyyy",   // 10-06-2025
-                "yyyy-MM-dd",   // 2025-06-10
-                "MM/dd/yyyy",   // 06/10/2025
-                "dd/MM/yyyy"    // 10/06/2025
-            ).firstNotNullOfOrNull { pattern ->
-                try {
-                    LocalDate.parse(
-                        dateStr,
-                        DateTimeFormatter.ofPattern(pattern, Locale.ENGLISH)
-                    )
-                } catch (e: Exception) {
-                    null
-                }
-            } ?: throw DateTimeParseException("No valid format found", dateStr, 0)
-        } catch (e: Exception) {
-            Log.w("DateParse", "Failed to parse '$dateStr': ${e.message}")
-            null
-        }
+fun parseDateSafely(dateStr: String): LocalDate? {
+    return try {
+        listOf(
+            "dd-MMM-yyyy",   // 10-Jun-2025
+            "dd-MM-yyyy",    // 10-06-2025
+            "yyyy-MM-dd",    // 2025-06-10
+            "MM/dd/yyyy",    // 06/10/2025
+            "dd/MM/yyyy",    // 10/06/2025
+            "M/d/yy",        // 6/4/25
+            "MM/dd/yy",      // 06/04/25
+            "M/d/yyyy"       // 6/4/2025
+        ).firstNotNullOfOrNull { pattern ->
+            try {
+                LocalDate.parse(
+                    dateStr,
+                    DateTimeFormatter.ofPattern(pattern, Locale.ENGLISH)
+                )
+            } catch (e: Exception) {
+                null
+            }
+        } ?: throw DateTimeParseException("No valid format found", dateStr, 0)
+    } catch (e: Exception) {
+        Log.w("DateParse", "Failed to parse '$dateStr': ${e.message}")
+        null
     }
+}
     fun getMonthName(monthNumber: Int): String {
         return DateFormatSymbols().months.getOrNull(monthNumber - 1) ?: "Unknown"
     }
