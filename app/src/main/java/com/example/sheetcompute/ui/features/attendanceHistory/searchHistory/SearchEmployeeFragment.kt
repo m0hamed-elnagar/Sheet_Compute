@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
@@ -75,12 +74,13 @@ class SearchEmployeeFragment : Fragment() {
                     viewModel.importDataFromExcel(
                         inputStream,
                         requireContext(), // Pass context for saving file
-                        onComplete = { message -> showToast(requireContext(),message) },
-                        onError = { errorMessage -> showToast(requireContext(),errorMessage) }
+                        onComplete = { message ->showToast(requireContext(),message) },
+                        onError = { errorMessage ->showToast(requireContext(),errorMessage) }
                     )
                 }
             },
             onError = { exception ->
+
                 showToast(requireContext(),exception.message.toString())
             }
 
@@ -89,7 +89,7 @@ class SearchEmployeeFragment : Fragment() {
 
 
     private fun setupRecyclerView() {
-        adapter = SearchEmployeeAdapter() { employeeId ->
+        adapter = SearchEmployeeAdapter { employeeId ->
             val bundle = bundleOf("employeeId" to employeeId)
             findNavController().navigate(R.id.employeeAttendanceFragment, bundle)
         }
