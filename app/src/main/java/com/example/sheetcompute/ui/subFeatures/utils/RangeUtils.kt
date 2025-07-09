@@ -33,3 +33,10 @@ fun ClosedRange<LocalDate>.filter(predicate: (LocalDate) -> Boolean): List<Local
     }
     return result
 }
+fun <R> ClosedRange<LocalDate>.map(transform: (LocalDate) -> R): List<R> {
+    val result = mutableListOf<R>()
+    for (date in this) {
+        result.add(transform(date))
+    }
+    return result
+}

@@ -21,15 +21,14 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
 import com.example.sheetcompute.domain.excel.ExcelImporter
 import com.example.sheetcompute.data.repo.EmployeeRepo
+import com.example.sheetcompute.domain.useCases.attendance.GetAttendanceSummaryPagerUseCase
 import com.example.sheetcompute.domain.useCases.workingDays.CountWorkingDaysUseCase
-import com.example.sheetcompute.domain.usecase.attendance.GetAttendanceSummaryPagerUseCase
 import java.io.InputStream
 
 class DateFilterViewModel : BaseViewModel() {
     // Date filters
     private val _selectedYear = MutableStateFlow<Int?>(Calendar.getInstance().get(Calendar.YEAR))
     private val _selectedMonth = MutableStateFlow<Int?>(null)
-    private val _currentMonthWorkingDays = MutableStateFlow<Int?>(null)
 
     // Empty state
     private val _isEmpty = MutableStateFlow(false)
@@ -107,6 +106,7 @@ class DateFilterViewModel : BaseViewModel() {
                 Log.d("DateFilterViewModel", message)
                 refreshData() // Trigger data refresh
                 onComplete(message)
+                refreshData()
             } catch (e: Exception) {
                 val errorMessage = "Failed to import data: ${e.message}"
                 Log.e("DateFilterViewModel", errorMessage, e)
