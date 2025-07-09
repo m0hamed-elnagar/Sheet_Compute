@@ -84,6 +84,7 @@ class SettingFragment : Fragment() {
             saveXlsTemplateToDownloads(requireContext())
         }
     }
+    //todo get this dialog it's own file
     private fun showTimePickerDialog() {
         val currentTime = viewModel.workStartTime.value
         val timePicker = TimePicker(requireContext()).apply {
