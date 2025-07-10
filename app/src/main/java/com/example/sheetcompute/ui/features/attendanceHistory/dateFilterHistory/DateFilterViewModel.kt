@@ -106,7 +106,6 @@ class DateFilterViewModel : BaseViewModel() {
                 Log.d("DateFilterViewModel", message)
                 refreshData() // Trigger data refresh
                 onComplete(message)
-                refreshData()
             } catch (e: Exception) {
                 val errorMessage = "Failed to import data: ${e.message}"
                 Log.e("DateFilterViewModel", errorMessage, e)

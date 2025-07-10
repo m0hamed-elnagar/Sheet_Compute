@@ -79,15 +79,21 @@ class SearchEmployeeFragment : Fragment() {
                 lifecycleScope.launch {
                     viewModel.importDataFromExcel(
                         inputStream,
-                        requireContext(), // Pass context for saving file
-                        onComplete = { message ->showToast(requireContext(),message) },
-                        onError = { errorMessage ->showToast(requireContext(),errorMessage) }
+                        onComplete = { message, importResult ->
+                            if (importResult != null) {
+                                ImportResultDialog(requireContext(), importResult).show()
+                            } else {
+                                showToast(requireContext(), message)
+                            }
+                        },
+                        onError = { errorMessage ->
+                            showToast(requireContext(), errorMessage)
+                        }
                     )
                 }
             },
             onError = { exception ->
-
-                showToast(requireContext(),exception.message.toString())
+                showToast(requireContext(), exception.message.toString())
             }
 
         )
