@@ -2,9 +2,18 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        android:maxSdkVersion="32" />
+<!--    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"-->
+<!--        android:maxSdkVersion="32" />-->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <queries>
+    <!-- Match apps that can handle ACTION_SEND for Excel files -->
+    <intent>
+        <action android:name="android.intent.action.SEND" />
+        <data android:mimeType="application/vnd.ms-excel" />
+    </intent>
+
+    <package android:name="com.whatsapp" />
+    </queries>
     <application
         android:name=".App"
         android:allowBackup="true"
@@ -27,6 +36,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
     </application>
 
 </manifest>
