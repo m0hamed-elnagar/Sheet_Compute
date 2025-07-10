@@ -1,5 +1,6 @@
 package com.example.sheetcompute.domain.excel
 
+import com.example.sheetcompute.data.entities.AttendanceRecord
 import com.example.sheetcompute.data.local.PreferencesGateway
 import com.example.sheetcompute.data.repo.AttendanceRepo
 import com.example.sheetcompute.data.repo.EmployeeRepo
@@ -15,6 +16,7 @@ object ExcelImporter {
     data class ImportResult(
         val newEmployees: Int,
         val recordsAdded: Int,
+        val duplicates: List<AttendanceRecord>,
         val errors: List<ParseResult.Error>
     )
 
@@ -34,13 +36,17 @@ object ExcelImporter {
         }
 
         var insertedCount = 0
+        val duplicates = mutableListOf<AttendanceRecord>()
         result.records.chunked(RECORD_CHUNK_SIZE).forEach {
-            insertedCount += attendanceRepo.insertRecords(it)
+             val inserted = attendanceRepo.insertRecords(it)
+            insertedCount += inserted.addedCount
+            duplicates.addAll(inserted.skippedRecords)
         }
 
         ImportResult(
             newEmployees = newEmployees.size,
             recordsAdded = insertedCount,
+            duplicates = duplicates,
             errors = result.errors
         )
     }

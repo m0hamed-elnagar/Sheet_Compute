@@ -9,7 +9,7 @@ import com.example.sheetcompute.data.repo.EmployeeRepo
 import com.example.sheetcompute.domain.excel.ExcelImporter
 import com.example.sheetcompute.domain.excel.export.RejectionWorkbookBuilder
 import com.example.sheetcompute.ui.features.base.BaseViewModel
-import com.example.sheetcompute.ui.subFeatures.utils.ExcelFileSaver.saveWorkbookToDownloads
+import com.example.sheetcompute.ui.subFeatures.utils.ExcelFileSaver.saveToDownloads
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -52,8 +52,7 @@ class SearchViewModel : BaseViewModel() {
 
     fun importDataFromExcel(
         inputStream: InputStream,
-        context: android.content.Context, // Add context for saving file
-        onComplete: (String) -> Unit,
+        onComplete: (String, ExcelImporter.ImportResult?) -> Unit,
         onError: (String) -> Unit
     ) {
         viewModelScope.launch {
@@ -67,18 +66,7 @@ class SearchViewModel : BaseViewModel() {
                 val message = "Imported: ${result.recordsAdded} records and ${result.newEmployees} new employees"
                 Log.d("SearchViewModel", message)
                 refreshData() // Trigger data refresh
-                // Export errors if any
-                if (result.errors.isNotEmpty()) {
-                    val workbook = RejectionWorkbookBuilder.buildWorkbook(result.errors)
-                    val file = saveWorkbookToDownloads(context, workbook)
-                    if (file != null) {
-                        onComplete("$message. Errors exported to: ${file.name}")
-                    } else {
-                        onComplete("$message. Failed to export errors.")
-                    }
-                } else {
-                    onComplete(message)
-                }
+                onComplete(message, result)
             } catch (e: Exception) {
                 val errorMessage = "Failed to import data: ${e.message}"
                 Log.e("SearchViewModel", errorMessage, e)
