@@ -13,7 +13,7 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.sheetcompute.R
 import com.example.sheetcompute.databinding.FragmentDateFilterBinding
-import com.example.sheetcompute.ui.features.attendanceHistory.searchHistory.ImportConfirmationDialog
+import com.example.sheetcompute.ui.subFeatures.dialogs.ImportConfirmationDialog
 import com.example.sheetcompute.ui.subFeatures.sheetPicker.FilePickerFragmentHelper
 import com.example.sheetcompute.ui.subFeatures.spinners.DateFilterHandler
 import com.example.sheetcompute.ui.subFeatures.utils.isInternetAvailable
@@ -76,13 +76,21 @@ class DateFilterFragment : Fragment() {
                 lifecycleScope.launch {
                     viewModel.importDataFromExcel(
                         inputStream,
-                        onComplete = { message -> showToast(requireContext(),message) },
-                        onError = { errorMessage -> showToast(requireContext(),errorMessage) }
+                        onComplete = { message, importResult ->
+                            if (importResult != null) {
+                                ImportResultDialog(requireContext(), importResult).show()
+                            } else {
+                                showToast(requireContext(), message)
+                            }
+                        },
+                        onError = { errorMessage ->
+                            showToast(requireContext(), errorMessage)
+                        }
                     )
                 }
             },
             onError = { exception ->
-                showToast(requireContext(),exception.message.toString())
+                showToast(requireContext(), exception.message.toString())
             }
 
         )
