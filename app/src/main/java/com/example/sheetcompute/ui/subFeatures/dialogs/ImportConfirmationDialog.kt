@@ -10,7 +10,6 @@ import java.time.LocalTime
 
 class ImportConfirmationDialog(
     context: Context,
-    private val preferencesGateway: PreferencesGateway,
     private val onConfirm: () -> Unit,
 ) : Dialog(context) {
     private lateinit var binding: DialogImportConfirmationBinding
@@ -24,7 +23,7 @@ class ImportConfirmationDialog(
             val current = try { LocalTime.parse(startTime) } catch (e: Exception) { LocalTime.of(8,0) }
             showTimePickerDialog(context, current) { selectedTime ->
                 startTime = selectedTime.toString()
-                preferencesGateway.saveWorkStartTime(selectedTime)
+                PreferencesGateway.saveWorkStartTime(selectedTime)
                 binding.textStartTime.text = startTime
             }
         }
@@ -43,7 +42,7 @@ class ImportConfirmationDialog(
     override fun show() {
         super.show()
         // Always fetch the latest value from shared preferences when dialog is shown
-        startTime = preferencesGateway.getWorkStartTime().toString()
+        startTime = PreferencesGateway.getWorkStartTime().toString()
         binding.textStartTime.text = startTime
     }
 }

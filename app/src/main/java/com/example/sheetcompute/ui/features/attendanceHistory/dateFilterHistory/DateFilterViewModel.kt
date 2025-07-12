@@ -93,8 +93,11 @@ class DateFilterViewModel : BaseViewModel() {
         Log.d("DateFilterViewModel", "Data refresh triggered")
     }
 
-    fun importDataFromExcel(inputStream: InputStream, onComplete: (String) -> Unit, onError: (String) -> Unit) {
-        viewModelScope.launch {
+    fun importDataFromExcel(
+        inputStream: InputStream,
+        onComplete: (String, ExcelImporter.ImportResult?) -> Unit,
+        onError: (String) -> Unit
+    ) {        viewModelScope.launch {
             try {
                 val result = ExcelImporter.import(
                     inputStream,
@@ -103,12 +106,12 @@ class DateFilterViewModel : BaseViewModel() {
                     attendanceRepo
                 )
                 val message = "Imported: ${result.recordsAdded} records and ${result.newEmployees} new employees"
-                Log.d("DateFilterViewModel", message)
+                Log.d("SearchViewModel", message)
                 refreshData() // Trigger data refresh
-                onComplete(message)
+                onComplete(message, result)
             } catch (e: Exception) {
                 val errorMessage = "Failed to import data: ${e.message}"
-                Log.e("DateFilterViewModel", errorMessage, e)
+                Log.e("SearchViewModel", errorMessage, e)
                 onError(errorMessage)
             }
         }
