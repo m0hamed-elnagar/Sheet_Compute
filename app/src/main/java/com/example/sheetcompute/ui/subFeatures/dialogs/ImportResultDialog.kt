@@ -1,18 +1,18 @@
-package com.example.sheetcompute.ui.features.attendanceHistory.searchHistory
+package com.example.sheetcompute.ui.subFeatures.dialogs
 
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import com.example.sheetcompute.databinding.DialogImportResultBinding
-import com.example.sheetcompute.domain.excel.ExcelImporter.ImportResult
+import com.example.sheetcompute.domain.excel.ExcelImporter
 import com.example.sheetcompute.domain.excel.export.RejectionWorkbookBuilder
-import com.example.sheetcompute.ui.subFeatures.utils.ExcelFileSaver.saveToCache
-import com.example.sheetcompute.ui.subFeatures.utils.ExcelFileSaver.saveToDownloads
+import com.example.sheetcompute.ui.subFeatures.utils.ExcelFileSaver
+import com.example.sheetcompute.ui.subFeatures.utils.shareXlsViaWhatsApp
 import java.io.File
 
 class ImportResultDialog(
     context: Context,
-  private val importResult :ImportResult,
+    private val importResult : ExcelImporter.ImportResult,
     private val onSaveReport: (() -> Unit)? = null,
     private val onShareWhatsapp: (() -> Unit)? = null
 ) : Dialog(context) {
@@ -27,17 +27,17 @@ class ImportResultDialog(
         binding.textDuplicateCount.text = "Duplicates not added: ${importResult.duplicates.size}"
         if (importResult.errors.isNotEmpty()) {
             val workbook = RejectionWorkbookBuilder.buildWorkbook(importResult.errors)
-            errorFile = saveToCache(context, workbook)
+            errorFile = ExcelFileSaver.saveToCache(context, workbook)
             if (errorFile != null) {
                 binding.buttonSaveReport.isEnabled = true
                 binding.buttonShareWhatsapp.isEnabled = true
                 binding.textErrorFile.text = "(${importResult.errors.size}) Errors exported: \n ${errorFile?.name}"
                 binding.buttonSaveReport.setOnClickListener {
-                    saveToDownloads(context, workbook)
+                    ExcelFileSaver.saveToDownloads(context, workbook)
                 }
                 binding.buttonShareWhatsapp.setOnClickListener {
                     errorFile?.let { file ->
-                        com.example.sheetcompute.ui.subFeatures.utils.shareXlsViaWhatsApp(context, file)
+                        shareXlsViaWhatsApp(context, file)
                     }
                 }
 
