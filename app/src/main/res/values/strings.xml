@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Sheet Compute</string>
+    <string name="app_name">TimeTracker</string>
     <string name="importing_sheet">Importing sheet</string>
     <string name="action_calendar">Calender fab\n</string>
     <string name="action_settings">setting action\n</string>
