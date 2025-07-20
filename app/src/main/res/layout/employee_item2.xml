@@ -69,6 +69,7 @@
                 android:gravity="center_vertical">
 
                 <ImageView
+                    android:id="@+id/ivLateIcon"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:src="@drawable/ic_clock"
@@ -113,6 +114,6 @@
             android:text="Checked in at 08:15 AM"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="?android:attr/textColorSecondary"
-            android:visibility="gone"/>
+           />
     </LinearLayout>
 </androidx.cardview.widget.CardView>
