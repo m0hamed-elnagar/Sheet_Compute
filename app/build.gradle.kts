@@ -1,11 +1,11 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.ksp)
+//    alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
     alias(libs.plugins.navigation.safeargs.kotlin)
     alias(libs.plugins.google.services)
-
+    id("kotlin-kapt")
 }
 
 android {
@@ -63,8 +63,8 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
-    ksp(libs.androidx.room.compiler)
-    ksp(libs.hilt.compiler)
+    kapt(libs.androidx.room.compiler)
+    kapt(libs.hilt.compiler)
     implementation(libs.hilt.android)
     implementation(libs.androidx.room.paging)
     implementation(libs.androidx.paging.runtime)

@@ -1,24 +1,22 @@
 [versions]
 agp = "8.10.0"
 constraintlayout = "2.2.1"
-hiltAndroid = "2.44"
-kotlin = "2.0.21"
+hiltAndroid = "2.57"
+kotlin = "2.2.0"
 coreKtx = "1.16.0"
 junit = "4.13.2"
 espressoCore = "3.6.1"
-kotlinxCoroutinesAndroid = "1.9.0"
-kotlinxCoroutinesCore = "1.9.0"
-lifecycleRuntimeKtx = "2.9.0"
+kotlinxCoroutinesAndroid = "1.10.2"
+kotlinxCoroutinesCore = "1.10.2"
+lifecycleRuntimeKtx = "2.9.2"
 cardview = "1.0.0"
 material = "1.12.0"
-navigationFragmentKtx = "2.9.0"
+navigationFragmentKtx = "2.9.2"
 pagingRuntime = "3.3.6"
-poiOoxml = "5.2.2"
-poi = "5.2.2"
 recyclerview = "1.4.0"
-appcompat = "1.7.0"
-roomKtx = "2.7.1"
-ksp = "2.0.21-1.0.27"
+appcompat = "1.7.1"
+roomKtx = "2.7.2"
+#ksp = "2.0.21-1.0.27"
 viewpager2 = "1.1.0"
 firebase = "33.16.0"
 
@@ -54,8 +52,6 @@ firebase-common-ktx = { group = "com.google.firebase", name = "firebase-common-k
 google-services = { id = "com.google.gms.google-services", version = "4.4.3" }
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+#ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hiltAndroid" }
 navigation-safeargs-kotlin = { id = "androidx.navigation.safeargs.kotlin", version.ref = "navigationFragmentKtx" }
-
-

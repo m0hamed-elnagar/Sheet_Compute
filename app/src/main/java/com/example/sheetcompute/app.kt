@@ -7,6 +7,9 @@ import com.google.firebase.FirebaseApp
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
+import dagger.hilt.android.HiltAndroidApp
+
+@HiltAndroidApp
 
 class App : Application() {
 
