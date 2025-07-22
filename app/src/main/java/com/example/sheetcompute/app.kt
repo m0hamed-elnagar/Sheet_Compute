@@ -2,17 +2,18 @@ package com.example.sheetcompute
 
 import android.app.Application
 import android.util.Log
-import com.example.sheetcompute.domain.DomainIntegration
 import com.google.firebase.FirebaseApp
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
+import dagger.hilt.android.HiltAndroidApp
+
+@HiltAndroidApp
 
 class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        DomainIntegration.with(this)
         FirebaseApp.initializeApp(this)
         initRemoteConfig()
     }

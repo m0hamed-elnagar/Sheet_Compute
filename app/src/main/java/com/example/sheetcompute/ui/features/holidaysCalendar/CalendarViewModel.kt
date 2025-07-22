@@ -7,14 +7,18 @@ import com.example.sheetcompute.data.entities.Holiday
 import com.example.sheetcompute.data.repo.HolidayRepo
 import com.example.sheetcompute.domain.useCases.datetime.*
 import com.example.sheetcompute.ui.features.base.BaseViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import java.time.DayOfWeek
 import java.time.YearMonth
 
-class CalendarViewModel : BaseViewModel() {
-    private val holidayRepository = HolidayRepo()
-    private val preferencesDataSource: PreferencesGateway = PreferencesGateway
+@HiltViewModel
+class CalendarViewModel @Inject constructor(
+    private val holidayRepository: HolidayRepo,
+    private val preferencesDataSource: PreferencesGateway
+) : BaseViewModel() {
 
     val weekendDays = preferencesDataSource.weekendDays
         .map { CalendarDayToDayOfWeekUseCase.execute(it) }

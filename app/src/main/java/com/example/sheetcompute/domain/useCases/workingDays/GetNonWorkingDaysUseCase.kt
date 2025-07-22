@@ -6,10 +6,12 @@ import com.example.sheetcompute.domain.useCases.datetime.CalendarDayToDayOfWeekU
 import com.example.sheetcompute.domain.useCases.datetime.GenerateDateRangeUseCase
 import com.example.sheetcompute.ui.subFeatures.utils.filter
 import java.time.LocalDate
+import javax.inject.Inject
 
-class GetNonWorkingDaysUseCase(private val holidayRepo: HolidayRepo) {
+class GetNonWorkingDaysUseCase @Inject constructor(private val holidayRepo: HolidayRepo
+, private val preferencesGateway: PreferencesGateway) {
     suspend operator fun invoke(start: LocalDate, end: LocalDate): Set<LocalDate> {
-        val weekends = PreferencesGateway.weekendDays.value.let {
+        val weekends = preferencesGateway.weekendDays.value.let {
             CalendarDayToDayOfWeekUseCase.execute(it)
         }
 

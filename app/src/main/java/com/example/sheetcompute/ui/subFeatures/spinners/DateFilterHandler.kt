@@ -16,7 +16,7 @@ class DateFilterHandler(
     private val yearSpinner: Spinner,
     private val monthSpinner: Spinner,
     private val coroutineScope: LifecycleCoroutineScope,
-    private val includeAllMonths: Boolean = true,
+     includeAllMonths: Boolean = true,
     private val onYearSelected: (Int?) -> Unit,
     private val onMonthSelected: (Int?) -> Unit
 ) {

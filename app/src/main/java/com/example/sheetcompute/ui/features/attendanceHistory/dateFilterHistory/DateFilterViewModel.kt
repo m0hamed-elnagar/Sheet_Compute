@@ -24,8 +24,15 @@ import com.example.sheetcompute.data.repo.EmployeeRepo
 import com.example.sheetcompute.domain.useCases.attendance.GetAttendanceSummaryPagerUseCase
 import com.example.sheetcompute.domain.useCases.workingDays.CountWorkingDaysUseCase
 import java.io.InputStream
+import javax.inject.Inject
+import dagger.hilt.android.lifecycle.HiltViewModel
 
-class DateFilterViewModel : BaseViewModel() {
+@HiltViewModel
+class DateFilterViewModel @Inject constructor(
+    private val excelImporter: ExcelImporter,
+    private val preferencesGateway: PreferencesGateway,
+    private val getAttendanceSummaryPagerUseCase: GetAttendanceSummaryPagerUseCase
+) : BaseViewModel() {
     // Date filters
     private val _selectedYear = MutableStateFlow<Int?>(Calendar.getInstance().get(Calendar.YEAR))
     private val _selectedMonth = MutableStateFlow<Int?>(null)
@@ -33,12 +40,6 @@ class DateFilterViewModel : BaseViewModel() {
     // Empty state
     private val _isEmpty = MutableStateFlow(false)
     val isEmpty: StateFlow<Boolean> = _isEmpty
-    private val employeeRepo by lazy { EmployeeRepo() }
-    private val attendanceRepo = AttendanceRepo()
-    private val holidayRepo = HolidayRepo()
-    private val calculateWorkingDaysUseCase = CountWorkingDaysUseCase(holidayRepo)
-    private val getAttendanceSummaryPagerUseCase =
-        GetAttendanceSummaryPagerUseCase(attendanceRepo, calculateWorkingDaysUseCase)
     private val _refreshTrigger = MutableStateFlow(0)
 
     val attendanceRecords: Flow<PagingData<AttendanceRecordUI>> = combine(
@@ -47,7 +48,7 @@ class DateFilterViewModel : BaseViewModel() {
         _refreshTrigger
     ) { year, month, forceRefresh ->
         if (year != null && month != null) {
-            val range = createCustomMonthRange(month , year, PreferencesGateway.getMonthStartDay())
+            val range = createCustomMonthRange(month , year, preferencesGateway.getMonthStartDay())
             Log.d("DateFilterViewModel", "Selected range: $range")
             if (range != null) {
 
@@ -99,11 +100,8 @@ class DateFilterViewModel : BaseViewModel() {
         onError: (String) -> Unit
     ) {        viewModelScope.launch {
             try {
-                val result = ExcelImporter.import(
+                val result = excelImporter.import(
                     inputStream,
-                    PreferencesGateway.getWorkStartTime(),
-                    employeeRepo,
-                    attendanceRepo
                 )
                 val message = "Imported: ${result.recordsAdded} records and ${result.newEmployees} new employees"
                 Log.d("SearchViewModel", message)

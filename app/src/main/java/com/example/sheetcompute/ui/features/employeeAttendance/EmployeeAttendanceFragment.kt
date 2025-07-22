@@ -22,9 +22,11 @@ import com.example.sheetcompute.ui.subFeatures.utils.DateUtils.formatDateRange
 import com.example.sheetcompute.ui.subFeatures.utils.DateUtils.formatMinutesToHoursMinutes
 import com.example.sheetcompute.ui.subFeatures.utils.ExcelFileSaver.saveToDownloads
 import com.example.sheetcompute.ui.subFeatures.utils.showToast
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class EmployeeAttendanceFragment : Fragment() {
     private var _binding: EmployeeAttendanceFragmentBinding? = null
     private val binding get() = _binding!!

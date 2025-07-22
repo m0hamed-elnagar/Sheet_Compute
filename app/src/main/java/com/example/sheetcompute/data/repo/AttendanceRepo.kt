@@ -6,16 +6,21 @@ import com.example.sheetcompute.data.entities.AttendanceRecord
 import com.example.sheetcompute.data.entities.AttendanceRecordUI
 import com.example.sheetcompute.data.paging.AttendanceSummaryPagingSource
 import com.example.sheetcompute.data.local.room.AppDatabase
+import com.example.sheetcompute.data.local.room.daos.AttendanceDao
 import java.time.LocalDate
+import javax.inject.Inject
+import javax.inject.Singleton
+
 data class InsertResult(
     val addedCount: Int,
     val skippedRecords: List<AttendanceRecord>
 )
+@Singleton
 
-class AttendanceRepo {
-    private val database by lazy { AppDatabase.get() }
+class AttendanceRepo @Inject constructor(
+    private val attendanceDao: AttendanceDao,
+){
 
-    private val attendanceDao by lazy { database.EmployeeAttendanceDao() }
     suspend fun getEmployeeAttendanceRecordsByRange(
         employeeId: Long,
         startDate: LocalDate,

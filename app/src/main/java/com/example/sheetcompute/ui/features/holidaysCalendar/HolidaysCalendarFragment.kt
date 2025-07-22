@@ -22,11 +22,13 @@ import com.example.sheetcompute.ui.subFeatures.dialogs.DatePickerDialogs
 import com.example.sheetcompute.ui.subFeatures.dialogs.DeleteConfirmationDialogFragment
 import com.example.sheetcompute.ui.subFeatures.dialogs.HolidayDetailsDialogFragment
 import com.example.sheetcompute.ui.subFeatures.dialogs.WeekendSelectionDialogFragment
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import java.time.DayOfWeek
 import java.time.LocalDate
 
+@AndroidEntryPoint
 class HolidaysCalendarFragment : Fragment() {
     private var _binding: FragmentHolidaysCalendarBinding? = null
     private val binding get() = _binding!!
@@ -223,5 +225,3 @@ class HolidaysCalendarFragment : Fragment() {
         _binding = null
     }
 }
-
-
