@@ -1,30 +1,27 @@
 package com.example.sheetcompute.data.local
 
-import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
 import com.example.sheetcompute.data.entities.DEFAULT_MONTH_START_DAY
 import com.example.sheetcompute.data.entities.KEY_WORK_START_TIME
 import com.example.sheetcompute.data.entities.MONTH_START_DAY_KEY
-import com.example.sheetcompute.data.entities.SHARED_PREFERENCE_NAME
 import com.example.sheetcompute.data.entities.WEEKEND_DAYS_KEY
-import com.example.sheetcompute.domain.DomainIntegration
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.withContext
 import java.time.LocalTime
 import java.util.Calendar
+import javax.inject.Inject
+import javax.inject.Singleton
 
-object PreferencesGateway {
-    val pref: SharedPreferences by lazy {
-        DomainIntegration
-            .getApplication()
-            .getSharedPreferences(SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE)
-    }
+@Singleton
+class PreferencesGateway @Inject constructor(
+    val pref: SharedPreferences
+) {
     private val _weekendDays = MutableStateFlow(emptySet<Int>())
     val weekendDays: StateFlow<Set<Int>> = _weekendDays
-    //todo save the workingstart time
+
     fun saveWorkStartTime(time: LocalTime) {
         pref.edit().putString(KEY_WORK_START_TIME, time.toString()).apply()
     }
@@ -36,6 +33,7 @@ object PreferencesGateway {
             defaultTime
         }
     }
+
     suspend fun init() = withContext(Dispatchers.IO) {
         _weekendDays.value = getWeekendDays() ?: setOf(Calendar.FRIDAY).also(::setWeekendDays)
     }
@@ -46,16 +44,14 @@ object PreferencesGateway {
         pref.edit { putString(WEEKEND_DAYS_KEY, value) }
     }
 
-    // Get weekend days
     private fun getWeekendDays(): Set<Int>? {
         val saved = pref.getString(WEEKEND_DAYS_KEY, null) ?: return null
         return saved.split(",")
             .filter { it.isNotBlank() }
-            .mapNotNull { runCatching { it.toInt()}.getOrNull() }
+            .mapNotNull { runCatching { it.toInt() }.getOrNull() }
             .toSet()
     }
 
-//todo save the month start day
     fun setMonthStartDay(day: Int) {
         pref.edit { putInt(MONTH_START_DAY_KEY, day) }
     }
@@ -63,5 +59,4 @@ object PreferencesGateway {
     fun getMonthStartDay(): Int {
         return pref.getInt(MONTH_START_DAY_KEY, DEFAULT_MONTH_START_DAY)
     }
-
 }

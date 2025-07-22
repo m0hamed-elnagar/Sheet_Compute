@@ -13,6 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.sheetcompute.R
+import com.example.sheetcompute.data.local.PreferencesGateway
 import com.example.sheetcompute.databinding.FragmentSearchEmployeeBinding
 import com.example.sheetcompute.ui.subFeatures.dialogs.ImportConfirmationDialog
 import com.example.sheetcompute.ui.subFeatures.dialogs.ImportResultDialog
@@ -22,18 +23,23 @@ import com.example.sheetcompute.ui.subFeatures.utils.scrollToTop
 import com.example.sheetcompute.ui.subFeatures.utils.showToast
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.ktx.remoteConfig
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class SearchEmployeeFragment : Fragment() {
+@AndroidEntryPoint
+class SearchEmployeeFragment  : Fragment() {
     private var _binding: FragmentSearchEmployeeBinding? = null
     private val binding get() = _binding!!
     private val viewModel: SearchViewModel by viewModels()
     private lateinit var adapter: SearchEmployeeAdapter
     private var searchJob: Job? = null
     private lateinit var filePickerHelper: FilePickerFragmentHelper
+    @Inject
+    lateinit var preferencesGateway: PreferencesGateway
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -54,7 +60,9 @@ class SearchEmployeeFragment : Fragment() {
     }
 //todo extract to use in other fragments
     private fun showImportDialog() {
-        ImportConfirmationDialog(requireContext(), onConfirm = {
+        ImportConfirmationDialog(requireContext(),
+            preferencesGateway
+            , onConfirm = {
             extractExcel()
         }).show()
     }

@@ -8,7 +8,6 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.example.sheetcompute.R
 import com.example.sheetcompute.databinding.ActivityMainBinding
-import com.example.sheetcompute.domain.di.MyTestClass
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -19,8 +18,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
     private var _binding: ActivityMainBinding? = null
     private val binding get() = _binding!!
-    @Inject
-    lateinit var myTestClass: MyTestClass
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,7 +26,6 @@ class MainActivity : AppCompatActivity() {
 
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        Log.d("HiltTest", myTestClass.sayHello())
 
         setupNavController()
         setupToolbarMenu()

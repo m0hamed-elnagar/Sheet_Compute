@@ -5,12 +5,14 @@ import com.example.sheetcompute.data.entities.Holiday
 import com.example.sheetcompute.data.entities.HolidayRange
 import com.example.sheetcompute.data.local.room.AppDatabase
 import java.time.LocalDate
+import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 
-class HolidayRepo (
+class HolidayRepo  @Inject constructor(
+    private val holidayDao: HolidayDao
 )  {
-    private val database by lazy { AppDatabase.get() }
-    private val holidayDao: HolidayDao by lazy { database.holidayDao() }
      suspend fun addHoliday(holiday: Holiday) {
         holidayDao.addHoliday(holiday)
     }

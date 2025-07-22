@@ -11,11 +11,6 @@ open class BaseViewModel(
     open val loading: LiveData<Boolean> = _loading.distinctUntilChanged(),
     val onError: LiveData<String> = _onError,
 ) : ViewModel() {
-
-
-
-
-
     fun reset() {
         _onError.postValue("")
     }

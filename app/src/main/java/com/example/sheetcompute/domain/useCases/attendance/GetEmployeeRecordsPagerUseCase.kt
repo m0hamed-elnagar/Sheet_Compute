@@ -9,11 +9,12 @@ import com.example.sheetcompute.domain.useCases.workingDays.GetNonWorkingDaysUse
 import com.example.sheetcompute.ui.subFeatures.utils.filter
 import com.example.sheetcompute.ui.subFeatures.utils.map
 import java.time.LocalDate
+import javax.inject.Inject
 import kotlin.collections.containsKey
 import kotlin.text.get
 import kotlin.times
 
-class GetEmployeeAttendanceRecordsUseCase(
+class GetEmployeeAttendanceRecordsUseCase @Inject constructor(
     private val attendanceRepo: AttendanceRepo,
     private val getNonWorkingDaysUseCase: GetNonWorkingDaysUseCase
 ) {
