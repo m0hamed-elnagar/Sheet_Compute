@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.sheetcompute.R
+import com.example.sheetcompute.data.local.PreferencesGateway
 import com.example.sheetcompute.databinding.FragmentDateFilterBinding
 import com.example.sheetcompute.ui.subFeatures.dialogs.ImportConfirmationDialog
 import com.example.sheetcompute.ui.subFeatures.dialogs.ImportResultDialog
@@ -21,8 +22,10 @@ import com.example.sheetcompute.ui.subFeatures.utils.isInternetAvailable
 import com.example.sheetcompute.ui.subFeatures.utils.showToast
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.ktx.remoteConfig
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-
+import javax.inject.Inject
+@AndroidEntryPoint
 class DateFilterFragment : Fragment() {
     private var _binding: FragmentDateFilterBinding? = null
     private val binding get() = _binding!!
@@ -30,6 +33,8 @@ class DateFilterFragment : Fragment() {
     private lateinit var adapter: AttendanceSummaryAdapter
     private lateinit var dateFilterHandler: DateFilterHandler
     private lateinit var filePickerHelper: FilePickerFragmentHelper
+    @Inject
+    lateinit var preferencesGateway: PreferencesGateway
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -51,7 +56,7 @@ class DateFilterFragment : Fragment() {
     }
 
     private fun showImportDialog() {
-        ImportConfirmationDialog(requireContext(), onConfirm = {
+        ImportConfirmationDialog(requireContext(), preferencesGateway , onConfirm = {
             extractExcel()
         }).show()
     }
