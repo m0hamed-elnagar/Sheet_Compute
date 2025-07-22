@@ -2,13 +2,18 @@ package com.example.sheetcompute.ui.features.settingFragment
 
 import com.example.sheetcompute.data.local.PreferencesGateway
 import com.example.sheetcompute.ui.features.base.BaseViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import java.time.LocalTime
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import javax.inject.Inject
 
-class SettingViewmodel : BaseViewModel()  {
-    private val preferencesDataSource: PreferencesGateway = PreferencesGateway
+@HiltViewModel
+
+class SettingViewmodel @Inject constructor(
+    private val preferencesDataSource: PreferencesGateway
+)  : BaseViewModel()  {
 
     private val _workStartTime = MutableStateFlow(preferencesDataSource.getWorkStartTime())
     val workStartTime: StateFlow<LocalTime> = _workStartTime.asStateFlow()
