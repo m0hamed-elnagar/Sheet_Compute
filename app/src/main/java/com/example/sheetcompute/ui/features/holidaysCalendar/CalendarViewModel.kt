@@ -118,7 +118,6 @@ class CalendarViewModel @Inject constructor(
             if (_currentMonth.value != month) {
                 _currentMonth.value = month
                 loadHolidaysForMonth(month)
-                Log.d("CalendarViewModel", "updateCurrentMonth: $month")
             }
         }
     }
