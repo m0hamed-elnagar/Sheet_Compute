@@ -6,25 +6,30 @@ import java.text.DateFormatSymbols
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.LocalTime
+import java.time.chrono.IsoEra
 import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeFormatterBuilder
 import java.time.format.DateTimeParseException
+import java.time.temporal.ChronoField
 import java.util.Date
 import java.util.Locale
 
 object DateUtils {
     private val TIME_DISPLAY_FORMATTER = DateTimeFormatter.ofPattern("h:mm a", Locale.US)
-     fun formatMinutesToHoursMinutes(minutes: Long): String {
+
+    fun formatMinutesToHoursMinutes(minutes: Long): String {
         val hours = minutes / 60
         val mins = minutes % 60
         return if (hours > 0) "${hours}h ${mins}m" else "${mins}m"
     }
-     fun formatTimeForStorage(time: LocalTime): String {
+
+    fun formatTimeForStorage(time: LocalTime): String {
         return time.format(TIME_DISPLAY_FORMATTER)
-            .replace("AM", " AM")  // Ensure space before AM
-            .replace("PM", " PM")  // Ensure space before PM
+            .replace(Regex("\\s+"), " ")  // Normalize any extra spacing
+            .trim()
     }
 
-     fun parseTimeString(timeStr: String): LocalTime? {
+    fun parseTimeString(timeStr: String): LocalTime? {
         val cleanStr = timeStr
             .replace(" ", "")
             .replace(".", "")
@@ -37,19 +42,16 @@ object DateUtils {
                     val format = if (cleanStr.count { it == ':' } == 2) "h:mm:ssa" else "h:mma"
                     LocalTime.parse(cleanStr, DateTimeFormatter.ofPattern(format, Locale.US))
                 }
-
                 cleanStr.count { it == ':' } == 2 -> {
                     // Handle "06:29:59"
                     LocalTime.parse(cleanStr, DateTimeFormatter.ofPattern("HH:mm:ss"))
                 }
-
                 else -> {
-                    // Handle "06:29"
                     LocalTime.parse(cleanStr, DateTimeFormatter.ofPattern("HH:mm"))
                 }
             }
         } catch (e: Exception) {
-            Log.w("ExcelImport", "Failed to parse time string: $timeStr' (cleaned: '$cleanStr')")
+            logWarning("Failed to parse time string: '$timeStr' (cleaned: '$cleanStr')")
             null
         }
     }
@@ -61,7 +63,6 @@ fun parseDateSafely(dateStr: String): LocalDate? {
             "dd-MM-yyyy",    // 10-06-2025
             "yyyy-MM-dd",    // 2025-06-10
             "MM/dd/yyyy",    // 06/10/2025
-            "dd/MM/yyyy",    // 10/06/2025
             "M/d/yy",        // 6/4/25
             "MM/dd/yy",      // 06/04/25
             "M/d/yyyy"       // 6/4/2025
@@ -76,34 +77,44 @@ fun parseDateSafely(dateStr: String): LocalDate? {
             }
         } ?: throw DateTimeParseException("No valid format found", dateStr, 0)
     } catch (e: Exception) {
-        Log.w("DateParse", "Failed to parse '$dateStr': ${e.message}")
+        logWarning("Failed to parse date: '$dateStr' - ${e.message}")
         null
     }
 }
     fun getMonthName(monthNumber: Int): String {
-        return DateFormatSymbols().months.getOrNull(monthNumber - 1) ?: "Unknown"
+        val name = DateFormatSymbols().months.getOrNull(monthNumber - 1)
+        return if (name.isNullOrBlank()) "Unknown" else name
     }
+
     fun Date.format(pattern: String): String =
         SimpleDateFormat(pattern, Locale.getDefault()).format(this)
 
-    // Extension function for better date range formatting
-    fun formatDateRange(startDate: java.time.LocalDate, endDate: java.time.LocalDate): String {
-        val formatter = DateTimeFormatter.ofPattern("MMM dd, yyyy")
+fun formatDateRange(startDate: LocalDate, endDate: LocalDate): String {
+    val fullFormatter = DateTimeFormatter.ofPattern("MMM d, yyyy")
+    val shortFormatter = DateTimeFormatter.ofPattern("MMM d")
 
-        return when {
-            startDate == endDate -> startDate.format(formatter)
-            startDate.year == endDate.year && startDate.month == endDate.month -> {
-                // Same month: "Jan 15 - 20, 2024"
-                "${startDate.format(DateTimeFormatter.ofPattern("MMM dd"))} - ${endDate.format(formatter)}"
-            }
-            startDate.year == endDate.year -> {
-                // Same year: "Jan 15 - Feb 20, 2024"
-                "${startDate.format(DateTimeFormatter.ofPattern("MMM dd"))} - ${endDate.format(formatter)}"
-            }
-            else -> {
-                // Different years: "Dec 25, 2023 - Jan 5, 2024"
-                "${startDate.format(formatter)} - ${endDate.format(formatter)}"
-            }
+    return when {
+        startDate == endDate -> startDate.format(fullFormatter)
+
+        startDate.year == endDate.year && startDate.month == endDate.month -> {
+            // Same month: "Jan 15 - 20, 2024"
+            "${startDate.format(shortFormatter)} - ${endDate.dayOfMonth}, ${endDate.year}"
         }
+
+        startDate.year == endDate.year -> {
+            // Same year: "Jan 15 - Feb 20, 2024"
+            "${startDate.format(shortFormatter)} - ${endDate.format(fullFormatter)}"
+        }
+
+        else -> {
+            // Different years: "Dec 25, 2023 - Jan 5, 2024"
+            "${startDate.format(fullFormatter)} - ${endDate.format(fullFormatter)}"
+        }
+    }
+}
+
+    // Safe logger (won’t crash in unit tests)
+    private fun logWarning(message: String) {
+        println("WARNING: $message") // Replace or mock in tests if needed
     }
 }

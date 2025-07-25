@@ -9,17 +9,13 @@ import com.example.sheetcompute.ui.features.base.BaseViewModel
 import kotlinx.coroutines.flow.*
 import androidx.lifecycle.asLiveData
 import com.example.sheetcompute.data.local.PreferencesGateway
-import com.example.sheetcompute.data.repo.AttendanceRepo
-import com.example.sheetcompute.data.repo.HolidayRepo
 import com.example.sheetcompute.data.repo.EmployeeRepo
 import com.example.sheetcompute.data.entities.EmployeeEntity
 import com.example.sheetcompute.domain.useCases.createCustomMonthRange
-import com.example.sheetcompute.domain.useCases.workingDays.GetNonWorkingDaysUseCase
 import com.example.sheetcompute.domain.usecase.GetEmployeeAttendanceRecordsUseCase
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import kotlin.collections.plus
-import com.example.sheetcompute.ui.subFeatures.utils.DateUtils.formatMinutesToHoursMinutes
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -29,7 +25,7 @@ class EmployeeAttendanceViewModel @Inject constructor(
     private val employeeRepo: EmployeeRepo,
     private val preferencesGateway: PreferencesGateway
 ) : BaseViewModel() {
-    internal val _dateRange = MutableStateFlow<ClosedRange<LocalDate>?>(null)
+    private val _dateRange = MutableStateFlow<ClosedRange<LocalDate>?>(null)
     private val _selectedStatuses = MutableStateFlow<Set<AttendanceStatus>>(emptySet())
     private val _cachedRecords = MutableStateFlow<List<EmployeeAttendanceRecord>>(emptyList())
     // Counters
