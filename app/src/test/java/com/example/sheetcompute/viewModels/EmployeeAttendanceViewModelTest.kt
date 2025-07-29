@@ -13,16 +13,11 @@ import com.example.sheetcompute.ui.features.employeeAttendance.EmployeeAttendanc
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
-import junit.framework.TestCase.assertEquals
-import junit.framework.TestCase.assertTrue
-import kotlinx.coroutines.Dispatchers
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
-import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
-import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -31,6 +26,7 @@ import java.time.LocalDate
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class EmployeeAttendanceViewModelTest {
+
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
@@ -41,39 +37,41 @@ class EmployeeAttendanceViewModelTest {
     private lateinit var getEmployeeAttendanceRecordsUseCase: GetEmployeeAttendanceRecordsUseCase
     private lateinit var employeeRepo: EmployeeRepo
     private lateinit var viewModel: EmployeeAttendanceViewModel
-//    private val testDispatcher = StandardTestDispatcher()
+
     private val presentCountObserver = Observer<Int> {}
     private val absentCountObserver = Observer<Int> {}
     private val extraDaysObserver = Observer<Int> {}
     private val tardiesObserver = Observer<Long> {}
+    private val isEmptyObserver = Observer<Boolean> {}
 
     @Before
     fun setUp() {
-//        Dispatchers.setMain(testDispatcher)
-
         preferencesGateway = mockk(relaxed = true)
         employeeRepo = mockk()
         getEmployeeAttendanceRecordsUseCase = mockk()
-        every { preferencesGateway.getMonthStartDay() } returns 1     // start on the 1st
+        every { preferencesGateway.getMonthStartDay() } returns 1     // 1st of month
 
         viewModel = EmployeeAttendanceViewModel(
             getEmployeeAttendanceRecordsUseCase,
             employeeRepo,
             preferencesGateway
         )
+
+        // Always observe LiveData so .value is available
         viewModel.presentCount.observeForever(presentCountObserver)
         viewModel.absentCount.observeForever(absentCountObserver)
         viewModel.extraDaysCount.observeForever(extraDaysObserver)
         viewModel.tardiesCount.observeForever(tardiesObserver)
+        viewModel.isEmpty.observeForever(isEmptyObserver)
     }
 
     @After
     fun tearDown() {
-//        Dispatchers.resetMain()
         viewModel.presentCount.removeObserver(presentCountObserver)
         viewModel.absentCount.removeObserver(absentCountObserver)
         viewModel.extraDaysCount.removeObserver(extraDaysObserver)
         viewModel.tardiesCount.removeObserver(tardiesObserver)
+        viewModel.isEmpty.removeObserver(isEmptyObserver)
     }
 
     @Test
@@ -130,17 +128,14 @@ class EmployeeAttendanceViewModelTest {
     }
 
     @Test
-    fun `setting employeeId should fetch employee and records2`() = runTest {
+    fun `setEmployeeId fetches employee and returns correct counters`() = runTest {
         val employeeId = 1L
         val employee = EmployeeEntity(id = employeeId, name = "John")
         val expectedRecords = listOf(
-            EmployeeAttendanceRecord(
-                1, employeeId, "", LocalDate.of(2025, 6, 1), 0L, AttendanceStatus.ABSENT),
-            EmployeeAttendanceRecord(
-                2, employeeId, "", LocalDate.of(2025, 6, 2), 0L, AttendanceStatus.ABSENT),
-            EmployeeAttendanceRecord(
-                3, employeeId, "", LocalDate.of(2025, 6, 3), 0L, AttendanceStatus.ABSENT)
-            ,EmployeeAttendanceRecord(4, employeeId, "", LocalDate.of(2025, 6, 4), 0L, AttendanceStatus.PRESENT)
+            EmployeeAttendanceRecord(1, employeeId, "", LocalDate.of(2025, 6, 1), 0L, AttendanceStatus.ABSENT),
+            EmployeeAttendanceRecord(2, employeeId, "", LocalDate.of(2025, 6, 2), 0L, AttendanceStatus.ABSENT),
+            EmployeeAttendanceRecord(3, employeeId, "", LocalDate.of(2025, 6, 3), 0L, AttendanceStatus.ABSENT),
+            EmployeeAttendanceRecord(4, employeeId, "", LocalDate.of(2025, 6, 4), 0L, AttendanceStatus.PRESENT)
         )
 
         coEvery { employeeRepo.getEmployeeById(employeeId) } returns employee
@@ -152,63 +147,46 @@ class EmployeeAttendanceViewModelTest {
         assertEquals(employee, viewModel.selectedEmployee.value)
         assertEquals(1, viewModel.presentCount.value)
         assertEquals(3, viewModel.absentCount.value)
+        val isEmptyValue = viewModel.isEmpty.value
+
+        assertEquals(false, isEmptyValue)
     }
 
     @Test
-    fun `setMonthRange sets correct date range and fetches records`() = runTest {
+    fun `setMonthRange uses correct date range`() = runTest {
         val employeeId = 2L
         val employee = EmployeeEntity(id = employeeId, name = "Jane")
         val expectedRange = LocalDate.of(2024, 7, 1)..LocalDate.of(2024, 7, 31)
         val expectedRecords = listOf(
-            EmployeeAttendanceRecord(
-                1,
-                employeeId,
-                "",
-                LocalDate.of(2024, 7, 1),
-                0L,
-                AttendanceStatus.PRESENT
-            )
+            EmployeeAttendanceRecord(1, employeeId, "", LocalDate.of(2024, 7, 1), 0L, AttendanceStatus.PRESENT)
         )
 
         coEvery { employeeRepo.getEmployeeById(employeeId) } returns employee
         coEvery {
-            getEmployeeAttendanceRecordsUseCase(
-                employeeId,
-                expectedRange.start,
-                expectedRange.endInclusive
-            )
+            getEmployeeAttendanceRecordsUseCase(employeeId, expectedRange.start, expectedRange.endInclusive)
         } returns expectedRecords
+
         viewModel.setMonthRange(7, 2024)
         viewModel.setEmployeeId(employeeId)
         advanceUntilIdle()
+
         assertEquals(expectedRecords, viewModel.filteredRecords.value)
     }
 
     @Test
-    fun `setCustomRange sets custom range and fetches records`() = runTest {
+    fun `setCustomRange uses exact range`() = runTest {
         val employeeId = 3L
         val employee = EmployeeEntity(id = employeeId, name = "Sam")
         val start = LocalDate.of(2024, 8, 1)
         val end = LocalDate.of(2024, 8, 5)
         val expectedRecords = listOf(
             EmployeeAttendanceRecord(1, employeeId, "", start, 0L, AttendanceStatus.PRESENT),
-            EmployeeAttendanceRecord(
-                2,
-                employeeId,
-                "",
-                start.plusDays(1),
-                0L,
-                AttendanceStatus.ABSENT
-            ),
+            EmployeeAttendanceRecord(2, employeeId, "", start.plusDays(1), 0L, AttendanceStatus.ABSENT)
         )
+
         coEvery { employeeRepo.getEmployeeById(employeeId) } returns employee
-        coEvery {
-            getEmployeeAttendanceRecordsUseCase(
-                employeeId,
-                start,
-                end
-            )
-        } returns expectedRecords
+        coEvery { getEmployeeAttendanceRecordsUseCase(employeeId, start, end) } returns expectedRecords
+
         viewModel.setCustomRange(start, end)
         viewModel.setEmployeeId(employeeId)
         advanceUntilIdle()
