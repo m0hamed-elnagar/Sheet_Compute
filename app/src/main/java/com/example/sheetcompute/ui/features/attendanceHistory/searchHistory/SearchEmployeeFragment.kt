@@ -139,7 +139,7 @@ class SearchEmployeeFragment  : Fragment() {
 
     private fun observeData() {
         lifecycleScope.launch {
-            viewModel.attendanceRecords.collectLatest { pagingData ->
+            viewModel.filteredEmployees.collectLatest { pagingData ->
                 adapter.submitList(pagingData)
                 _binding?.rvHistory?.apply {
                     this.scrollToTop()

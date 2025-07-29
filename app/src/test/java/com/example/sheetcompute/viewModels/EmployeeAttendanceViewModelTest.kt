@@ -114,9 +114,7 @@ class EmployeeAttendanceViewModelTest {
                 any()
             )
         } returns expectedRecords
-
-        // Set the month range explicitly to ensure the date range matches the expected records
-//        viewModel.setMonthRange(7, 2024)
+        // When
         viewModel.setEmployeeId(employeeId)
 
         advanceUntilIdle()

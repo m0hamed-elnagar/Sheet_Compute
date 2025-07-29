@@ -20,6 +20,7 @@ proguard = "3.17"
 recyclerview = "1.4.0"
 appcompat = "1.7.1"
 roomKtx = "2.7.2"
+truth = "1.4.4"
 view = "2.8.0"
 viewpager2 = "1.1.0"
 firebase = "33.16.0"
@@ -60,6 +61,7 @@ firebase-common-ktx = { group = "com.google.firebase", name = "firebase-common-k
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 proguard = { module = "com.github.SUPERCILEX.poi-android:proguard", version.ref = "proguard" }
 poi = { module = "com.github.SUPERCILEX.poi-android:poi", version.ref = "poi" }
+truth = { module = "com.google.truth:truth", version.ref = "truth" }
 turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine" }
 arch-core-testing = { group = "androidx.arch.core", name = "core-testing", version.ref = "arch-core-testing" }
 view = { module = "com.kizitonwose.calendar:view", version.ref = "view" }

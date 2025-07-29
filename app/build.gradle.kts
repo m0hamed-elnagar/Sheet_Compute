@@ -95,5 +95,6 @@ dependencies {
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.turbine)  // for testing flows
     testImplementation(libs.arch.core.testing)   // for LiveData testing
+    testImplementation(libs.truth)
 
 }
