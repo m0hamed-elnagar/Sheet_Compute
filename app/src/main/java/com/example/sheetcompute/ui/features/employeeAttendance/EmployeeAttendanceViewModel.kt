@@ -1,6 +1,6 @@
 package com.example.sheetcompute.ui.features.employeeAttendance
 
-import android.util.Log
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import com.example.sheetcompute.data.entities.AttendanceStatus
@@ -62,7 +62,6 @@ init {
     setMonthRange(now.monthValue, now.year)
 }
     fun setMonthRange(month: Int, year: Int) {
-        Log.d("DateFilterHandler", "createCustomMonthRange: $month")
         val startDay = preferencesGateway.getMonthStartDay()
         _dateRange.value = createCustomMonthRange(month = month, year = year, startDay = startDay)
         tryInitialFetch()

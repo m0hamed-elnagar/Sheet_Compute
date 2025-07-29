@@ -15,13 +15,30 @@ data class InsertResult(
     val addedCount: Int,
     val skippedRecords: List<AttendanceRecord>
 )
+interface AttendanceRepoInterface {
+    suspend fun getEmployeeAttendanceRecordsByRange(
+        employeeId: Long,
+        startDate: LocalDate,
+        endDate: LocalDate,
+    ): List<AttendanceRecord>
+
+    suspend fun insertRecords(records: List<AttendanceRecord>): InsertResult
+
+    fun getPagedAttendanceSummaries(
+        month: Int,
+        year: Int,
+        range: ClosedRange<LocalDate>,
+        totalWorkingDays: Int,
+        pageSize: Int,
+    ): Pager<Int, AttendanceRecordUI>
+}
 @Singleton
 
 class AttendanceRepo @Inject constructor(
     private val attendanceDao: AttendanceDao,
-){
+): AttendanceRepoInterface {
 
-    suspend fun getEmployeeAttendanceRecordsByRange(
+    override suspend fun getEmployeeAttendanceRecordsByRange(
         employeeId: Long,
         startDate: LocalDate,
         endDate: LocalDate,
@@ -31,7 +48,7 @@ class AttendanceRepo @Inject constructor(
 
     }
 
-    suspend fun insertRecords(records: List<AttendanceRecord>): InsertResult{
+    override suspend fun insertRecords(records: List<AttendanceRecord>): InsertResult{
         val insertResults = attendanceDao.insertAll(records)
 
         var added = 0
@@ -50,7 +67,7 @@ class AttendanceRepo @Inject constructor(
             skippedRecords = duplicates
         )    }
 
-    fun getPagedAttendanceSummaries(
+    override fun getPagedAttendanceSummaries(
         month: Int,
         year: Int,
         range: ClosedRange<LocalDate>,

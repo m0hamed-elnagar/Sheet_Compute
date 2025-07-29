@@ -1,6 +1,7 @@
 [versions]
 agp = "8.10.0"
 constraintlayout = "2.2.1"
+gson = "2.13.1"
 hiltAndroid = "2.57"
 kotlin = "2.2.0"
 coreKtx = "1.16.0"
@@ -14,13 +15,17 @@ material = "1.12.0"
 mockk = "1.14.5"
 navigationFragmentKtx = "2.9.2"
 pagingRuntime = "3.3.6"
+poi = "3.17"
+proguard = "3.17"
 recyclerview = "1.4.0"
 appcompat = "1.7.1"
 roomKtx = "2.7.2"
+view = "2.8.0"
 viewpager2 = "1.1.0"
 firebase = "33.16.0"
-turbine = "1.0.0"
+turbine = "1.2.1"
 arch-core-testing = "2.2.0"
+junitVersion = "4.12"
 
 
 
@@ -36,6 +41,7 @@ androidx-room-paging = { module = "androidx.room:room-paging", version.ref = "ro
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomKtx" }
 androidx-viewpager2 = { module = "androidx.viewpager2:viewpager2", version.ref = "viewpager2" }
 
+gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroid" }
 hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hiltAndroid" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -49,11 +55,14 @@ kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-c
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesAndroid" }
 material = { module = "com.google.android.material:material", version.ref = "material" }
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebase" }
-firebase-config = { group = "com.google.firebase", name = "firebase-config-ktx", version = "" }
+firebase-config = { group = "com.google.firebase", name = "firebase-config-ktx", version = "firebase" }
 firebase-common-ktx = { group = "com.google.firebase", name = "firebase-common-ktx", version= "21.0.0" }
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
+proguard = { module = "com.github.SUPERCILEX.poi-android:proguard", version.ref = "proguard" }
+poi = { module = "com.github.SUPERCILEX.poi-android:poi", version.ref = "poi" }
 turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine" }
 arch-core-testing = { group = "androidx.arch.core", name = "core-testing", version.ref = "arch-core-testing" }
+view = { module = "com.kizitonwose.calendar:view", version.ref = "view" }
 
 [plugins]
 google-services = { id = "com.google.gms.google-services", version = "4.4.3" }

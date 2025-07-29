@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -44,8 +46,10 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-    kotlinOptions {
-        jvmTarget = "11"
+    kotlin {
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_11)
+        }
     }
     buildFeatures {
         viewBinding = true
@@ -54,6 +58,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.gson)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.constraintlayout)
@@ -70,7 +75,7 @@ dependencies {
     implementation(libs.androidx.paging.runtime)
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.coroutines.android)
-    implementation("com.kizitonwose.calendar:view:2.3.0")
+    implementation(libs.view)
 
     // AndroidX Navigation
     implementation(libs.androidx.navigation.fragment.ktx)
@@ -78,8 +83,8 @@ dependencies {
 
     // ViewPager2
     implementation(libs.androidx.viewpager2)
-    implementation ("com.github.SUPERCILEX.poi-android:poi:3.17")
-    implementation ("com.github.SUPERCILEX.poi-android:proguard:3.17")
+    implementation (libs.poi)
+    implementation (libs.proguard)
     androidTestImplementation(libs.androidx.espresso.core)
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.config)
