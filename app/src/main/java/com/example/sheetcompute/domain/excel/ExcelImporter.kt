@@ -29,10 +29,11 @@ class ExcelImporter @Inject constructor(
 
     suspend fun import(
         inputStream: InputStream,
-        ): ImportResult = withContext(Dispatchers.IO) {
+    ): ImportResult = withContext(Dispatchers.IO) {
         val result = ExcelParser.parse(
             inputStream,
-            preferencesGateway.getWorkStartTime())
+            preferencesGateway.getWorkStartTime()
+        )
 
         val existingIds = employeeRepo.getAllEmployeeIds().toSet()
         val newEmployees = result.employees.filter { it.id !in existingIds }

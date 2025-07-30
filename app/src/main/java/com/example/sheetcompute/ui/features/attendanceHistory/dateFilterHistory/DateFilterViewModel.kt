@@ -23,8 +23,10 @@ import com.example.sheetcompute.domain.useCases.workingDays.CountWorkingDaysUseC
 import java.io.InputStream
 import javax.inject.Inject
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.jetbrains.annotations.VisibleForTesting
 
+@OptIn(ExperimentalCoroutinesApi::class)
 @HiltViewModel
 @VisibleForTesting
 internal class DateFilterViewModel @Inject constructor(

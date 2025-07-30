@@ -14,8 +14,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.sheetcompute.R
 import com.example.sheetcompute.data.local.PreferencesGateway
 import com.example.sheetcompute.databinding.FragmentDateFilterBinding
-import com.example.sheetcompute.ui.subFeatures.dialogs.ImportConfirmationDialog
 import com.example.sheetcompute.ui.subFeatures.dialogs.ImportResultDialog
+import com.example.sheetcompute.ui.subFeatures.helpers.ExcelImportHelper
 import com.example.sheetcompute.ui.subFeatures.sheetPicker.FilePickerFragmentHelper
 import com.example.sheetcompute.ui.subFeatures.spinners.DateFilterHandler
 import com.example.sheetcompute.ui.subFeatures.utils.isInternetAvailable
@@ -33,6 +33,7 @@ class DateFilterFragment : Fragment() {
     private lateinit var adapter: AttendanceSummaryAdapter
     private lateinit var dateFilterHandler: DateFilterHandler
     private lateinit var filePickerHelper: FilePickerFragmentHelper
+    private lateinit var excelImportHelper: ExcelImportHelper
     @Inject
     lateinit var preferencesGateway: PreferencesGateway
     override fun onCreateView(
@@ -42,64 +43,23 @@ class DateFilterFragment : Fragment() {
     ): View {
         _binding = FragmentDateFilterBinding.inflate(inflater, container, false)
         filePickerHelper = FilePickerFragmentHelper(this)
-
+        excelImportHelper = ExcelImportHelper(
+            requireContext(),
+            preferencesGateway,
+            filePickerHelper,
+            viewLifecycleOwner.lifecycleScope // Pass the scope here
+        ) { inputStream, onComplete, onError ->
+            viewModel.importDataFromExcel(inputStream, onComplete, onError)
+        }
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         setupRecyclerView()
         setupDateFilterHandler()
         observeData()
-        binding.importSheet.setOnClickListener { showImportDialog() }
-    }
-
-    private fun showImportDialog() {
-        ImportConfirmationDialog(requireContext(), preferencesGateway , onConfirm = {
-            extractExcel()
-        }).show()
-    }
-
-    private fun extractExcel() {
-        if (isInternetAvailable(requireContext())) {
-            val isExcelEnabled = Firebase.remoteConfig.getBoolean("excel_enabled")
-
-            if (isExcelEnabled) {
-                showFilePicker()
-            } else {
-                // ❌ Show toast, disable button
-                showToast(requireContext(), getString(R.string.feature_not_available_for_now))
-            }
-        } else {
-            showToast(requireContext(), getString(R.string.no_internet_connection))
-        }
-    }
-
-    private fun showFilePicker() {
-        filePickerHelper.pickExcelFile(
-            onFilePicked = { inputStream ->
-                lifecycleScope.launch {
-                    viewModel.importDataFromExcel(
-                        inputStream,
-                        onComplete = { message, importResult ->
-                            if (importResult != null) {
-                                ImportResultDialog(requireContext(), importResult).show()
-                            } else {
-                                showToast(requireContext(), message)
-                            }
-                        },
-                        onError = { errorMessage ->
-                            showToast(requireContext(), errorMessage)
-                        }
-                    )
-                }
-            },
-            onError = { exception ->
-                showToast(requireContext(), exception.message.toString())
-            }
-
-        )
+        binding.importSheet.setOnClickListener { excelImportHelper.showImportDialog() }
     }
 
 

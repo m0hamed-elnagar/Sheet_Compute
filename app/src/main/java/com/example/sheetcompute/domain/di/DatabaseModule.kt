@@ -8,6 +8,9 @@ import com.example.sheetcompute.data.local.room.AppDatabase
 import com.example.sheetcompute.data.local.room.daos.AttendanceDao
 import com.example.sheetcompute.data.local.room.daos.EmployeeDao
 import com.example.sheetcompute.data.local.room.daos.HolidayDao
+import com.example.sheetcompute.data.repo.HolidayRepo
+import com.example.sheetcompute.data.repo.HolidayRepoInterface
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -32,7 +35,15 @@ object DatabaseModule {
 
     @Provides
     fun provideHolidayDao(db: AppDatabase): HolidayDao = db.holidayDao()
+    @Module
+    @InstallIn(SingletonComponent::class)
+    abstract class HolidayRepoModule {
 
+        @Binds
+        abstract fun bindHolidayRepo(
+            impl: HolidayRepo
+        ): HolidayRepoInterface
+    }
     @Provides
     fun provideAttendanceDao(db: AppDatabase): AttendanceDao = db.attendanceDao()
 

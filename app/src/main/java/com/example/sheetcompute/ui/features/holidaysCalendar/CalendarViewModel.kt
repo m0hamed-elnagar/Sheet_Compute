@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.sheetcompute.data.local.PreferencesGateway
 import com.example.sheetcompute.data.entities.Holiday
 import com.example.sheetcompute.data.repo.HolidayRepo
+import com.example.sheetcompute.data.repo.HolidayRepoInterface
 import com.example.sheetcompute.domain.useCases.datetime.*
 import com.example.sheetcompute.ui.features.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,7 +17,7 @@ import java.time.YearMonth
 
 @HiltViewModel
 class CalendarViewModel @Inject constructor(
-    private val holidayRepository: HolidayRepo,
+    private val holidayRepository: HolidayRepoInterface,
     private val preferencesDataSource: PreferencesGateway
 ) : BaseViewModel() {
 

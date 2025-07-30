@@ -6,6 +6,7 @@ import com.example.sheetcompute.data.repo.EmployeeRepo
 import com.example.sheetcompute.domain.excel.ExcelImporter
 import com.example.sheetcompute.ui.features.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,6 +17,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.io.InputStream
 
+@OptIn(ExperimentalCoroutinesApi::class)
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     private val employeeRepo: EmployeeRepo,

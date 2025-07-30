@@ -1,27 +1,28 @@
 package com.example.sheetcompute.domain.useCases
 
-
-import org.junit.Assert.assertEquals
+import org.junit.Assert.*
 import org.junit.Test
 import java.time.LocalDate
 
 class CustomMonthKtTest {
-
+    @Test
+    fun `returns null for invalid month`() {
+        assertNull(createCustomMonthRange(13, 2024, 1))
+        assertNull(createCustomMonthRange(-1, 2024, 1))
+    }
 
     @Test
-    fun `should return full year range when month is 0 and startDay is 1`() {
+    fun `returns full year range for month 0`() {
         val range = createCustomMonthRange(0, 2024, 1)
-
         assertEquals(LocalDate.of(2024, 1, 1), range?.start)
         assertEquals(LocalDate.of(2024, 12, 31), range?.endInclusive)
     }
 
     @Test
-    fun `should return custom year range when month is 0 and startDay is 5`() {
-        val range = createCustomMonthRange(0, 2024, 5)
-
-        assertEquals(LocalDate.of(2024, 1, 1), range?.start)
-        assertEquals(LocalDate.of(2024, 12, 31), range?.endInclusive)
+    fun `returns correct range for valid month and startDay`() {
+        val range = createCustomMonthRange(2, 2024, 5)
+        assertEquals(LocalDate.of(2024, 2, 5), range?.start)
+        assertEquals(LocalDate.of(2024, 3, 4), range?.endInclusive)
     }
 
     @Test
@@ -71,4 +72,6 @@ class CustomMonthKtTest {
         assertEquals(LocalDate.of(2024, 2, 1), range?.start)
         assertEquals(LocalDate.of(2024, 2, 29), range?.endInclusive)
     }
+
 }
+

@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sheetcompute.data.entities.Holiday
 import com.example.sheetcompute.databinding.ItemHolidayBinding
+import com.example.sheetcompute.ui.subFeatures.utils.DateUtils.formatDateRange
 import java.time.format.DateTimeFormatter
 
 class HolidayAdapter(
@@ -38,12 +39,8 @@ class HolidayAdapter(
             with(binding) {
                 tvHolidayName.text = holiday.name
 
-                // todo make the format utill and use the same format everywhere Format date display
-                tvHolidayDate.text = if (holiday.startDate == holiday.endDate) {
-                    holiday.startDate.format(dateFormatter)
-                } else {
-                    "${holiday.startDate.format(dateFormatter)} - ${holiday.endDate.format(dateFormatter)}"
-                }
+                tvHolidayDate.text = formatDateRange(holiday.startDate,holiday.endDate)
+
 
                 // Handle note visibility
                 if (holiday.note.isNotBlank()) {
