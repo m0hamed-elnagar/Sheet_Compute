@@ -3,8 +3,10 @@ agp = "8.10.0"
 constraintlayout = "2.2.1"
 gson = "2.13.1"
 hiltAndroid = "2.57"
+junitKtx = "1.2.1"
 kotlin = "2.2.0"
 coreKtx = "1.16.0"
+coreTestKtx = "1.6.1"
 junit = "4.13.2"
 espressoCore = "3.6.1"
 kotlinxCoroutinesAndroid = "1.10.2"
@@ -26,13 +28,15 @@ viewpager2 = "1.1.0"
 firebase = "33.16.0"
 turbine = "1.2.1"
 arch-core-testing = "2.2.0"
-junitVersion = "4.12"
 
 
 
 [libraries]
 androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintlayout" }
+
+
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-junit-ktx = { module = "androidx.test.ext:junit-ktx", version.ref = "junitKtx" }
 androidx-navigation-fragment-ktx = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigationFragmentKtx" }
 androidx-navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigationFragmentKtx" }
 androidx-paging-runtime = { module = "androidx.paging:paging-runtime", version.ref = "pagingRuntime" }
@@ -40,8 +44,10 @@ androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref =
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomKtx" }
 androidx-room-paging = { module = "androidx.room:room-paging", version.ref = "roomKtx" }
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomKtx" }
+androidx-room-testing = { module = "androidx.room:room-testing", version.ref = "roomKtx" }
 androidx-viewpager2 = { module = "androidx.viewpager2:viewpager2", version.ref = "viewpager2" }
 
+core-ktx = { module = "androidx.test:core-ktx", version.ref = "coreTestKtx" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroid" }
 hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hiltAndroid" }
@@ -57,7 +63,7 @@ kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-t
 material = { module = "com.google.android.material:material", version.ref = "material" }
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebase" }
 firebase-config = { group = "com.google.firebase", name = "firebase-config-ktx", version = "firebase" }
-firebase-common-ktx = { group = "com.google.firebase", name = "firebase-common-ktx", version= "21.0.0" }
+firebase-common-ktx = { group = "com.google.firebase", name = "firebase-common-ktx", version = "21.0.0" }
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 proguard = { module = "com.github.SUPERCILEX.poi-android:proguard", version.ref = "proguard" }
 poi = { module = "com.github.SUPERCILEX.poi-android:poi", version.ref = "poi" }

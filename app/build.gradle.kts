@@ -96,5 +96,11 @@ dependencies {
     testImplementation(libs.turbine)  // for testing flows
     testImplementation(libs.arch.core.testing)   // for LiveData testing
     testImplementation(libs.truth)
+    androidTestImplementation (libs.core.ktx)
+    androidTestImplementation (libs.androidx.junit.ktx)
+    androidTestImplementation (libs.truth)
+    androidTestImplementation (libs.arch.core.testing)
+    testImplementation(libs.androidx.room.testing)
+    androidTestImplementation(libs.kotlinx.coroutines.test)
 
 }

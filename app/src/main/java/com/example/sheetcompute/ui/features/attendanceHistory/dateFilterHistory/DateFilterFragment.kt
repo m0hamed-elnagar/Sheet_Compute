@@ -159,11 +159,6 @@ class DateFilterFragment : Fragment() {
                 binding.txtEmptyHistory.visibility = if (isListEmpty) View.VISIBLE else View.GONE
             }
         }
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.loading.observe(viewLifecycleOwner) { isLoading ->
-                _binding?.pbHistory?.visibility = if (isLoading) View.VISIBLE else View.GONE
-            }
-        }
     }
 
 

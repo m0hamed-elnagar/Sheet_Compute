@@ -1,14 +1,11 @@
 package com.example.sheetcompute.ui.features.attendanceHistory.dateFilterHistory
 
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.example.sheetcompute.data.entities.AttendanceRecordUI
 import com.example.sheetcompute.data.local.PreferencesGateway
-import com.example.sheetcompute.data.repo.AttendanceRepo
-import com.example.sheetcompute.data.repo.HolidayRepo
 import com.example.sheetcompute.domain.useCases.createCustomMonthRange
 import com.example.sheetcompute.ui.features.base.BaseViewModel
 import java.util.Calendar
@@ -26,9 +23,11 @@ import com.example.sheetcompute.domain.useCases.workingDays.CountWorkingDaysUseC
 import java.io.InputStream
 import javax.inject.Inject
 import dagger.hilt.android.lifecycle.HiltViewModel
+import org.jetbrains.annotations.VisibleForTesting
 
 @HiltViewModel
-class DateFilterViewModel @Inject constructor(
+@VisibleForTesting
+internal class DateFilterViewModel @Inject constructor(
     private val excelImporter: ExcelImporter,
     private val preferencesGateway: PreferencesGateway,
     private val getAttendanceSummaryPagerUseCase: GetAttendanceSummaryPagerUseCase
@@ -49,7 +48,6 @@ class DateFilterViewModel @Inject constructor(
     ) { year, month, forceRefresh ->
         if (year != null && month != null) {
             val range = createCustomMonthRange(month , year, preferencesGateway.getMonthStartDay())
-            Log.d("DateFilterViewModel", "Selected range: $range")
             if (range != null) {
 
                 // Create new pager
@@ -68,14 +66,12 @@ class DateFilterViewModel @Inject constructor(
         viewModelScope.launch {
             attendanceRecords.collect { pagingData ->
                 _isEmpty.value = pagingData == PagingData.empty<AttendanceRecordUI>()
-                Log.d("DateFilterViewModel", " isEmpty: ${_isEmpty.value}")
             }
         }
     }
 
     fun setSelectedYear(year: Int?) {
         _selectedYear.value = year
-        Log.d("DateFilterViewModel", "Year changed to: $year")
         // Force recreation of pager
 
     }
@@ -83,7 +79,6 @@ class DateFilterViewModel @Inject constructor(
     fun setSelectedMonth(month: Int?) {
         if (month == null || month in 0..11) {
             _selectedMonth.value = month
-            Log.d("DateFilterViewModel", "Month changed to: $month")
 
         }
         // else ignore invalid month
@@ -91,7 +86,6 @@ class DateFilterViewModel @Inject constructor(
 
     fun refreshData() {
         _refreshTrigger.value++
-        Log.d("DateFilterViewModel", "Data refresh triggered")
     }
 
     fun importDataFromExcel(
@@ -104,12 +98,10 @@ class DateFilterViewModel @Inject constructor(
                     inputStream,
                 )
                 val message = "Imported: ${result.recordsAdded} records and ${result.newEmployees} new employees"
-                Log.d("SearchViewModel", message)
                 refreshData() // Trigger data refresh
                 onComplete(message, result)
             } catch (e: Exception) {
                 val errorMessage = "Failed to import data: ${e.message}"
-                Log.e("SearchViewModel", errorMessage, e)
                 onError(errorMessage)
             }
         }
