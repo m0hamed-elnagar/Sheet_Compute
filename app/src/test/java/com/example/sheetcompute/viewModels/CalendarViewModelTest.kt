@@ -16,6 +16,7 @@ import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -29,6 +30,7 @@ import java.time.YearMonth
 class CalendarViewModelTest {
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
+
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
 
@@ -53,7 +55,6 @@ class CalendarViewModelTest {
     }
 
 
-
     @Test
     fun `loadInitialData calls preferencesGateway init and preloads months`() = runTest {
         viewModel.loadInitialData() // Explicitly call to trigger init
@@ -64,7 +65,7 @@ class CalendarViewModelTest {
     fun `addHoliday adds to fake repo and reloads month`() = runTest {
         val holiday = Holiday(9, LocalDate.of(2025, 2, 1), LocalDate.of(2025, 2, 2), "Test Holiday")
         viewModel.addHoliday(holiday)
-
+        advanceUntilIdle()
         // Wait for the LiveData to update
         val holidays = holidayRepo.observeHolidays().getOrAwaitValue()
         assert(holidays.contains(holiday))
@@ -77,6 +78,7 @@ class CalendarViewModelTest {
         viewModel.addHoliday(holiday)
         val updated = holiday.copy(name = "Updated")
         viewModel.updateHoliday(updated)
+        advanceUntilIdle()
 
         val holidays = holidayRepo.observeHolidays().getOrAwaitValue()
         assert(holidays.contains(updated))
@@ -95,6 +97,7 @@ class CalendarViewModelTest {
     @Test
     fun `updateWeekendDays calls preferencesGateway`() = runTest {
         viewModel.updateWeekendDays(setOf(java.time.DayOfWeek.SATURDAY))
+        advanceUntilIdle()
         coVerify { preferencesGateway.setWeekendDays(any()) }
     }
 

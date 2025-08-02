@@ -145,15 +145,12 @@ class SearchViewModelTest {
 
         coEvery { repository.getAllEmployees() } returnsMany listOf(firstList, secondList)
 
-        viewModel.refreshData()
         advanceUntilIdle()
-        val first = viewModel.employees.value
+    assertThat(viewModel.employees.value).isEqualTo(firstList)
 
         viewModel.refreshData()
         advanceUntilIdle()
-        val second = viewModel.employees.value
-        assertThat(first).isEqualTo(firstList)
-        assertThat(second).isEqualTo(secondList)
+        assertThat(viewModel.employees.value).isEqualTo(secondList)
 
     }
 
