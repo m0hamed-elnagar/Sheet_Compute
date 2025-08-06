@@ -1,13 +1,12 @@
 package com.example.sheetcompute.ui.features.attendanceHistory.searchHistory
 
+
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import com.example.sheetcompute.data.entities.EmployeeEntity
-
-
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.example.sheetcompute.data.entities.EmployeeEntity
 import com.example.sheetcompute.databinding.SearchItemBinding
 
 class SearchEmployeeAdapter(

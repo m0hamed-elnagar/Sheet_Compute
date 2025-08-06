@@ -89,6 +89,7 @@
         android:contentDescription="Export Report"
         android:scaleType="centerCrop"
         android:src="@drawable/download"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/ToWhatsApp"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -101,6 +102,7 @@
         android:contentDescription="Export to WhatsApp"
         android:scaleType="centerCrop"
         android:src="@drawable/whatsapp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

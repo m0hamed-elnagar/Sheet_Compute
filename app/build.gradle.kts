@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -44,8 +46,13 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-    kotlinOptions {
-        jvmTarget = "11"
+    kotlin {
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_11)
+        }
+    }
+    kapt {
+        correctErrorTypes = true
     }
     buildFeatures {
         viewBinding = true
@@ -54,6 +61,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.gson)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.constraintlayout)
@@ -64,13 +72,14 @@ dependencies {
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
     kapt(libs.androidx.room.compiler)
-    kapt(libs.hilt.compiler)
+
     implementation(libs.hilt.android)
+    kapt(libs.hilt.compiler)
     implementation(libs.androidx.room.paging)
     implementation(libs.androidx.paging.runtime)
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.coroutines.android)
-    implementation("com.kizitonwose.calendar:view:2.3.0")
+    implementation(libs.view)
 
     // AndroidX Navigation
     implementation(libs.androidx.navigation.fragment.ktx)
@@ -78,14 +87,28 @@ dependencies {
 
     // ViewPager2
     implementation(libs.androidx.viewpager2)
-//    implementation (libs.poi)
-//    implementation (libs.poi.ooxml)
-    implementation ("com.github.SUPERCILEX.poi-android:poi:3.17")
-    implementation ("com.github.SUPERCILEX.poi-android:proguard:3.17")
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
+    implementation (libs.poi)
+    implementation (libs.proguard)
     androidTestImplementation(libs.androidx.espresso.core)
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.config)
     implementation(libs.firebase.common.ktx)
+    //TESTING
+    testImplementation(libs.junit)
+    testImplementation(libs.mockk)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.turbine)  // for testing flows
+    testImplementation(libs.arch.core.testing)   // for LiveData testing
+    testImplementation(libs.truth)
+    androidTestImplementation (libs.core.ktx)
+    androidTestImplementation (libs.androidx.junit.ktx)
+    androidTestImplementation (libs.truth)
+    androidTestImplementation (libs.arch.core.testing)
+    testImplementation(libs.androidx.room.testing)
+    androidTestImplementation(libs.kotlinx.coroutines.test)
+    androidTestImplementation(libs.hilt.android.testing)
+    testImplementation(libs.androidx.paging.testing)
+    kaptAndroidTest(libs.hilt.compiler)
+    implementation(kotlin("test-junit"))
+
 }

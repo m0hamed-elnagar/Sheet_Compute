@@ -4,11 +4,13 @@ package com.example.sheetcompute.ui.subFeatures.utils
 import android.content.Context
 import android.os.Environment
 import android.widget.Toast
+import androidx.annotation.VisibleForTesting
 import org.apache.poi.hssf.usermodel.HSSFWorkbook
 import java.io.File
 import java.io.FileOutputStream
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
 
 object ExcelFileSaver {
 
@@ -25,12 +27,16 @@ object ExcelFileSaver {
         val fileName = generateFileName(baseName)
         val file = File(context.cacheDir, fileName)
         return writeWorkbook(context, file, workbook)
-    }
+    }@VisibleForTesting
+    internal var nowProvider: () -> Date = { Date() }
 
-    private fun generateFileName(base: String): String {
-        val timestamp = SimpleDateFormat("yyyy-MM-dd_HH-mm", Locale.getDefault()).format(Date())
+    @VisibleForTesting
+    internal fun generateFileName(base: String): String {
+        val timestamp = SimpleDateFormat("yyyy-MM-dd_HH-mm", Locale.getDefault())
+            .format(nowProvider())
         return "$base-$timestamp.xls"
     }
+
 
     private fun writeWorkbook(context: Context, file: File, workbook: HSSFWorkbook): File? {
         return try {

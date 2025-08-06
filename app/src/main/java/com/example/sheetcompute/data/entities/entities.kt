@@ -1,10 +1,9 @@
 package com.example.sheetcompute.data.entities
 
-import java.time.LocalDate
-
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import java.time.LocalDate
 
 
 @Entity(tableName = "employees")

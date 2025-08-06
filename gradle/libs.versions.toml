@@ -1,41 +1,62 @@
 [versions]
 agp = "8.10.0"
 constraintlayout = "2.2.1"
+gson = "2.13.1"
 hiltAndroid = "2.57"
+junitKtx = "1.2.1"
 kotlin = "2.2.0"
 coreKtx = "1.16.0"
+coreTestKtx = "1.6.1"
 junit = "4.13.2"
 espressoCore = "3.6.1"
 kotlinxCoroutinesAndroid = "1.10.2"
 kotlinxCoroutinesCore = "1.10.2"
+kotlinxCoroutinesTest = "1.10.2"
 lifecycleRuntimeKtx = "2.9.2"
 cardview = "1.0.0"
 material = "1.12.0"
+mockk = "1.14.5"
 navigationFragmentKtx = "2.9.2"
 pagingRuntime = "3.3.6"
+pagingTesting = "latest"
+poi = "3.17"
+proguard = "3.17"
 recyclerview = "1.4.0"
 appcompat = "1.7.1"
 roomKtx = "2.7.2"
-#ksp = "2.0.21-1.0.27"
+truth = "1.4.4"
+view = "2.8.0"
 viewpager2 = "1.1.0"
 firebase = "33.16.0"
+turbine = "1.2.1"
+arch-core-testing = "2.2.0"
+
+
 
 [libraries]
 androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintlayout" }
+
+
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-junit-ktx = { module = "androidx.test.ext:junit-ktx", version.ref = "junitKtx" }
 androidx-navigation-fragment-ktx = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigationFragmentKtx" }
 androidx-navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigationFragmentKtx" }
 androidx-paging-runtime = { module = "androidx.paging:paging-runtime", version.ref = "pagingRuntime" }
+androidx-paging-testing = { module = "androidx.paging:paging-testing", version.ref = "pagingTesting" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomKtx" }
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomKtx" }
 androidx-room-paging = { module = "androidx.room:room-paging", version.ref = "roomKtx" }
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomKtx" }
+androidx-room-testing = { module = "androidx.room:room-testing", version.ref = "roomKtx" }
 androidx-viewpager2 = { module = "androidx.viewpager2:viewpager2", version.ref = "viewpager2" }
 
+core-ktx = { module = "androidx.test:core-ktx", version.ref = "coreTestKtx" }
+gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroid" }
 hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hiltAndroid" }
+hilt-android-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "hiltAndroid" }
+
 junit = { group = "junit", name = "junit", version.ref = "junit" }
-androidx-junit = { group = "androidx.test.ext", name = "junit", version = "1.2.1" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
@@ -43,15 +64,22 @@ androidx-cardview = { group = "androidx.cardview", name = "cardview", version.re
 androidx-recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "recyclerview" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinxCoroutinesAndroid" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutinesCore" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" }
 material = { module = "com.google.android.material:material", version.ref = "material" }
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebase" }
-firebase-config = { group = "com.google.firebase", name = "firebase-config-ktx", version = "" }
-firebase-common-ktx = { group = "com.google.firebase", name = "firebase-common-ktx", version= "21.0.0" }
+firebase-config = { group = "com.google.firebase", name = "firebase-config-ktx", version = "firebase" }
+firebase-common-ktx = { group = "com.google.firebase", name = "firebase-common-ktx", version = "21.0.0" }
+mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
+proguard = { module = "com.github.SUPERCILEX.poi-android:proguard", version.ref = "proguard" }
+poi = { module = "com.github.SUPERCILEX.poi-android:poi", version.ref = "poi" }
+truth = { module = "com.google.truth:truth", version.ref = "truth" }
+turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine" }
+arch-core-testing = { group = "androidx.arch.core", name = "core-testing", version.ref = "arch-core-testing" }
+view = { module = "com.kizitonwose.calendar:view", version.ref = "view" }
 
 [plugins]
 google-services = { id = "com.google.gms.google-services", version = "4.4.3" }
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-#ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hiltAndroid" }
 navigation-safeargs-kotlin = { id = "androidx.navigation.safeargs.kotlin", version.ref = "navigationFragmentKtx" }

@@ -5,11 +5,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.example.sheetcompute.R
 import com.example.sheetcompute.databinding.FragmentAttendanceHistoryPagerContainerBinding
-import androidx.core.view.get
 
 class AttendanceHistoryPagerContainer : Fragment() {
 

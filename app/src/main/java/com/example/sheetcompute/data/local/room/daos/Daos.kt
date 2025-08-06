@@ -68,7 +68,6 @@ interface AttendanceDao {
     @Query("SELECT id FROM employees")
     suspend fun getAllEmployeeIds(): List<Int>
 
-    //todo get attendance records by date paginated and sorted by time
     @Transaction
     @Query(
         """

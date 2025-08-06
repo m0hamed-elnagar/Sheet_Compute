@@ -40,3 +40,10 @@ fun <R> ClosedRange<LocalDate>.map(transform: (LocalDate) -> R): List<R> {
     }
     return result
 }
+fun ClosedRange<LocalDate>.toList(): List<LocalDate> {
+    val list = mutableListOf<LocalDate>()
+    for (date in this) {
+        list.add(date)
+    }
+    return list
+}
