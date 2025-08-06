@@ -1,22 +1,27 @@
 package com.example.sheetcompute.ui.features.employeeAttendance
 
-import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.sheetcompute.data.entities.AttendanceStatus
 import com.example.sheetcompute.data.entities.EmployeeAttendanceRecord
-import com.example.sheetcompute.ui.features.base.BaseViewModel
-import kotlinx.coroutines.flow.*
-import androidx.lifecycle.asLiveData
+import com.example.sheetcompute.data.entities.EmployeeEntity
 import com.example.sheetcompute.data.local.PreferencesGateway
 import com.example.sheetcompute.data.repo.EmployeeRepo
-import com.example.sheetcompute.data.entities.EmployeeEntity
 import com.example.sheetcompute.domain.useCases.createCustomMonthRange
 import com.example.sheetcompute.domain.usecase.GetEmployeeAttendanceRecordsUseCase
+import com.example.sheetcompute.ui.features.base.BaseViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.time.LocalDate
-import kotlin.collections.plus
-import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel

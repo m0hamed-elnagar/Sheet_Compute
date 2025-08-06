@@ -1,13 +1,11 @@
 package com.example.sheetcompute.ui.features.settingFragment
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.TimePicker
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -16,11 +14,9 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.example.sheetcompute.databinding.FragmentSettingBinding
 import com.example.sheetcompute.ui.subFeatures.dialogs.showTimePickerDialog
 import com.example.sheetcompute.ui.subFeatures.utils.saveXlsTemplateToDownloads
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import java.time.LocalTime
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class SettingFragment : Fragment() {

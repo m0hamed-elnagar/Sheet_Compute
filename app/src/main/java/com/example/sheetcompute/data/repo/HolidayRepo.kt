@@ -1,12 +1,12 @@
 package com.example.sheetcompute.data.repo
 
-import com.example.sheetcompute.data.local.room.daos.HolidayDao
 import com.example.sheetcompute.data.entities.Holiday
 import com.example.sheetcompute.data.entities.HolidayRange
-import com.example.sheetcompute.data.local.room.AppDatabase
+import com.example.sheetcompute.data.local.room.daos.HolidayDao
 import java.time.LocalDate
 import javax.inject.Inject
 import javax.inject.Singleton
+
 interface HolidayRepoInterface {
     suspend fun addHoliday(holiday: Holiday)
     suspend fun updateHoliday(holiday: Holiday)

@@ -51,6 +51,9 @@ android {
             jvmTarget.set(JvmTarget.JVM_11)
         }
     }
+    kapt {
+        correctErrorTypes = true
+    }
     buildFeatures {
         viewBinding = true
         buildConfig = true
@@ -69,8 +72,9 @@ dependencies {
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
     kapt(libs.androidx.room.compiler)
-    kapt(libs.hilt.compiler)
+
     implementation(libs.hilt.android)
+    kapt(libs.hilt.compiler)
     implementation(libs.androidx.room.paging)
     implementation(libs.androidx.paging.runtime)
     implementation(libs.kotlinx.coroutines.core)
@@ -102,5 +106,9 @@ dependencies {
     androidTestImplementation (libs.arch.core.testing)
     testImplementation(libs.androidx.room.testing)
     androidTestImplementation(libs.kotlinx.coroutines.test)
+    androidTestImplementation(libs.hilt.android.testing)
+    testImplementation(libs.androidx.paging.testing)
+    kaptAndroidTest(libs.hilt.compiler)
+    implementation(kotlin("test-junit"))
 
 }

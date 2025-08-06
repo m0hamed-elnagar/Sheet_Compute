@@ -1,18 +1,13 @@
 package com.example.sheetcompute.domain.usecase
 
-import androidx.paging.Pager
 import com.example.sheetcompute.data.entities.AttendanceStatus
 import com.example.sheetcompute.data.entities.EmployeeAttendanceRecord
 import com.example.sheetcompute.data.mappers.toEmployeeAttendanceRecord
 import com.example.sheetcompute.data.repo.AttendanceRepo
 import com.example.sheetcompute.domain.useCases.workingDays.GetNonWorkingDaysUseCase
-import com.example.sheetcompute.ui.subFeatures.utils.filter
 import com.example.sheetcompute.ui.subFeatures.utils.map
 import java.time.LocalDate
 import javax.inject.Inject
-import kotlin.collections.containsKey
-import kotlin.text.get
-import kotlin.times
 
 class GetEmployeeAttendanceRecordsUseCase @Inject constructor(
     private val attendanceRepo: AttendanceRepo,

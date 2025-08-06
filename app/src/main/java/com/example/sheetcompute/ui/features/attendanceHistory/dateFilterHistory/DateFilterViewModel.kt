@@ -6,9 +6,12 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.example.sheetcompute.data.entities.AttendanceRecordUI
 import com.example.sheetcompute.data.local.PreferencesGateway
+import com.example.sheetcompute.domain.excel.ExcelImporter
+import com.example.sheetcompute.domain.useCases.attendance.GetAttendanceSummaryPagerUseCase
 import com.example.sheetcompute.domain.useCases.createCustomMonthRange
 import com.example.sheetcompute.ui.features.base.BaseViewModel
-import java.util.Calendar
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -16,15 +19,10 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
-import com.example.sheetcompute.domain.excel.ExcelImporter
-import com.example.sheetcompute.data.repo.EmployeeRepo
-import com.example.sheetcompute.domain.useCases.attendance.GetAttendanceSummaryPagerUseCase
-import com.example.sheetcompute.domain.useCases.workingDays.CountWorkingDaysUseCase
-import java.io.InputStream
-import javax.inject.Inject
-import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.jetbrains.annotations.VisibleForTesting
+import java.io.InputStream
+import java.util.Calendar
+import javax.inject.Inject
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @HiltViewModel
@@ -37,11 +35,11 @@ internal class DateFilterViewModel @Inject constructor(
     // Date filters
     private val _selectedYear = MutableStateFlow<Int?>(Calendar.getInstance().get(Calendar.YEAR))
     private val _selectedMonth = MutableStateFlow<Int?>(null)
+val selectedYear: StateFlow<Int?> = _selectedYear
+    val selectedMonth: StateFlow<Int?> = _selectedMonth
 
-    // Empty state
-    private val _isEmpty = MutableStateFlow(false)
-    val isEmpty: StateFlow<Boolean> = _isEmpty
     private val _refreshTrigger = MutableStateFlow(0)
+    val refreshTrigger: StateFlow<Int> = _refreshTrigger
 
     val attendanceRecords: Flow<PagingData<AttendanceRecordUI>> = combine(
         _selectedYear,
@@ -64,13 +62,7 @@ internal class DateFilterViewModel @Inject constructor(
         pager?.flow ?: flowOf(PagingData.empty())
     }.cachedIn(viewModelScope)
 
-    init {
-        viewModelScope.launch {
-            attendanceRecords.collect { pagingData ->
-                _isEmpty.value = pagingData == PagingData.empty<AttendanceRecordUI>()
-            }
-        }
-    }
+
 
     fun setSelectedYear(year: Int?) {
         _selectedYear.value = year

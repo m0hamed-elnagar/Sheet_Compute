@@ -15,14 +15,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.sheetcompute.R
 import com.example.sheetcompute.data.local.PreferencesGateway
 import com.example.sheetcompute.databinding.FragmentSearchEmployeeBinding
-import com.example.sheetcompute.ui.subFeatures.dialogs.ImportResultDialog
-import com.example.sheetcompute.ui.subFeatures.helpers.ExcelImportHelper
+import com.example.sheetcompute.ui.subFeatures.utils.ExcelImportHelper
 import com.example.sheetcompute.ui.subFeatures.sheetPicker.FilePickerFragmentHelper
-import com.example.sheetcompute.ui.subFeatures.utils.isInternetAvailable
 import com.example.sheetcompute.ui.subFeatures.utils.scrollToTop
-import com.example.sheetcompute.ui.subFeatures.utils.showToast
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.remoteconfig.ktx.remoteConfig
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay

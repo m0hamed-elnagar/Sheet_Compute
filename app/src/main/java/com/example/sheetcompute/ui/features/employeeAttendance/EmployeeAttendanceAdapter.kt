@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -13,10 +12,8 @@ import com.example.sheetcompute.R
 import com.example.sheetcompute.data.entities.AttendanceStatus
 import com.example.sheetcompute.data.entities.EmployeeAttendanceRecord
 import com.example.sheetcompute.databinding.EmployeeItem2Binding
-import com.example.sheetcompute.ui.subFeatures.utils.DateUtils
 import com.example.sheetcompute.ui.subFeatures.utils.DateUtils.formatMinutesToHoursMinutes
 import java.time.format.DateTimeFormatter
-import kotlin.collections.get
 
 class EmployeeAttendanceAdapter(
     private val context: Context,
