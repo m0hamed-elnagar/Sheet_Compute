@@ -1,16 +1,12 @@
 package com.example.sheetcompute.ui.subFeatures.utils
 
 
-import android.util.Log
 import java.text.DateFormatSymbols
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.LocalTime
-import java.time.chrono.IsoEra
 import java.time.format.DateTimeFormatter
-import java.time.format.DateTimeFormatterBuilder
 import java.time.format.DateTimeParseException
-import java.time.temporal.ChronoField
 import java.util.Date
 import java.util.Locale
 
@@ -51,7 +47,6 @@ object DateUtils {
                 }
             }
         } catch (e: Exception) {
-            logWarning("Failed to parse time string: '$timeStr' (cleaned: '$cleanStr')")
             null
         }
     }

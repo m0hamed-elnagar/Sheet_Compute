@@ -2,9 +2,8 @@ package com.example.sheetcompute.data.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.example.sheetcompute.data.local.room.daos.AttendanceDao
 import com.example.sheetcompute.data.entities.AttendanceRecordUI
-import com.example.sheetcompute.data.entities.AttendanceSummary
+import com.example.sheetcompute.data.local.room.daos.AttendanceDao
 import com.example.sheetcompute.data.mappers.mapToAttendanceRecordUI
 import java.time.LocalDate
 

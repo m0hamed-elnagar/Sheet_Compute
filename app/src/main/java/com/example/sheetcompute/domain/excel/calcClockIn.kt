@@ -1,6 +1,5 @@
 package com.example.sheetcompute.domain.excel
 
-import android.util.Log
 import com.example.sheetcompute.ui.subFeatures.utils.DateUtils.parseTimeString
 import org.apache.poi.ss.usermodel.Cell
 import org.apache.poi.ss.usermodel.CellType
@@ -23,7 +22,15 @@ fun calcClockIn(
 
             CellType.STRING -> {
                 val timeStr = timeCell.stringCellValue.trim()
-                parseTimeString(timeStr) ?: return null
+
+                // Try parsing normally
+                parseTimeString(timeStr) ?: run {
+                    // Try parsing as Excel-style time fraction
+                    val excelTimeValue = timeStr.toDoubleOrNull()
+                    excelTimeValue?.let {
+                        LocalTime.ofNanoOfDay((it * 24 * 60 * 60 * 1_000_000_000).toLong())
+                    }
+                }
             }
 
             else -> {
@@ -32,7 +39,7 @@ fun calcClockIn(
             }
         }
     } catch (e: Exception) {
-        Log.w("ExcelRowParser", "Failed to parse time cell: ${e.message}", e)
+
         null
     }
 }

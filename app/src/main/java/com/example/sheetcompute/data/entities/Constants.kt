@@ -1,7 +1,5 @@
 package com.example.sheetcompute.data.entities
 
-import java.util.Date
-
 
 const val SHARED_PREFERENCE_NAME = "sheet_compute_prefs"
 const val WEEKEND_DAYS_KEY = "weekend_days"

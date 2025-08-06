@@ -1,19 +1,25 @@
 package com.example.sheetcompute.ui.features.holidaysCalendar
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
-import com.example.sheetcompute.data.local.PreferencesGateway
 import com.example.sheetcompute.data.entities.Holiday
-import com.example.sheetcompute.data.repo.HolidayRepo
+import com.example.sheetcompute.data.local.PreferencesGateway
 import com.example.sheetcompute.data.repo.HolidayRepoInterface
-import com.example.sheetcompute.domain.useCases.datetime.*
+import com.example.sheetcompute.domain.useCases.datetime.CalendarDayToDayOfWeekUseCase
+import com.example.sheetcompute.domain.useCases.datetime.DayOfWeekToCalendarDayUseCase
+import com.example.sheetcompute.domain.useCases.datetime.GenerateDateRangeUseCase
 import com.example.sheetcompute.ui.features.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.time.DayOfWeek
 import java.time.YearMonth
+import javax.inject.Inject
 
 @HiltViewModel
 class CalendarViewModel @Inject constructor(
