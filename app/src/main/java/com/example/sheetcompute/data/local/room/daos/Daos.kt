@@ -90,6 +90,9 @@ interface AttendanceDao {
     @Insert
     suspend fun addAttendanceRecord(attendanceRecord: AttendanceRecord)
 
+    @Query("SELECT DISTINCT substr(date, 1, 7) FROM attendance_Record WHERE (:employeeId IS NULL OR employeeId = :employeeId) ORDER BY date DESC")
+    suspend fun getAvailableMonthStrings(employeeId: Long? = null): List<String>
+
     @Query(
         """
         SELECT e.id AS id,

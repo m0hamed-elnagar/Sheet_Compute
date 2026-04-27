@@ -1,4 +1,4 @@
-package com.example.sheetcompute.domain.usecase
+package com.example.sheetcompute.domain.useCases.attendance
 
 import com.example.sheetcompute.data.entities.AttendanceStatus
 import com.example.sheetcompute.data.entities.EmployeeAttendanceRecord

@@ -13,7 +13,7 @@ class DateUtilsTest {
         assertEquals("2h 5m", DateUtils.formatMinutesToHoursMinutes(125))
         assertEquals("59m", DateUtils.formatMinutesToHoursMinutes(59))
         assertEquals("1h 0m", DateUtils.formatMinutesToHoursMinutes(60))
-        assertEquals("0m", DateUtils.formatMinutesToHoursMinutes(0))
+        assertEquals("0m (On Time)", DateUtils.formatMinutesToHoursMinutes(0))
     }
 
     @Test

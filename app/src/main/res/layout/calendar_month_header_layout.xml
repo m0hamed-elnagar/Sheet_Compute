@@ -13,7 +13,7 @@
         android:layout_marginBottom="16dp"
         android:gravity="center"
         android:text="June 2025"
-        android:textColor="@color/black"
+        android:textColor="@color/text_primary"
         android:textSize="16sp"
         android:textStyle="bold" />
 

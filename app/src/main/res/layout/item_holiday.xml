@@ -8,8 +8,8 @@
     app:cardCornerRadius="16dp"
     app:cardElevation="6dp"
     app:strokeWidth="1dp"
-    app:strokeColor="@android:color/darker_gray"
-    android:backgroundTint="@android:color/white">
+    app:strokeColor="@color/border"
+    app:cardBackgroundColor="@color/card_normal_bg">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:text="Eid al-Fitr"
             android:textSize="18sp"
-            android:textColor="@android:color/black"
+            android:textColor="@color/text_primary"
             android:textStyle="bold" />
 
         <!-- Holiday Date -->
@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
             android:text="Wednesday, April 10, 2024 – , Sunday April 14, 2024"
-            android:textColor="#757575"
+            android:textColor="@color/text_secondary"
             android:textSize="14sp" />
 
         <!-- Holiday Note -->
@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
             android:text="Public holiday observed across the country."
-            android:textColor="#616161"
+            android:textColor="@color/text_secondary"
             android:textSize="14sp" />
 
         <!-- Delete Button -->
@@ -55,9 +55,10 @@
             android:layout_marginTop="12dp"
             android:layout_gravity="end"
             android:text="Delete"
-            android:backgroundTint="@color/design_default_color_error"
-            android:textColor="@android:color/white"
+            android:backgroundTint="@color/bg_absent_soft"
+            android:textColor="@color/status_absent"
             android:drawableStart="@android:drawable/ic_menu_delete"
+            android:drawableTint="@color/status_absent"
             android:paddingStart="12dp"
             android:paddingEnd="12dp" />
     </LinearLayout>

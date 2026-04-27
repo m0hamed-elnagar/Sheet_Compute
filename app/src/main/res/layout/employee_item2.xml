@@ -38,7 +38,7 @@
                 android:layout_weight="1"
                 android:text="May 15, 2023"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@android:color/black"/>
+                android:textColor="@color/text_primary"/>
 
             <TextView
                 android:id="@+id/tvDay"
@@ -74,7 +74,7 @@
                     android:layout_height="20dp"
                     android:src="@drawable/ic_clock"
                     android:layout_marginEnd="4dp"
-                    app:tint="@color/late_red" />
+                    app:tint="@color/status_late" />
 
                 <TextView
                     android:id="@+id/tvLateDuration"
@@ -82,7 +82,7 @@
                     android:layout_height="wrap_content"
                     android:text="15 mins late"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                    android:textColor="@color/late_red"/>
+                    android:textColor="@color/status_late"/>
             </LinearLayout>
 
             <!-- Status Chip -->
@@ -94,7 +94,7 @@
                 android:text="Present"
                 app:chipBackgroundColor="@color/status_present"
                 app:chipCornerRadius="16dp"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 app:chipStrokeColor="@android:color/transparent"/>
         </LinearLayout>
 

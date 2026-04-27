@@ -46,22 +46,22 @@ class EmployeeDaoTest {
     fun testInsertAndGetEmployee() = runTest {
         val employee = com.example.sheetcompute.data.entities.EmployeeEntity(
             id = 1L,
-            name = "John Doe"
+            name = "Employee 1"
         )
         dao.insertAll(listOf(employee))
         val allEmployees = dao.getAllEmployees()
         assertEquals(1, allEmployees.size)
-        assertEquals("John Doe", allEmployees[0].name)
+        assertEquals("Employee 1", allEmployees[0].name)
         val byId = dao.getEmployeeById(1L)
         assertNotNull(byId)
-        assertEquals("John Doe", byId?.name)
+        assertEquals("Employee 1", byId?.name)
     }
 
     @Test
     fun testGetAllEmployeeIds() = runTest {
         val employees = listOf(
-            com.example.sheetcompute.data.entities.EmployeeEntity(1L, "A"),
-            com.example.sheetcompute.data.entities.EmployeeEntity(2L, "B")
+            com.example.sheetcompute.data.entities.EmployeeEntity(1L, "Employee A"),
+            com.example.sheetcompute.data.entities.EmployeeEntity(2L, "Employee B")
         )
         dao.insertAll(employees)
         val ids = dao.getAllEmployeeIds()
@@ -71,14 +71,14 @@ class EmployeeDaoTest {
     @Test
     fun testGetEmployeesByQuery() = runTest {
         val employees = listOf(
-            com.example.sheetcompute.data.entities.EmployeeEntity(1L, "Alice"),
-            com.example.sheetcompute.data.entities.EmployeeEntity(2L, "Bob"),
-            com.example.sheetcompute.data.entities.EmployeeEntity(3L, "Charlie")
+            com.example.sheetcompute.data.entities.EmployeeEntity(1L, "Employee 1"),
+            com.example.sheetcompute.data.entities.EmployeeEntity(2L, "Employee 2"),
+            com.example.sheetcompute.data.entities.EmployeeEntity(3L, "Employee 3")
         )
         dao.insertAll(employees)
-        val result = dao.getEmployees("Bob")
+        val result = dao.getEmployees("Employee 2")
         assertEquals(1, result.size)
-        assertEquals("Bob", result[0].name)
+        assertEquals("Employee 2", result[0].name)
         val all = dao.getEmployees("")
         assertEquals(3, all.size)
     }

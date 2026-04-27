@@ -2,10 +2,9 @@ package com.example.sheetcompute
 
 import android.app.Application
 import android.util.Log
-import com.google.firebase.FirebaseApp
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.remoteconfig.ktx.remoteConfig
-import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
+import com.google.firebase.Firebase
+import com.google.firebase.remoteconfig.remoteConfig
+import com.google.firebase.remoteconfig.remoteConfigSettings
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
@@ -14,7 +13,6 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        FirebaseApp.initializeApp(this)
         initRemoteConfig()
     }
 }
@@ -26,7 +24,7 @@ fun initRemoteConfig() {
     }
     config.setConfigSettingsAsync(settings)
 
-    config.setDefaultsAsync(mapOf("excel_enabled" to false))
+    config.setDefaultsAsync(mapOf("excel_enabled" to true))
 
     config.fetchAndActivate()
         .addOnCompleteListener { task ->

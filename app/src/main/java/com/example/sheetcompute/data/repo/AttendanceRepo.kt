@@ -30,12 +30,18 @@ interface AttendanceRepoInterface {
         totalWorkingDays: Int,
         pageSize: Int,
     ): Pager<Int, AttendanceRecordUI>
+
+    suspend fun getAvailableMonthStrings(employeeId: Long? = null): List<String>
 }
 @Singleton
 
 class AttendanceRepo @Inject constructor(
     private val attendanceDao: AttendanceDao,
 ): AttendanceRepoInterface {
+
+    override suspend fun getAvailableMonthStrings(employeeId: Long?): List<String> {
+        return attendanceDao.getAvailableMonthStrings(employeeId)
+    }
 
     override suspend fun getEmployeeAttendanceRecordsByRange(
         employeeId: Long,

@@ -93,6 +93,17 @@ class DateFilterFragment : Fragment() {
 
 
     private fun observeData() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.availableYears.collect { years ->
+                dateFilterHandler.updateYears(years)
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.availableMonthsForSelectedYear.collect { months ->
+                dateFilterHandler.updateMonths(months)
+            }
+        }
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.attendanceRecords.collect { pagingData ->

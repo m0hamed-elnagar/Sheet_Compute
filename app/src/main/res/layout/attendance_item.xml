@@ -26,7 +26,8 @@
             android:textColor="?android:attr/textColorPrimary"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:paddingHorizontal="16dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="8dp"
             android:ellipsize="end"
             android:maxLines="1"
             app:layout_constraintEnd_toStartOf="@+id/txt_month"
@@ -37,7 +38,7 @@
             android:id="@+id/txt_month"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginEnd="16dp"
             android:text="May 2023"
             android:textColor="?android:attr/textColorSecondary"
             android:textSize="14sp"
@@ -47,33 +48,31 @@
 
 
         <!-- ID Section -->
-        <LinearLayout
-            android:id="@+id/id_container"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/id_label"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:orientation="horizontal"
-            android:paddingHorizontal="16dp"
-            app:layout_constraintTop_toBottomOf="@+id/txt_name">
+            android:layout_marginStart="16dp"
+            android:text="ID:"
+            android:textColor="?android:attr/textColorSecondary"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txt_name" />
 
-            <TextView
-                android:id="@+id/id_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="ID:"
-                android:textColor="?android:attr/textColorSecondary"
-                android:textSize="14sp" />
+        <TextView
+            android:id="@+id/txt_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="8dp"
+            android:layout_marginEnd="16dp"
+            android:text="EMP12345"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/id_label"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/id_label" />
 
-            <TextView
-                android:id="@+id/txt_id"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingHorizontal="16dp"
-
-                android:text="EMP12345"
-                android:textColor="?android:attr/textColorPrimary"
-                android:textSize="14sp" />
-        </LinearLayout>
         <!-- Divider -->
         <View
             android:id="@+id/divider"
@@ -81,7 +80,7 @@
             android:layout_height="1dp"
             android:layout_marginTop="12dp"
             android:background="?android:attr/listDivider"
-            app:layout_constraintTop_toBottomOf="@+id/id_container"
+            app:layout_constraintTop_toBottomOf="@+id/id_label"
             tools:layout_editor_absoluteX="4dp" />
         <!-- Stats Section -->
         <LinearLayout

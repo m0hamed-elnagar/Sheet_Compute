@@ -10,7 +10,7 @@ import org.junit.Assert.*
 import com.example.sheetcompute.data.repo.AttendanceRepo
 import com.example.sheetcompute.domain.useCases.workingDays.CountWorkingDaysUseCase
 import com.example.sheetcompute.domain.useCases.workingDays.GetNonWorkingDaysUseCase
-import com.example.sheetcompute.domain.usecase.GetEmployeeAttendanceRecordsUseCase
+import com.example.sheetcompute.domain.useCases.attendance.GetEmployeeAttendanceRecordsUseCase
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest

@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="top|center_horizontal"
-        android:textColor="@android:color/black"
+        android:textColor="@color/text_primary"
         android:textSize="12sp"
         android:textStyle="bold"
         tools:text="8" />
@@ -31,7 +31,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_gravity="bottom"
-        android:background="@color/divider_gray" />
+        android:background="@color/border" />
 
 
 </FrameLayout>

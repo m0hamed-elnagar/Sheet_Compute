@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.sheetcompute.R
 import com.example.sheetcompute.data.entities.AttendanceStatus
 import com.example.sheetcompute.databinding.EmployeeAttendanceFragmentBinding
 import com.example.sheetcompute.domain.excel.export.EmployeeRecordsWorkbookBuilder
@@ -23,6 +24,7 @@ import com.example.sheetcompute.ui.subFeatures.utils.DateUtils.formatMinutesToHo
 import com.example.sheetcompute.ui.subFeatures.utils.ExcelFileSaver.saveToDownloads
 import com.example.sheetcompute.ui.subFeatures.utils.showToast
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -122,22 +124,27 @@ class EmployeeAttendanceFragment : Fragment() {
             monthSpinner = binding.spinnerMonth,
             coroutineScope = viewLifecycleOwner.lifecycleScope,
             onYearSelected = { year ->
-                year?.let {
-                    val month = binding.spinnerMonth.selectedItemPosition
-                    Log.d("DateFilterHandler", "setupDateControls: $month")
-                    viewModel.setMonthRange(month, year)
-
+                year?.let { y ->
+                    viewModel.setSelectedYear(y)
                 }
             },
             onMonthSelected = { month ->
-                val year = binding.spinnerYear.selectedItem.toString().toIntOrNull()
-
-                month?.let {
-                    year?.let { viewModel.setMonthRange(month, it) }
-                } ?: year?.let { viewModel.setMonthRange(0, it) }
-
+                val year = binding.spinnerYear.selectedItem?.toString()?.toIntOrNull()
+                val monthToUse = month?.plus(1) ?: 0
+                year?.let { y -> viewModel.setMonthRange(monthToUse, y) }
             }
         )
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.availableYears.collect { years ->
+                dateFilterHandler.updateYears(years)
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.availableMonthsForSelectedYear.collect { months ->
+                dateFilterHandler.updateMonths(months)
+            }
+        }
 
         binding.btnDateRange.setOnClickListener {
             DatePickerDialogs.showRangePickerDialog(
@@ -167,27 +174,28 @@ class EmployeeAttendanceFragment : Fragment() {
             }
         }
         viewLifecycleOwner.lifecycleScope.launch {
-
-        viewModel.selectedEmployee.collectLatest {
-            binding.txtEmployeeName.text = it?.name ?: "Unknown Employee"
-            binding.txtEmployeeId.text = it?.id?.toString() ?: ""
-            binding.txtEmployeePosition.text = it?.position ?: "Position"
-        }}
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.selectedEmployee.collectLatest {
+                    binding.txtEmployeeName.text = it?.name ?: "Unknown Employee"
+                    binding.txtEmployeeId.text = it?.id?.toString() ?: ""
+                    binding.txtEmployeePosition.text = it?.position ?: "Position"
+                }
+            }
+        }
         viewModel.presentCount.observe(viewLifecycleOwner) { count ->
-            _binding?.txtDaysWorked?.text = count.toString()
+            _binding?.txtDaysWorked?.text = getString(R.string.present_count, count)
             _binding?.presentCard?.isSelected = viewModel.isStatusSelected(AttendanceStatus.PRESENT)
         }
         viewModel.absentCount.observe(viewLifecycleOwner) { count ->
-            _binding?.txtAbsentDays?.text = count.toString()
+            _binding?.txtAbsentDays?.text = getString(R.string.absence_count, count)
             _binding?.absentCard?.isSelected = viewModel.isStatusSelected(AttendanceStatus.ABSENT)
         }
         viewModel.extraDaysCount.observe(viewLifecycleOwner) { count ->
-            _binding?.txtExtraDays?.text = count.toString()
+            _binding?.txtExtraDays?.text = getString(R.string.extra_value, count)
             _binding?.extraDaysCard?.isSelected = viewModel.isStatusSelected(AttendanceStatus.EXTRA_DAY)
         }
         viewModel.tardiesCount.observe(viewLifecycleOwner) { hours ->
-
-            _binding?.txtTardies?.text =  formatMinutesToHoursMinutes(hours)
+            _binding?.txtTardies?.text = getString(R.string.tardiness_value, formatMinutesToHoursMinutes(hours))
             _binding?.tardiesCard?.isSelected = viewModel.isStatusSelected(AttendanceStatus.LATE)
         }
 

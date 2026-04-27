@@ -9,44 +9,23 @@
 
     <!-- App Bar -->
     <com.google.android.material.appbar.AppBarLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:fitsSystemWindows="true">
-
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
         android:background="?attr/colorPrimary"
-        app:menu="@menu/toolbar_menu"
+        app:elevation="0dp">
 
-        app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light">
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@android:color/transparent"
+            app:menu="@menu/toolbar_menu"
+            app:title="@string/app_name"
+            app:titleTextColor="@color/white"
+            app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light" />
 
-
-        <com.google.android.material.card.MaterialCardView
-
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            app:cardBackgroundColor="@color/colorPrimary"
-            app:cardCornerRadius="40dp"
-            app:cardElevation="16dp"
-            app:strokeWidth="0dp"
-            app:cardPreventCornerOverlap="true"
-            android:translationZ="23dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="12dp"
-                android:text="سوق عكاظ لتجارة العبيد"
-                android:textColor="@android:color/white"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-        </com.google.android.material.card.MaterialCardView>
-
-    </com.google.android.material.appbar.MaterialToolbar>
-</com.google.android.material.appbar.AppBarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/nav_host_fragment"
@@ -57,4 +36,4 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         app:navGraph="@navigation/main_nav_graph" />
 
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

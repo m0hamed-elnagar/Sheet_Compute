@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TimeTracker</string>
+    <string name="app_name">SheetCompute</string>
     <string name="importing_sheet">Importing sheet</string>
     <string name="action_calendar">Calender fab\n</string>
     <string name="action_settings">setting action\n</string>
@@ -23,4 +23,12 @@
     <string name="no_internet_connection">\No connection. Check your internet and try again.</string>
     <string name="feature_not_available_for_now">Feature not available for now</string>
 
+    <string name="summary_attendance">ATTENDANCE</string>
+    <string name="summary_absents">ABSENTS</string>
+    <string name="summary_tardiness">TARDINESS</string>
+    <string name="summary_overtime">OVERTIME</string>
+    <string name="present_count">Present: %1$d</string>
+    <string name="absence_count">Absence: %1$d</string>
+    <string name="tardiness_value">%1$s</string>
+    <string name="extra_value">Extra: %1$d</string>
 </resources>

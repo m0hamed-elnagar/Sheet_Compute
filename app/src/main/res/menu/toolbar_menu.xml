@@ -12,6 +12,7 @@
         android:id="@+id/action_settings"
         android:icon="@drawable/settings"
         android:orderInCategory="100"
+        android:iconTint="@color/white"
         android:title="@string/action_settings"
         app:showAsAction="always" />
 

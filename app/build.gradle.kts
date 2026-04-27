@@ -58,6 +58,14 @@ android {
         viewBinding = true
         buildConfig = true
     }
+    splits {
+        abi {
+            isEnable = true
+            reset()
+            include("armeabi-v7a", "arm64-v8a", "x86", "x86_64")
+            isUniversalApk = true
+        }
+    }
 }
 
 dependencies {
@@ -92,7 +100,7 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.config)
-    implementation(libs.firebase.common.ktx)
+    implementation(libs.firebase.common)
     //TESTING
     testImplementation(libs.junit)
     testImplementation(libs.mockk)

@@ -59,7 +59,7 @@
         app:icon="@drawable/whatsapp"
         app:iconPadding="8dp"
         app:iconGravity="start"
-        app:iconTint="@color/green_500"
+        app:iconTint="@color/secondary"
         style="@style/Widget.MaterialComponents.Button" />
     <Button
         android:id="@+id/buttonClose"

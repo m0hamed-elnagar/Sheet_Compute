@@ -19,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:background="?android:attr/windowBackground"
-        app:itemIconTint="@color/late_red"
+        app:itemIconTint="@color/status_late"
         app:itemTextColor="@color/black"
         app:labelVisibilityMode="unlabeled"
         app:menu="@menu/bottom_nav_menu"

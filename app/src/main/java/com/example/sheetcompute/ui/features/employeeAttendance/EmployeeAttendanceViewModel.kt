@@ -9,9 +9,11 @@ import com.example.sheetcompute.data.entities.EmployeeEntity
 import com.example.sheetcompute.data.local.PreferencesGateway
 import com.example.sheetcompute.data.repo.EmployeeRepo
 import com.example.sheetcompute.domain.useCases.createCustomMonthRange
-import com.example.sheetcompute.domain.usecase.GetEmployeeAttendanceRecordsUseCase
+import com.example.sheetcompute.domain.useCases.attendance.GetAvailableMonthsUseCase
+import com.example.sheetcompute.domain.useCases.attendance.GetEmployeeAttendanceRecordsUseCase
 import com.example.sheetcompute.ui.features.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -28,7 +30,8 @@ import javax.inject.Inject
 class EmployeeAttendanceViewModel @Inject constructor(
     private val getEmployeeAttendanceRecordsUseCase : GetEmployeeAttendanceRecordsUseCase,
     private val employeeRepo: EmployeeRepo,
-    private val preferencesGateway: PreferencesGateway
+    private val preferencesGateway: PreferencesGateway,
+    private val getAvailableMonthsUseCase: GetAvailableMonthsUseCase
 ) : BaseViewModel() {
     private val _dateRange = MutableStateFlow<ClosedRange<LocalDate>?>(null)
     private val _selectedStatuses = MutableStateFlow<Set<AttendanceStatus>>(emptySet())
@@ -41,6 +44,21 @@ class EmployeeAttendanceViewModel @Inject constructor(
     private var cachedEmployeeId: Long? = null
 
     private val _selectedEmployee = MutableStateFlow<EmployeeEntity?>(null)
+    private val _selectedYear = MutableStateFlow<Int?>(LocalDate.now().year)
+
+    private val _availableMonthStrings = MutableStateFlow<List<String>>(emptyList())
+
+    val availableYears: StateFlow<List<Int>> = _availableMonthStrings.map { strings ->
+        strings.mapNotNull { it.split("-").firstOrNull()?.toIntOrNull() }.distinct().sortedDescending()
+    }.stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
+
+    val availableMonthsForSelectedYear: Flow<List<Int>> = combine(_availableMonthStrings, _selectedYear) { strings, year ->
+        if (year == null) emptyList()
+        else strings.filter { it.startsWith("$year-") }
+            .mapNotNull { it.split("-").getOrNull(1)?.toIntOrNull() }
+            .map { it - 1 } // Convert to 0-based
+            .distinct().sorted()
+    }
 
     val presentCount: LiveData<Int> = _presentCount.asLiveData()
     val absentCount: LiveData<Int> = _absentCount.asLiveData()
@@ -60,17 +78,31 @@ class EmployeeAttendanceViewModel @Inject constructor(
     fun setEmployeeId(id: Long) {
         cachedEmployeeId = id
         fetchEmployeeById(id)
+        fetchAvailableDates(id)
         tryInitialFetch()
     }
+
+    private fun fetchAvailableDates(employeeId: Long) {
+        viewModelScope.launch {
+            _availableMonthStrings.value = getAvailableMonthsUseCase(employeeId)
+        }
+    }
+
 init {
     val now = LocalDate.now()
     setMonthRange(now.monthValue, now.year)
 }
     fun setMonthRange(month: Int, year: Int) {
+        _selectedYear.value = year
         val startDay = preferencesGateway.getMonthStartDay()
         _dateRange.value = createCustomMonthRange(month = month, year = year, startDay = startDay)
         tryInitialFetch()
     }
+
+    fun setSelectedYear(year: Int?) {
+        _selectedYear.value = year
+    }
+
 
     fun setCustomRange(startDate: LocalDate, endDate: LocalDate) {
         _dateRange.value = startDate..endDate

@@ -23,7 +23,7 @@ class ExcelParserTest {
         header.createCell(3).setCellValue("ClockIn")
         val row = sheet.createRow(1)
         row.createCell(0).setCellValue(1.0)
-        row.createCell(1).setCellValue("John Doe")
+        row.createCell(1).setCellValue("Employee 1")
         row.createCell(2).setCellValue("2023-08-03")
         row.createCell(3).setCellValue("08:00")
         val out = ByteArrayOutputStream()

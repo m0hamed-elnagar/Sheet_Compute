@@ -132,7 +132,7 @@ class DateFilterViewModelTest {
         // Create test data
         val fakeRecord = AttendanceRecordUI(
             id = 1,
-            name = "John Doe",
+            name = "Employee 1",
             month = 7,
             year = 2024,
             absentCount = 10,

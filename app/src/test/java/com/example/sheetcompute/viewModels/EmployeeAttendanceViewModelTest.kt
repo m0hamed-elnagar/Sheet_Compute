@@ -8,7 +8,8 @@ import com.example.sheetcompute.data.entities.EmployeeAttendanceRecord
 import com.example.sheetcompute.data.entities.EmployeeEntity
 import com.example.sheetcompute.data.local.PreferencesGateway
 import com.example.sheetcompute.data.repo.EmployeeRepo
-import com.example.sheetcompute.domain.usecase.GetEmployeeAttendanceRecordsUseCase
+import com.example.sheetcompute.domain.useCases.attendance.GetAvailableMonthsUseCase
+import com.example.sheetcompute.domain.useCases.attendance.GetEmployeeAttendanceRecordsUseCase
 import com.example.sheetcompute.ui.features.employeeAttendance.EmployeeAttendanceViewModel
 import io.mockk.coEvery
 import io.mockk.every
@@ -35,6 +36,7 @@ class EmployeeAttendanceViewModelTest {
 
     private lateinit var preferencesGateway: PreferencesGateway
     private lateinit var getEmployeeAttendanceRecordsUseCase: GetEmployeeAttendanceRecordsUseCase
+    private lateinit var getAvailableMonthsUseCase: GetAvailableMonthsUseCase
     private lateinit var employeeRepo: EmployeeRepo
     private lateinit var viewModel: EmployeeAttendanceViewModel
 
@@ -49,12 +51,14 @@ class EmployeeAttendanceViewModelTest {
         preferencesGateway = mockk(relaxed = true)
         employeeRepo = mockk()
         getEmployeeAttendanceRecordsUseCase = mockk()
+        getAvailableMonthsUseCase = mockk(relaxed = true)
         every { preferencesGateway.getMonthStartDay() } returns 1     // 1st of month
 
         viewModel = EmployeeAttendanceViewModel(
             getEmployeeAttendanceRecordsUseCase,
             employeeRepo,
-            preferencesGateway
+            preferencesGateway,
+            getAvailableMonthsUseCase
         )
 
         // Always observe LiveData so .value is available

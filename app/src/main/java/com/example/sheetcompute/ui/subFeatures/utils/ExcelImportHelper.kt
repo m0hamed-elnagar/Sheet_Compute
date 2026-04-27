@@ -31,12 +31,21 @@ class ExcelImportHelper(
     }
 
     private fun extractExcel() {
+        val isExcelEnabled = Firebase.remoteConfig.getBoolean("excel_enabled")
+        if (isExcelEnabled) {
+            showFilePicker()
+            return
+        }
+
         if (isInternetAvailable(context)) {
-            val isExcelEnabled = Firebase.remoteConfig.getBoolean("excel_enabled")
-            if (isExcelEnabled) {
-                showFilePicker()
-            } else {
-                showToast(context, context.getString(R.string.feature_not_available_for_now))
+            // Force fetch and activate to ensure we have the latest value from Firebase
+            Firebase.remoteConfig.fetchAndActivate().addOnCompleteListener { task ->
+                val updatedIsExcelEnabled = Firebase.remoteConfig.getBoolean("excel_enabled")
+                if (updatedIsExcelEnabled) {
+                    showFilePicker()
+                } else {
+                    showToast(context, context.getString(R.string.feature_not_available_for_now))
+                }
             }
         } else {
             showToast(context, context.getString(R.string.no_internet_connection))

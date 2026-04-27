@@ -16,7 +16,11 @@ object DateUtils {
     fun formatMinutesToHoursMinutes(minutes: Long): String {
         val hours = minutes / 60
         val mins = minutes % 60
-        return if (hours > 0) "${hours}h ${mins}m" else "${mins}m"
+        return when {
+            minutes == 0L -> "0m (On Time)"
+            hours > 0 -> "${hours}h ${mins}m"
+            else -> "${mins}m"
+        }
     }
 
     fun formatTimeForStorage(time: LocalTime): String {

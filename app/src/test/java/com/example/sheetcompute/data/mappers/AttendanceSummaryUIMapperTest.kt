@@ -9,7 +9,7 @@ class AttendanceSummaryUIMapperTest {
     fun `maps AttendanceSummary to AttendanceRecordUI correctly`() {
         val summary = AttendanceSummary(
             id = 1L,
-            name = "John Doe",
+            name = "Employee 1",
             month = 7,
             year = 2024,
             presentDays = 18,
@@ -18,7 +18,7 @@ class AttendanceSummaryUIMapperTest {
         val totalWorkingDays = 22
         val ui = summary.mapToAttendanceRecordUI(totalWorkingDays)
         assertEquals(1L, ui.id)
-        assertEquals("John Doe", ui.name)
+        assertEquals("Employee 1", ui.name)
         assertEquals(7, ui.month)
         assertEquals(2024, ui.year)
         assertEquals(4, ui.absentCount)

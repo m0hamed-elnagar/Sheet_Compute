@@ -1,61 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
+    <!-- Professional Palette: High-Contrast Slate & Teal -->
+    
+    <!-- Light Mode -->
+    <color name="primary">#0F172A</color> <!-- Slate 900 -->
+    <color name="primary_variant">#020617</color> <!-- Slate 950 -->
+    <color name="on_primary">#FFFFFF</color>
+    
+    <color name="secondary">#0284C7</color> <!-- Light Blue 600 -->
+    <color name="secondary_variant">#0369A1</color> <!-- Light Blue 700 -->
+    <color name="on_secondary">#FFFFFF</color>
+
+    <color name="accent">#0D9488</color> <!-- Teal 600 -->
+    <color name="on_accent">#FFFFFF</color>
+
+    <color name="background">#F8FAFC</color> <!-- Slate 50 -->
+    <color name="on_background">#0F172A</color>
+    
+    <color name="surface">#F1F5F9</color> <!-- Slate 100 (Softer than white) -->
+    <color name="on_surface">#0F172A</color>
+    
+    <color name="border">#CBD5E1</color> <!-- Slate 300 -->
+    <color name="text_primary">#0F172A</color> <!-- Slate 900 -->
+    <color name="text_secondary">#475569</color> <!-- Slate 600 -->
+    <color name="text_disabled">#94A3B8</color> <!-- Slate 400 -->
+
+    <!-- Semantic Colors (Solid for Backgrounds) -->
+    <color name="status_present">#047857</color> <!-- Emerald 700 -->
+    <color name="status_present_dark">#064e3b</color> <!-- Emerald 900 -->
+    
+    <color name="status_absent">#B91C1C</color>  <!-- Red 700 -->
+    <color name="status_absent_dark">#7f1d1d</color>  <!-- Red 900 -->
+    
+    <color name="status_late">#B45309</color>    <!-- Amber 700 -->
+    <color name="status_late_dark">#78350f</color>    <!-- Amber 900 -->
+    
+    <color name="status_on_leave">#1D4ED8</color> <!-- Blue 700 -->
+    <color name="status_on_leave_dark">#1e3a8a</color> <!-- Blue 900 -->
+    
+    <color name="error">#B91C1C</color>
+    <color name="warning">#B45309</color>
+
+    <!-- Tinted Card Backgrounds (Still useful for other UI elements) -->
+    <color name="bg_present_soft">#F0FDF4</color> <!-- Emerald 50 -->
+    <color name="bg_absent_soft">#FEF2F2</color>  <!-- Red 50 -->
+    <color name="bg_late_soft">#FFF7ED</color>    <!-- Orange 50 -->
+    <color name="bg_leave_soft">#EFF6FF</color>   <!-- Blue 50 -->
+
+    <!-- Selection Tints (Slightly darker for selection state) -->
+    <color name="bg_present_selected">#DCFCE7</color> <!-- Emerald 100 -->
+    <color name="bg_absent_selected">#FEE2E2</color>  <!-- Red 100 -->
+    <color name="bg_late_selected">#FFEDD5</color>    <!-- Orange 100 -->
+    <color name="bg_leave_selected">#DBEAFE</color>   <!-- Blue 100 -->
+
+    <!-- Legacy / Compatibility Aliases -->
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-<!--    <color name="colorPrimary">#240f21</color>-->
-    <color name="colorPrimaryVariant">#0a466e</color>
-    <color name="colorOnPrimary">#FFFFFF</color> <!-- white text on dark background -->
-    <color name="colorOnSecondary">#000000</color> <!-- black text on light bg -->
-<!--    <color name="colorSecondary">#68c7d4</color>-->
-<color name="lightPink">#E8BEE0</color>
-    <color name="green_500">#4CAF50</color>
-    <color name="red_500">#F44336</color>
-    <color name="amber_500">#FFF9C4</color>
+    
+    <color name="late_red">#B91C1C</color>
+    <color name="green_500">#047857</color>
+    <color name="red_500">#B91C1C</color>
+    <color name="amber_500">#9A3412</color>
+    
+    <color name="divider_gray">#CBD5E1</color>
+    <color name="textSecondary">#475569</color>
+    
+    <!-- Calendar & Sheet Specific -->
+    <color name="weekend_bg">#F1F5F9</color>
+    <color name="holiday_bg">#FEE2E2</color>
+    <color name="today_bg">#F1F5F9</color> <!-- Slate 100 -->
+    
+    <!-- Card Selection Generic -->
+    <color name="card_selected_bg">#F1F5F9</color>
+    <color name="card_normal_bg">#FFFFFF</color>
 
-    <color name="late_red">#C3C0C0</color>
-    <color name="status_present">#E8F5E9</color>
-    <color name="status_absent">#FF5252</color>
-    <color name="status_late">#C3C0C0</color>
-        <!-- Primary Colors -->
-    <color name="colorPrimary">@color/colorPrimaryVariant</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorPrimaryLight">#C5CAE9</color>
+    <!-- Ripple -->
+    <color name="ripple_overlay">#1A0F172A</color>
 
-    <!-- Secondary Colors -->
-    <color name="colorSecondary">#FF5722</color>
-    <color name="colorSecondaryDark">#E64A19</color>
-
-    <!-- Background/Surface -->
-    <color name="background">#FAFAFA</color>
-    <color name="surface">#FFFFFF</color>
-
-    <!-- Text Colors -->
-    <color name="textPrimary">#212121</color>
-    <color name="textSecondary">#757575</color>
-    <color name="textDisabled">#BDBDBD</color>
-
-    <!-- Status Colors -->
-    <color name="statusPresent">#4CAF50</color>
-    <color name="statusAbsent">#F44336</color>
-    <color name="statusLate">#FFC107</color>
-    <color name="statusOnLeave">#2196F3</color>
-    <color name="ripple_overlay">#33000000</color> <!-- Light gray ripple overlay -->
-    <color name="weekend_text">#2196F3</color>
-    <color name="weekend_background">#E3F2FD</color>
-    <color name="holiday_text">#FFFFFF</color>
-    <color name="holiday_background">#F44336</color>
-    <color name="working_day_text">#FF000000</color>  <!-- Black -->
-    <color name="working_day_bg">#00FFFFFF</color>    <!-- Transparent -->
-    <color name="weekend_bg">#FFE3F2FD</color>        <!-- Light blue -->
-    <color name="holiday_bg">#FFF44336</color>         <!-- Red -->
-    <color name="today_bg">#FF4CAF50</color>
-    <color name="holiday_color">#FBC02D</color> <!-- Red for holidays -->
-    <color name="weekend_color">#808080</color> <!-- Gray for weekends -->
-    <color name="workday_color">#689F38</color> <!-- White for workdays -->
-    <color name="divider_gray">#D3D3D3</color> <!-- Light gray divider -->
+    <!-- Summary Card Colors (to match image) -->
+    <color name="summary_present">#2E7D32</color> <!-- Dark Green -->
+    <color name="summary_leaves">#476A76</color>  <!-- Teal/Grey -->
+    <color name="summary_tardiness">#6A8998</color> <!-- Light Grey/Blue -->
+    <color name="summary_overtime">#203354</color> <!-- Dark Blue/Indigo -->
+    <color name="summary_card_bg">#333333</color> <!-- Dark Grey Header -->
 </resources>

@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:elevation="6dp"
+        app:cardBackgroundColor="@color/summary_card_bg"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -26,38 +27,34 @@
                 android:id="@+id/txtEmployeeName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="2dp"
                 android:gravity="center"
                 android:text="Employee Name"
+                android:textColor="@color/text_primary"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/txtEmployeeId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
+                android:gravity="center"
+                android:textColor="@color/text_secondary"
+                android:text="ID: 123" />
+
+            <TextView
+                android:id="@+id/txtEmployeePosition"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/txtEmployeeId"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="ID: 123" />
-
-                <TextView
-                    android:id="@+id/txtEmployeePosition"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="Position" />
-            </LinearLayout>
+                android:gravity="center"
+                android:textColor="@color/text_secondary"
+                android:textSize="12sp"
+                android:text="Position" />
 
             <!-- Summary Stats -->
             <LinearLayout
-
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -71,29 +68,40 @@
                     android:layout_weight="1"
                     android:clickable="true"
                     android:focusable="true"
-                    app:cardBackgroundColor="@drawable/card_background_selector"
-                    app:cardCornerRadius="8dp"
-                    app:cardElevation="4dp">
+                    app:cardBackgroundColor="@drawable/bg_present_selector"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="2dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center"
+                        android:layout_gravity="center"
                         android:orientation="vertical"
                         android:padding="8dp">
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/calendar_month_24dp_"
+                            app:tint="@color/status_present"
+                            android:layout_marginBottom="4dp"/>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Presnts"
-                            android:textSize="12sp" />
+                            android:text="Presents"
+                            android:textColor="@color/status_present"
+                            android:textSize="11sp"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/txtDaysWorked"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0"
-                            android:textSize="12sp"
+                            android:textColor="@color/text_primary"
+                            android:textSize="14sp"
                             android:textStyle="bold" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
@@ -106,29 +114,40 @@
                     android:layout_weight="1"
                     android:clickable="true"
                     android:focusable="true"
-                    app:cardBackgroundColor="@drawable/card_background_selector"
-                    app:cardCornerRadius="8dp"
-                    app:cardElevation="4dp">
+                    app:cardBackgroundColor="@drawable/bg_absent_selector"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="2dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center"
+                        android:layout_gravity="center"
                         android:orientation="vertical"
                         android:padding="8dp">
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@android:drawable/ic_menu_close_clear_cancel"
+                            app:tint="@color/status_absent"
+                            android:layout_marginBottom="4dp"/>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Absents"
-                            android:textSize="12sp" />
+                            android:textColor="@color/status_absent"
+                            android:textSize="11sp"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/txtAbsentDays"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0"
-                            android:textSize="12sp"
+                            android:textColor="@color/text_primary"
+                            android:textSize="14sp"
                             android:textStyle="bold" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
@@ -141,31 +160,40 @@
                     android:layout_weight="1"
                     android:clickable="true"
                     android:focusable="true"
-                    app:cardBackgroundColor="@drawable/card_background_selector"
-                    app:cardCornerRadius="8dp"
-                    app:cardElevation="4dp">
+                    app:cardBackgroundColor="@drawable/bg_late_selector"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="2dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:clickable="false"
-                        android:focusable="false"
                         android:gravity="center"
+                        android:layout_gravity="center"
                         android:orientation="vertical"
                         android:padding="8dp">
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/ic_clock"
+                            app:tint="@color/status_late"
+                            android:layout_marginBottom="4dp"/>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Tardies"
-                            android:textSize="12sp" />
+                            android:textColor="@color/status_late"
+                            android:textSize="11sp"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/txtTardies"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0"
-                            android:textSize="12sp"
+                            android:textColor="@color/text_primary"
+                            android:textSize="14sp"
                             android:textStyle="bold" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
@@ -178,29 +206,40 @@
                     android:layout_weight="1"
                     android:clickable="true"
                     android:focusable="true"
-                    app:cardBackgroundColor="@drawable/card_background_selector"
-                    app:cardCornerRadius="8dp"
-                    app:cardElevation="4dp">
+                    app:cardBackgroundColor="@drawable/bg_leave_selector"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="2dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center"
+                        android:layout_gravity="center"
                         android:orientation="vertical"
                         android:padding="8dp">
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@android:drawable/ic_input_add"
+                            app:tint="@color/status_on_leave"
+                            android:layout_marginBottom="4dp"/>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="extra days "
-                            android:textSize="12sp" />
+                            android:text="Extra"
+                            android:textColor="@color/status_on_leave"
+                            android:textSize="11sp"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/txtExtraDays"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0"
-                            android:textSize="12sp"
+                            android:textColor="@color/text_primary"
+                            android:textSize="14sp"
                             android:textStyle="bold" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
@@ -210,16 +249,18 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/byRange"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="56dp"
         android:layout_margin="8dp"
-        android:elevation="6dp"
+        app:cardBackgroundColor="@color/card_normal_bg"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="2dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/employeeSummaryCard">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:padding="8dp">
@@ -245,6 +286,7 @@
                         android:layout_weight="1"
                         android:text="Date Range: "
                         android:textAppearance="?attr/textAppearanceBody1"
+                        android:textColor="@color/text_primary"
                         android:textSize="14sp" />
 
                     <ImageButton
@@ -253,7 +295,8 @@
                         android:layout_height="wrap_content"
                         android:background="@android:color/transparent"
                         android:contentDescription="Clear Range"
-                        android:src="@android:drawable/ic_menu_close_clear_cancel" />
+                        android:src="@android:drawable/ic_menu_close_clear_cancel"
+                        app:tint="@color/status_absent" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -262,7 +305,6 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
-                    android:padding="8dp"
                     android:visibility="visible">
 
                     <Spinner
@@ -271,14 +313,16 @@
                         android:layout_height="48dp"
                         android:layout_marginEnd="8dp"
                         android:layout_weight="1"
-                        android:spinnerMode="dropdown" />
+                        android:spinnerMode="dropdown"
+                        android:backgroundTint="@color/text_secondary"/>
 
                     <Spinner
                         android:id="@+id/spinnerMonth"
                         android:layout_width="0dp"
                         android:layout_height="48dp"
                         android:layout_weight="1"
-                        android:spinnerMode="dropdown" />
+                        android:spinnerMode="dropdown"
+                        android:backgroundTint="@color/text_secondary"/>
 
 
                 </LinearLayout>
@@ -291,8 +335,8 @@
                 android:layout_height="48dp"
                 android:background="@android:color/transparent"
                 android:contentDescription="calendar icon"
-                android:padding="6dp"
-                android:scaleType="centerCrop"
+                android:padding="8dp"
+                android:scaleType="centerInside"
                 android:src="@drawable/calendar_month_24dp_"
                 app:tint="@color/white" />
         </LinearLayout>
@@ -318,6 +362,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="No attendance records found"
+        android:textColor="@color/text_secondary"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@id/rv_employee_logs"
@@ -345,8 +390,9 @@
         android:layout_margin="16dp"
         android:background="@android:color/transparent"
         android:contentDescription="Export Report"
-        android:scaleType="centerCrop"
+        android:scaleType="fitCenter"
         android:src="@drawable/download"
+        app:tint="@color/primary"
         app:layout_constraintBottom_toTopOf="@id/ToWhatsApp"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -357,8 +403,9 @@
         android:layout_margin="16dp"
         android:background="@android:color/transparent"
         android:contentDescription="Export to WhatsApp"
-        android:scaleType="centerCrop"
+        android:scaleType="fitCenter"
         android:src="@drawable/whatsapp"
+        app:tint="@color/accent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

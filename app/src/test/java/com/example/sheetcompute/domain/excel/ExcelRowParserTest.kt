@@ -39,7 +39,7 @@ class ExcelRowParserMockKTest {
 
     @Test
     fun `malformed time returns Invalid time error`() {
-        mockRow("1001", "John Doe", testDate, "25:70")
+        mockRow("1001", "Employee 1001", testDate, "25:70")
         assertError(ExcelRowParser.parseRow(row, workStartTime)) { error ->
             assertEquals("Invalid time", error.reason)
         }
@@ -48,13 +48,13 @@ class ExcelRowParserMockKTest {
     // region Success Cases
     @Test
     fun `parse valid row returns Success`() {
-        mockRow("1001", "John Doe", "2024-08-02", "09:15:00")
+        mockRow("1001", "Employee 1001", "2024-08-02", "09:15:00")
 
         val result = ExcelRowParser.parseRow(row, workStartTime)
 
         assertSuccess(result) { (employee, record) ->
             assertEquals(1001L, employee.id)
-            assertEquals("John Doe", employee.name)
+            assertEquals("Employee 1001", employee.name)
             assertEquals(15, record.tardyMinutes)
         }
     }
@@ -64,7 +64,7 @@ class ExcelRowParserMockKTest {
     fun `parse valid row with numeric time returns Success`() {
         mockRow(
             id = "233",
-            name = "John dickson",
+            name = "Employee 233",
             date = testDate,
             time = "0.5104" // 12:15:00
         )
@@ -81,7 +81,7 @@ class ExcelRowParserMockKTest {
     fun `empty ID cell returns Error`() {
         mockRowCells(
             idCell = mockEmptyCell(),
-            name = "John Doe",
+            name = "Employee 1001",
             date = testDate,
             time = "09:00"
         )
@@ -98,7 +98,7 @@ class ExcelRowParserMockKTest {
     fun `invalid date format returns Error`() {
         mockRowCells(
             id = "1001",
-            name = "John Doe",
+            name = "Employee 1001",
             date = "01-038-2024", // Wrong format
             time = "09:00"
         )
@@ -115,7 +115,7 @@ class ExcelRowParserMockKTest {
     fun `malformed time value returns Error`() {
         mockRowCells(
             id = "1001",
-            name = "John Doe",
+            name = "Employee 1001",
             date = testDate,
             time = "25:70" // Invalid time
         )
@@ -145,7 +145,7 @@ class ExcelRowParserMockKTest {
     fun `empty date cell returns Error`() {
         mockRowCells(
             id = "1001",
-            name = "John Doe",
+            name = "Employee 1001",
             date = null,
             time = "09:00"
         )
@@ -159,7 +159,7 @@ class ExcelRowParserMockKTest {
     fun `empty time cell returns Error`() {
         mockRowCells(
             id = "1001",
-            name = "John Doe",
+            name = "Employee 1001",
             date = testDate,
             time = null
         )
@@ -173,7 +173,7 @@ class ExcelRowParserMockKTest {
     fun `non-numeric ID returns Error`() {
         mockRowCells(
             id = "abc",
-            name = "John Doe",
+            name = "Employee 1001",
             date = testDate,
             time = "09:00"
         )
@@ -185,7 +185,7 @@ class ExcelRowParserMockKTest {
 
     @Test
     fun `time before work start returns zero tardy`() {
-        mockRow("1001", "John Doe", testDate, "08:45:00")
+        mockRow("1001", "Employee 1001", testDate, "08:45:00")
         val result = ExcelRowParser.parseRow(row, workStartTime)
         assertSuccess(result) { (_, record) ->
             assertEquals(0, record.tardyMinutes)
@@ -223,7 +223,7 @@ class ExcelRowParserMockKTest {
         }
         mockRowCells(
             id = "1001",
-            name = "John Doe",
+            name = "Employee 1001",
             date = testDate,
             timeCell = cell
         )

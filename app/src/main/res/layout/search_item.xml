@@ -22,6 +22,7 @@
             android:id="@+id/txt_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="12dp"
             android:ellipsize="end"
             android:maxLines="1"
             android:text="Employee Name"
@@ -29,8 +30,8 @@
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/txt_id"
+            app:layout_constraintEnd_toStartOf="@+id/txt_id"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
@@ -41,7 +42,7 @@
             android:textColor="?android:attr/textColorSecondary"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="@+id/txt_name"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/txt_name" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

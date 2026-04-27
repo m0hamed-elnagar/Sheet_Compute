@@ -67,8 +67,8 @@ kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-c
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" }
 material = { module = "com.google.android.material:material", version.ref = "material" }
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebase" }
-firebase-config = { group = "com.google.firebase", name = "firebase-config-ktx", version = "firebase" }
-firebase-common-ktx = { group = "com.google.firebase", name = "firebase-common-ktx", version = "21.0.0" }
+firebase-config = { group = "com.google.firebase", name = "firebase-config" }
+firebase-common = { group = "com.google.firebase", name = "firebase-common" }
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 proguard = { module = "com.github.SUPERCILEX.poi-android:proguard", version.ref = "proguard" }
 poi = { module = "com.github.SUPERCILEX.poi-android:poi", version.ref = "poi" }
