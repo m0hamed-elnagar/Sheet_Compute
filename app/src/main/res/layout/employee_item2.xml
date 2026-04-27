@@ -1,119 +1,164 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="8dp"
-    android:layout_marginVertical="4dp"
-    app:cardCornerRadius="8dp"
-    app:cardElevation="2dp"
-    app:cardUseCompatPadding="true">
+    android:layout_marginHorizontal="12dp"
+    android:layout_marginVertical="6dp"
+    app:cardBackgroundColor="@color/dark_card_bg"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="0dp">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="12dp">
+        android:padding="16dp">
 
-        <!-- Date Row -->
+        <!-- Date Column -->
         <LinearLayout
-            android:layout_width="match_parent"
+            android:id="@+id/dateColumn"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="4dp">
-
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/calendar"
-                app:tint="?attr/colorPrimary"
-                android:layout_marginEnd="8dp"/>
+            android:gravity="center"
+            android:minWidth="50dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:id="@+id/tvDate"
-                android:layout_width="0dp"
+                android:id="@+id/tvMonth"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="May 15, 2023"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@color/text_primary"/>
+                android:text="JAN"
+                android:textColor="@color/dark_text_secondary"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvDayNum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="01"
+                android:textColor="@color/dark_text_primary"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvYear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2025"
+                android:textColor="@color/dark_text_secondary"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <!-- Vertical Divider (Visual only) -->
+        <View
+            android:id="@+id/v_divider"
+            android:layout_width="1dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="16dp"
+            android:background="@color/dark_border"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/dateColumn"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- Info Section -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="8dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/rightSection"
+            app:layout_constraintStart_toEndOf="@id/v_divider"
+            app:layout_constraintTop_toTopOf="parent">
 
             <TextView
                 android:id="@+id/tvDay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Monday"
-                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                android:textColor="?attr/colorPrimary"
-                android:background="@drawable/day_chip_background"
-                android:paddingHorizontal="8dp"
-                android:paddingVertical="2dp"/>
-        </LinearLayout>
+                android:text="Wednesday"
+                android:textColor="@color/dark_text_primary"
+                android:textSize="16sp"
+                android:textStyle="normal" />
 
-        <!-- Status Row -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="8dp"
-            android:gravity="center_vertical">
-
-            <!-- Late Duration -->
             <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
-
-                <ImageView
-                    android:id="@+id/ivLateIcon"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/ic_clock"
-                    android:layout_marginEnd="4dp"
-                    app:tint="@color/status_late" />
-
-                <TextView
-                    android:id="@+id/tvLateDuration"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="15 mins late"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                    android:textColor="@color/status_late"/>
-            </LinearLayout>
-
-            <!-- Status Chip -->
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chipStatus"
-                style="@style/Widget.MaterialComponents.Chip.Action"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Present"
-                app:chipBackgroundColor="@color/status_present"
-                app:chipCornerRadius="16dp"
-                android:textColor="@color/white"
-                app:chipStrokeColor="@android:color/transparent"/>
+                android:layout_marginTop="12dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_marginEnd="4dp"
+                    android:src="@drawable/ic_clock"
+                    app:tint="@color/dark_text_secondary" />
+
+                <TextView
+                    android:id="@+id/tvAdditionalInfo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Checked in at"
+                    android:textColor="@color/dark_text_secondary"
+                    android:textSize="12sp" />
+            </LinearLayout>
         </LinearLayout>
 
-        <!-- Divider -->
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="8dp"
-            android:background="?android:attr/listDivider"/>
-
-        <!-- Additional Info (if needed) -->
-        <TextView
-            android:id="@+id/tvAdditionalInfo"
-            android:layout_width="match_parent"
+        <!-- Right Section: Status + Chevron -->
+        <LinearLayout
+            android:id="@+id/rightSection"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Checked in at 08:15 AM"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-            android:textColor="?android:attr/textColorSecondary"
-           />
-    </LinearLayout>
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tvStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/status_pill_bg"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="4dp"
+                android:text="ABSENT"
+                android:textColor="@color/dark_status_absent"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <!-- Placeholder for Late info if needed (invisible by default or handled in code) -->
+        <TextView
+            android:id="@+id/tvLateDuration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+        
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+        
+        <TextView
+            android:id="@+id/tvDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

@@ -47,6 +47,7 @@ class EmployeeAttendanceViewModel @Inject constructor(
     private val _selectedYear = MutableStateFlow<Int?>(LocalDate.now().year)
 
     private val _availableMonthStrings = MutableStateFlow<List<String>>(emptyList())
+    private val _selectedMonth = MutableStateFlow<Int>(LocalDate.now().monthValue) // 1-12, or 0 for All
 
     val availableYears: StateFlow<List<Int>> = _availableMonthStrings.map { strings ->
         strings.mapNotNull { it.split("-").firstOrNull()?.toIntOrNull() }.distinct().sortedDescending()
@@ -66,6 +67,7 @@ class EmployeeAttendanceViewModel @Inject constructor(
     val tardiesCount: LiveData<Long> = _tardiesCount.asLiveData()
     val isEmpty: LiveData<Boolean> = _cachedRecords.map { it.isEmpty() }.asLiveData()
     val selectedEmployee: StateFlow<EmployeeEntity?> = _selectedEmployee.asStateFlow()
+    val selectedStatuses: LiveData<Set<AttendanceStatus>> = _selectedStatuses.asLiveData()
 
     val filteredRecords: StateFlow<List<EmployeeAttendanceRecord>> =
         _cachedRecords.combine(_selectedStatuses) { records, statuses ->
@@ -79,7 +81,7 @@ class EmployeeAttendanceViewModel @Inject constructor(
         cachedEmployeeId = id
         fetchEmployeeById(id)
         fetchAvailableDates(id)
-        tryInitialFetch()
+        updateDateRange() // Initial fetch
     }
 
     private fun fetchAvailableDates(employeeId: Long) {
@@ -89,20 +91,29 @@ class EmployeeAttendanceViewModel @Inject constructor(
     }
 
 init {
-    val now = LocalDate.now()
-    setMonthRange(now.monthValue, now.year)
+    // Initial state is set, but fetch happens when employeeId is set
 }
+
+    fun setSelectedYear(year: Int?) {
+        if (_selectedYear.value != year) {
+            _selectedYear.value = year
+            updateDateRange()
+        }
+    }
+
     fun setMonthRange(month: Int, year: Int) {
+        _selectedMonth.value = month
         _selectedYear.value = year
+        updateDateRange()
+    }
+
+    private fun updateDateRange() {
+        val year = _selectedYear.value ?: return
+        val month = _selectedMonth.value
         val startDay = preferencesGateway.getMonthStartDay()
         _dateRange.value = createCustomMonthRange(month = month, year = year, startDay = startDay)
         tryInitialFetch()
     }
-
-    fun setSelectedYear(year: Int?) {
-        _selectedYear.value = year
-    }
-
 
     fun setCustomRange(startDate: LocalDate, endDate: LocalDate) {
         _dateRange.value = startDate..endDate
@@ -153,8 +164,8 @@ init {
     }
 
     fun clearFilters() {
-        _dateRange.value = null
         _selectedStatuses.value = emptySet()
+        updateDateRange()
     }
 
     fun fetchEmployeeById(id: Long) {

@@ -3,16 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/dark_bg">
 
     <!-- Employee Summary Card -->
     <androidx.cardview.widget.CardView
         android:id="@+id/employeeSummaryCard"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:elevation="6dp"
-        app:cardBackgroundColor="@color/summary_card_bg"
+        android:layout_margin="12dp"
+        app:cardBackgroundColor="@color/dark_card_bg"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -21,339 +23,398 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="12dp">
+            android:padding="16dp">
 
-            <TextView
-                android:id="@+id/txtEmployeeName"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="2dp"
-                android:gravity="center"
-                android:text="Employee Name"
-                android:textColor="@color/text_primary"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                android:layout_marginBottom="16dp">
 
-            <TextView
-                android:id="@+id/txtEmployeeId"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="2dp"
-                android:gravity="center"
-                android:textColor="@color/text_secondary"
-                android:text="ID: 123" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/txtEmployeePosition"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:gravity="center"
-                android:textColor="@color/text_secondary"
-                android:textSize="12sp"
-                android:text="Position" />
+                    <TextView
+                        android:id="@+id/txtEmployeeName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Employee 11107"
+                        android:textColor="@color/dark_text_primary"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/txtEmployeeId"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="11107"
+                        android:textColor="@color/dark_text_secondary"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/txtEmployeeBadge"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/day_chip_background"
+                    android:backgroundTint="@color/dark_badge_bg"
+                    android:gravity="center"
+                    android:text="E1"
+                    android:textColor="@color/dark_text_primary"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
 
             <!-- Summary Stats -->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:orientation="horizontal">
+                android:layout_height="110dp"
+                android:orientation="horizontal"
+                android:paddingVertical="4dp"
+                android:weightSum="4">
 
-                <com.google.android.material.card.MaterialCardView
+                <!-- Presents -->
+                <LinearLayout
                     android:id="@+id/presentCard"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_margin="4dp"
                     android:layout_weight="1"
+                    android:background="@drawable/card_background_selector"
                     android:clickable="true"
                     android:focusable="true"
-                    app:cardBackgroundColor="@drawable/bg_present_selector"
-                    app:cardCornerRadius="12dp"
-                    app:cardElevation="2dp">
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="8dp">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:layout_gravity="center"
-                        android:orientation="vertical"
-                        android:padding="8dp">
+                    <ImageView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_marginBottom="8dp"
+                        android:background="@drawable/day_chip_background"
+                        android:backgroundTint="#1B4332"
+                        android:padding="6dp"
+                        android:src="@drawable/ic_check_white"
+                        app:tint="@color/dark_status_present" />
 
-                        <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:src="@drawable/calendar_month_24dp_"
-                            app:tint="@color/status_present"
-                            android:layout_marginBottom="4dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="PRESENTS"
+                        android:textColor="@color/dark_text_secondary"
+                        android:textSize="10sp"
+                        android:textStyle="bold"
+                        android:maxLines="1"
+                        android:ellipsize="end" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Presents"
-                            android:textColor="@color/status_present"
-                            android:textSize="11sp"
-                            android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/txtDaysWorked"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="10"
+                        android:textColor="@color/dark_status_present"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
 
-                        <TextView
-                            android:id="@+id/txtDaysWorked"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="0"
-                            android:textColor="@color/text_primary"
-                            android:textSize="14sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
-
-                <com.google.android.material.card.MaterialCardView
+                <!-- Absents -->
+                <LinearLayout
                     android:id="@+id/absentCard"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_margin="4dp"
                     android:layout_weight="1"
+                    android:background="@drawable/card_background_selector"
                     android:clickable="true"
                     android:focusable="true"
-                    app:cardBackgroundColor="@drawable/bg_absent_selector"
-                    app:cardCornerRadius="12dp"
-                    app:cardElevation="2dp">
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="8dp">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:layout_gravity="center"
-                        android:orientation="vertical"
-                        android:padding="8dp">
+                    <ImageView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_marginBottom="8dp"
+                        android:background="@drawable/day_chip_background"
+                        android:backgroundTint="#451A1A"
+                        android:padding="6dp"
+                        android:src="@android:drawable/ic_menu_close_clear_cancel"
+                        app:tint="@color/dark_status_absent" />
 
-                        <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:src="@android:drawable/ic_menu_close_clear_cancel"
-                            app:tint="@color/status_absent"
-                            android:layout_marginBottom="4dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="ABSENTS"
+                        android:textColor="@color/dark_text_secondary"
+                        android:textSize="10sp"
+                        android:textStyle="bold"
+                        android:maxLines="1"
+                        android:ellipsize="end" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Absents"
-                            android:textColor="@color/status_absent"
-                            android:textSize="11sp"
-                            android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/txtAbsentDays"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="355"
+                        android:textColor="@color/dark_status_absent"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
 
-                        <TextView
-                            android:id="@+id/txtAbsentDays"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="0"
-                            android:textColor="@color/text_primary"
-                            android:textSize="14sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
-
-                <com.google.android.material.card.MaterialCardView
+                <!-- Tardies -->
+                <LinearLayout
                     android:id="@+id/tardiesCard"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_margin="4dp"
                     android:layout_weight="1"
+                    android:background="@drawable/card_background_selector"
                     android:clickable="true"
                     android:focusable="true"
-                    app:cardBackgroundColor="@drawable/bg_late_selector"
-                    app:cardCornerRadius="12dp"
-                    app:cardElevation="2dp">
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="8dp">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:layout_gravity="center"
-                        android:orientation="vertical"
-                        android:padding="8dp">
+                    <ImageView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_marginBottom="8dp"
+                        android:background="@drawable/day_chip_background"
+                        android:backgroundTint="#4D3D1A"
+                        android:padding="6dp"
+                        android:src="@drawable/ic_clock"
+                        app:tint="@color/dark_status_late" />
 
-                        <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:src="@drawable/ic_clock"
-                            app:tint="@color/status_late"
-                            android:layout_marginBottom="4dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="TARDIES"
+                        android:textColor="@color/dark_text_secondary"
+                        android:textSize="10sp"
+                        android:textStyle="bold"
+                        android:maxLines="1"
+                        android:ellipsize="end" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Tardies"
-                            android:textColor="@color/status_late"
-                            android:textSize="11sp"
-                            android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/txtTardies"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0m"
+                        android:textColor="@color/dark_status_late"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
 
-                        <TextView
-                            android:id="@+id/txtTardies"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="0"
-                            android:textColor="@color/text_primary"
-                            android:textSize="14sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
-
-                <com.google.android.material.card.MaterialCardView
+                <!-- Extra -->
+                <LinearLayout
                     android:id="@+id/extraDaysCard"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_margin="4dp"
                     android:layout_weight="1"
+                    android:background="@drawable/card_background_selector"
                     android:clickable="true"
                     android:focusable="true"
-                    app:cardBackgroundColor="@drawable/bg_leave_selector"
-                    app:cardCornerRadius="12dp"
-                    app:cardElevation="2dp">
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="8dp">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:layout_gravity="center"
-                        android:orientation="vertical"
-                        android:padding="8dp">
-
-                        <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:src="@android:drawable/ic_input_add"
-                            app:tint="@color/status_on_leave"
-                            android:layout_marginBottom="4dp"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Extra"
-                            android:textColor="@color/status_on_leave"
-                            android:textSize="11sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/txtExtraDays"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="0"
-                            android:textColor="@color/text_primary"
-                            android:textSize="14sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
-            </LinearLayout>
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>    <!-- Date Range Filter -->
-    <androidx.cardview.widget.CardView
-        android:id="@+id/byRange"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_margin="8dp"
-        app:cardBackgroundColor="@color/card_normal_bg"
-        app:cardCornerRadius="12dp"
-        app:cardElevation="2dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/employeeSummaryCard">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="8dp">
-
-            <!-- Swappable area for date range OR spinners -->
-            <FrameLayout
-                android:id="@+id/dateSwitcher"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
-
-                <LinearLayout
-                    android:id="@+id/dateRangeDisplay"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:visibility="gone">
+                    <ImageView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_marginBottom="8dp"
+                        android:background="@drawable/day_chip_background"
+                        android:backgroundTint="#1A3350"
+                        android:padding="6dp"
+                        android:src="@android:drawable/ic_input_add"
+                        app:tint="@color/dark_status_extra" />
 
                     <TextView
-                        android:id="@+id/txtDateRange"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Date Range: "
-                        android:textAppearance="?attr/textAppearanceBody1"
-                        android:textColor="@color/text_primary"
-                        android:textSize="14sp" />
-
-                    <ImageButton
-                        android:id="@+id/btnClearRange"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@android:color/transparent"
-                        android:contentDescription="Clear Range"
-                        android:src="@android:drawable/ic_menu_close_clear_cancel"
-                        app:tint="@color/status_absent" />
+                        android:text="EXTRA"
+                        android:textColor="@color/dark_text_secondary"
+                        android:textSize="10sp"
+                        android:textStyle="bold"
+                        android:maxLines="1"
+                        android:ellipsize="end" />
+
+                    <TextView
+                        android:id="@+id/txtExtraDays"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textColor="@color/dark_status_extra"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
                 </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/dateSelectors"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:visibility="visible">
-
-                    <Spinner
-                        android:id="@+id/spinnerYear"
-                        android:layout_width="0dp"
-                        android:layout_height="48dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_weight="1"
-                        android:spinnerMode="dropdown"
-                        android:backgroundTint="@color/text_secondary"/>
-
-                    <Spinner
-                        android:id="@+id/spinnerMonth"
-                        android:layout_width="0dp"
-                        android:layout_height="48dp"
-                        android:layout_weight="1"
-                        android:spinnerMode="dropdown"
-                        android:backgroundTint="@color/text_secondary"/>
-
-
-                </LinearLayout>
-            </FrameLayout>
-
-            <!-- Calendar icon (always shown) -->
-            <ImageButton
-                android:id="@+id/btnDateRange"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:background="@android:color/transparent"
-                android:contentDescription="calendar icon"
-                android:padding="8dp"
-                android:scaleType="centerInside"
-                android:src="@drawable/calendar_month_24dp_"
-                app:tint="@color/white" />
+            </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
+
+    <!-- Date Selectors Row -->
+    <LinearLayout
+        android:id="@+id/byRange"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="12dp"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal"
+
+        app:layout_constraintTop_toBottomOf="@id/employeeSummaryCard">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="4dp"
+            android:layout_weight="1"
+            app:cardBackgroundColor="@color/dark_card_bg"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="0dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingHorizontal="12dp">
+
+                <Spinner
+                    android:id="@+id/spinnerYear"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:overlapAnchor="false"
+                    android:spinnerMode="dropdown" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/calendar_month_24dp_"
+                    app:tint="@color/dark_text_secondary" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginHorizontal="4dp"
+            android:layout_weight="1"
+            app:cardBackgroundColor="@color/dark_card_bg"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="0dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingHorizontal="12dp">
+
+                <Spinner
+                    android:id="@+id/spinnerMonth"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:overlapAnchor="false"
+                    android:spinnerMode="dropdown" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/calendar_month_24dp_"
+                    app:tint="@color/dark_text_secondary" />
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="4dp"
+            app:cardBackgroundColor="@color/dark_card_bg"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="0dp">
+
+            <ImageButton
+                android:id="@+id/btnDateRange"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?attr/selectableItemBackground"
+                android:padding="12dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/calendar_month_24dp_"
+                app:tint="@color/dark_text_primary" />
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/dateSwitcher"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="12dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/byRange">
+
+        <LinearLayout
+            android:id="@+id/dateRangeDisplay"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@drawable/status_pill_bg"
+            android:backgroundTint="@color/dark_card_bg"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="16dp"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/txtDateRange"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/dark_text_primary"
+                android:textSize="14sp" />
+
+            <ImageButton
+                android:id="@+id/btnClearRange"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:background="@android:color/transparent"
+                android:scaleType="fitCenter"
+                android:src="@android:drawable/ic_menu_close_clear_cancel"
+                app:tint="@color/dark_status_absent" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/dateSelectors"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="visible">
+            <!-- This is a placeholder for the logic in setupDateControls -->
+        </LinearLayout>
+    </FrameLayout>
+
 
     <!-- RecyclerView for Daily Logs -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_employee_logs"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_margin="8dp"
-        android:scrollbars="vertical"
+        android:layout_marginTop="12dp"
+        android:paddingHorizontal="8dp"
+        android:clipToPadding="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/byRange"
-        tools:itemCount="15"
+        app:layout_constraintTop_toBottomOf="@id/dateSwitcher"
         tools:listitem="@layout/employee_item2" />
 
     <!-- Empty History Text -->
@@ -362,14 +423,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="No attendance records found"
-        android:textColor="@color/text_secondary"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="@color/dark_text_secondary"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@id/rv_employee_logs"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/rv_employee_logs"
-        tools:visibility="visible" />
+        app:layout_constraintTop_toBottomOf="@id/dateSwitcher" />
 
     <!-- Progress Bar -->
     <ProgressBar
@@ -385,27 +444,31 @@
 
     <ImageButton
         android:id="@+id/exportReport"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:layout_margin="16dp"
-        android:background="@android:color/transparent"
-        android:contentDescription="Export Report"
+        android:background="@drawable/day_chip_background"
+        android:backgroundTint="@color/dark_card_header"
+        android:elevation="4dp"
+        android:padding="12dp"
         android:scaleType="fitCenter"
         android:src="@drawable/download"
-        app:tint="@color/primary"
         app:layout_constraintBottom_toTopOf="@id/ToWhatsApp"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:tint="@color/dark_text_primary" />
 
     <ImageButton
         android:id="@+id/ToWhatsApp"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:layout_margin="16dp"
-        android:background="@android:color/transparent"
-        android:contentDescription="Export to WhatsApp"
+        android:background="@drawable/day_chip_background"
+        android:backgroundTint="@color/dark_card_header"
+        android:elevation="4dp"
+        android:padding="12dp"
         android:scaleType="fitCenter"
         android:src="@drawable/whatsapp"
-        app:tint="@color/accent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

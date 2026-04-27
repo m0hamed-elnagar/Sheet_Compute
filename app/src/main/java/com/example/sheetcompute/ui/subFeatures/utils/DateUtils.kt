@@ -17,7 +17,7 @@ object DateUtils {
         val hours = minutes / 60
         val mins = minutes % 60
         return when {
-            minutes == 0L -> "0m (On Time)"
+            minutes == 0L -> "0m"
             hours > 0 -> "${hours}h ${mins}m"
             else -> "${mins}m"
         }

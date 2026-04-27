@@ -12,8 +12,9 @@ import com.example.sheetcompute.R
 import com.example.sheetcompute.data.entities.AttendanceStatus
 import com.example.sheetcompute.data.entities.EmployeeAttendanceRecord
 import com.example.sheetcompute.databinding.EmployeeItem2Binding
-import com.example.sheetcompute.ui.subFeatures.utils.DateUtils.formatMinutesToHoursMinutes
+import com.example.sheetcompute.ui.subFeatures.utils.DateUtils
 import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 class EmployeeAttendanceAdapter(
     private val context: Context,
@@ -47,57 +48,38 @@ class EmployeeAttendanceAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: EmployeeAttendanceRecord) {
             with(binding) {
-                // Bind date information
                 val date = item.date
-                tvDate.text = date.format(DateTimeFormatter.ofPattern("MMM dd, yyyy")) // e.g. "May 15, 2023"
-                tvDay.text = date.format(DateTimeFormatter.ofPattern("EEEE")) // e.g. "Monday"
+                tvMonth.text = date.format(DateTimeFormatter.ofPattern("MMM")).uppercase(Locale.ROOT)
+                tvDayNum.text = date.format(DateTimeFormatter.ofPattern("dd"))
+                tvYear.text = date.format(DateTimeFormatter.ofPattern("yyyy"))
+                tvDay.text = date.format(DateTimeFormatter.ofPattern("EEEE"))
 
-                // Bind late duration
-
-                val lateDuration = item.lateDuration ?: 0
-                if (lateDuration > 0) {
-                    tvLateDuration.text = formatMinutesToHoursMinutes(lateDuration)
-                    tvLateDuration.setTextColor(ContextCompat.getColor(context, R.color.late_red)) // make sure R.color.red is defined
-                } else {
-                    tvLateDuration.text = "On time"
-                    tvLateDuration.setTextColor(ContextCompat.getColor(context, R.color.status_present)) // make sure R.color.green is defined
-                }
-
-
-                // Bind status
-                chipStatus.text = item.status.name
+                // Status
+                tvStatus.text = item.status.name
                 when (item.status) {
                     AttendanceStatus.PRESENT -> {
-                        chipStatus.chipBackgroundColor = ContextCompat.getColorStateList(context, R.color.status_present)
-                        binding.ivLateIcon.visibility = View.VISIBLE
-                        binding.tvLateDuration.visibility = View.VISIBLE
-                        binding.tvAdditionalInfo.visibility = View.VISIBLE
+                        tvStatus.setTextColor(ContextCompat.getColor(context, R.color.dark_status_present))
+                        tvAdditionalInfo.text = "Checked in at ${item.loginTime}"
+                        tvAdditionalInfo.visibility = View.VISIBLE
                     }
                     AttendanceStatus.ABSENT -> {
-                        chipStatus.chipBackgroundColor = ContextCompat.getColorStateList(context, R.color.status_absent)
-                        binding.ivLateIcon.visibility = View.GONE // Hide late icon for absent
-                        binding.tvLateDuration.visibility = View.GONE // Hide late duration for absent
-                        binding.tvAdditionalInfo.visibility = View.GONE // Hide additional info for absent
+                        tvStatus.setTextColor(ContextCompat.getColor(context, R.color.dark_status_absent))
+                        tvAdditionalInfo.text = "No check-in record"
+                        tvAdditionalInfo.visibility = View.VISIBLE
                     }
                     AttendanceStatus.LATE -> {
-                        chipStatus.chipBackgroundColor = ContextCompat.getColorStateList(context, R.color.status_late)
-                        binding.ivLateIcon.visibility = View.VISIBLE
-                        binding.tvLateDuration.visibility = View.VISIBLE
-                        binding.tvAdditionalInfo.visibility = View.VISIBLE
+                        tvStatus.setTextColor(ContextCompat.getColor(context, R.color.dark_status_late))
+                        val formattedLate = DateUtils.formatMinutesToHoursMinutes(item.lateDuration)
+                        tvAdditionalInfo.text = "Late by $formattedLate (In: ${item.loginTime})"
+                        tvAdditionalInfo.visibility = View.VISIBLE
                     }
                     AttendanceStatus.EXTRA_DAY -> {
-                        chipStatus.chipBackgroundColor = ContextCompat.getColorStateList(context, R.color.status_present)
-                        binding.ivLateIcon.visibility = View.VISIBLE
-                        binding.tvLateDuration.visibility = View.VISIBLE
-                        binding.tvAdditionalInfo.visibility = View.VISIBLE
+                        tvStatus.setTextColor(ContextCompat.getColor(context, R.color.dark_status_extra))
+                        tvAdditionalInfo.text = "Checked in at ${item.loginTime}"
+                        tvAdditionalInfo.visibility = View.VISIBLE
                     }
                 }
 
-                // Bind additional info
-                tvAdditionalInfo.text = "Checked in at ${item.loginTime}"
-                tvAdditionalInfo.visibility = View.VISIBLE
-
-                // Handle click if needed
                 root.setOnClickListener {
                     onSelected(item.id)
                 }

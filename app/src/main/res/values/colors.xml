@@ -25,18 +25,18 @@
     <color name="text_secondary">#475569</color> <!-- Slate 600 -->
     <color name="text_disabled">#94A3B8</color> <!-- Slate 400 -->
 
-    <!-- Semantic Colors (Solid for Backgrounds) -->
-    <color name="status_present">#047857</color> <!-- Emerald 700 -->
-    <color name="status_present_dark">#064e3b</color> <!-- Emerald 900 -->
+    <!-- Semantic Colors (Accessible for soft backgrounds) -->
+    <color name="status_present">#059669</color> <!-- Emerald 600 - Good contrast on #F0FDF4 -->
+    <color name="status_present_dark">#047857</color> <!-- Emerald 700 -->
     
-    <color name="status_absent">#B91C1C</color>  <!-- Red 700 -->
-    <color name="status_absent_dark">#7f1d1d</color>  <!-- Red 900 -->
+    <color name="status_absent">#DC2626</color>  <!-- Red 600 - Good contrast on #FEF2F2 -->
+    <color name="status_absent_dark">#B91C1C</color>  <!-- Red 700 -->
     
-    <color name="status_late">#B45309</color>    <!-- Amber 700 -->
-    <color name="status_late_dark">#78350f</color>    <!-- Amber 900 -->
+    <color name="status_late">#D97706</color>    <!-- Amber 600 - Good contrast on #FFF7ED -->
+    <color name="status_late_dark">#B45309</color>    <!-- Amber 700 -->
     
-    <color name="status_on_leave">#1D4ED8</color> <!-- Blue 700 -->
-    <color name="status_on_leave_dark">#1e3a8a</color> <!-- Blue 900 -->
+    <color name="status_on_leave">#2563EB</color> <!-- Blue 600 - Good contrast on #EFF6FF -->
+    <color name="status_on_leave_dark">#1D4ED8</color> <!-- Blue 700 -->
     
     <color name="error">#B91C1C</color>
     <color name="warning">#B45309</color>
@@ -53,7 +53,23 @@
     <color name="bg_late_selected">#FFEDD5</color>    <!-- Orange 100 -->
     <color name="bg_leave_selected">#DBEAFE</color>   <!-- Blue 100 -->
 
+    <!-- Dark Theme Palette (Matching Reference Image) -->
+    <color name="dark_bg">#0D1117</color>
+    <color name="dark_card_bg">#161B22</color>
+    <color name="dark_card_header">#21262D</color>
+    <color name="dark_text_primary">#F0F6FC</color>
+    <color name="dark_text_secondary">#8B949E</color>
+    <color name="dark_border">#30363D</color>
+
+    <color name="dark_status_present">#3FB950</color>
+    <color name="dark_status_absent">#F85149</color>
+    <color name="dark_status_late">#D29922</color>
+    <color name="dark_status_extra">#58A6FF</color>
+
+    <color name="dark_badge_bg">#1F2937</color>
+
     <!-- Legacy / Compatibility Aliases -->
+    <color name="ic_launcher_background">#FFFFFF</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     
