@@ -4,13 +4,13 @@ Sheet Compute is a professional Android application designed to streamline emplo
 
 ## 📸 Screenshots
 
-| Splash Screen | Month Summary | Employee History |
+| Splash Screen | Search & Filter | Month Summary |
 | :---: | :---: | :---: |
-| ![Splash Screen](screens/splash_screen.jpg) | ![Month Summary](screens/month_summary.jpg) | ![Employee History](screens/employee_history.jpg) |
+| ![Splash Screen](screens/splash_screen.jpg) | ![Search](screens/search.jpg) | ![Month Summary](screens/month_summary.jpg) |
 
-| Search & Filter | Settings | App Overview |
+| Employee History | Settings | App Overview |
 | :---: | :---: | :---: |
-| ![Search](screens/search.jpg) | ![Settings](screens/settings.jpg) | ![App Overview](screens/Screenshot_20260427_184805_SheetCompute.jpg) |
+| ![Employee History](screens/employee_history.jpg) | ![Settings](screens/settings.jpg) | ![App Overview](screens/Screenshot_20260427_184805_SheetCompute.jpg) |
 
 ## 🚀 Key Features
 
