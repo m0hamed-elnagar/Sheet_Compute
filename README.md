@@ -8,9 +8,9 @@ Sheet Compute is a professional Android application designed to streamline emplo
 | :---: | :---: | :---: |
 | ![Splash Screen](screens/splash_screen.jpg) | ![Search](screens/search.jpg) | ![Month Summary](screens/month_summary.jpg) |
 
-| Employee History (All) | Employee History (Tardiness Only) | Settings |
+| Employee History (Presents & Tardies) | Employee History (Tardiness Only) | Settings |
 | :---: | :---: | :---: |
-| ![Employee History All](screens/employee_history.jpg) | ![Employee History Tardiness](screens/Screenshot_20260427_184805_SheetCompute.jpg) | ![Settings](screens/settings.jpg) |
+| ![Employee History Presents Tardies](screens/employee_history.jpg) | ![Employee History Tardiness](screens/Screenshot_20260427_184805_SheetCompute.jpg) | ![Settings](screens/settings.jpg) |
 
 ## 🚀 Key Features
 
